@@ -4,52 +4,64 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridge2Fork - Contact</title>
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../css/modern_reset.css" />
+    <link rel="stylesheet" href="../css/style.css" />
   </head>
-  <body>
-    <header>
-      <h1>Fridge2Fork</h1>
-      <nav>
-        <ul>
-          <li><a href="../index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
+  <body class="info-page">
+    <header class="site-header">
+      <div class="site-header__inner container">
+        <a class="brand" href="../index.html">
+          <span class="brand__icon">F2</span>
+          <span class="brand__name">Fridge2Fork</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <ul class="site-nav__list">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
-    <main>
-      <!-- Hero Section -->
-      <div>
+    <main class="container page-main">
+      <header class="page-hero">
         <h1>Get In Touch</h1>
         <p>Have feedback, suggestions, or questions? We'd love to hear from you!</p>
-      </div>
+      </header>
 
-      <!-- Contact Form -->
-      <section>
-        <h2>Send Us a Message</h2>
-        <form>
-          <label for="name">Name</label>
-          <input id="name" name="name" type="text" placeholder="Your name" required />
+      <section class="page-section">
+        <div class="contact-card card">
+          <h2>Send Us a Message</h2>
+          <form class="contact-form">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required />
 
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" placeholder="your.email@example.com" required />
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="your.email@example.com" required />
 
-          <label for="subject">Subject</label>
-          <input id="subject" name="subject" type="text" placeholder="What's this about?" required />
+            <label for="subject">Subject</label>
+            <input id="subject" name="subject" type="text" placeholder="What's this about?" required />
 
-          <label for="message">Message</label>
-          <textarea id="message" name="message" placeholder="Tell us what's on your mind..." rows="6" required></textarea>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell us what's on your mind..." rows="6" required></textarea>
 
-          <button type="submit">Send Message</button>
-        </form>
+            <button type="submit" class="btn btn-solid">Send Message</button>
+          </form>
+        </div>
       </section>
     </main>
 
-    <footer>
-      <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
+    <footer class="site-footer">
+      <div class="container">
+        <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
+      </div>
     </footer>
-    <script src="../js/script.js" type="module"></script>
   </body>
 </html>

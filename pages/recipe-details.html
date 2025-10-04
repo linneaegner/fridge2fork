@@ -4,52 +4,77 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridge2Fork - Recipe Details</title>
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../css/modern_reset.css" />
+    <link rel="stylesheet" href="../css/style.css" />
   </head>
-  <body>
-    <header>
-      <h1>Fridge2Fork</h1>
-      <nav>
-        <ul>
-          <li><a href="../index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
+  <body class="details-page">
+    <header class="site-header">
+      <div class="site-header__inner container">
+        <a class="brand" href="../index.html">
+          <span class="brand__icon">F2</span>
+          <span class="brand__name">Fridge2Fork</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <ul class="site-nav__list">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
-    <main>
-      <h1>Recipe Details</h1>
+    <main class="container details-main">
+      <a class="back-link" href="recipe-matches.html">&larr; Back</a>
 
-      <section>
-        <h2>Recipe Overview</h2>
-        <p>Title: Recipe Title</p>
-        <p>Description: A short summary of the recipe...</p>
-        <p>Cook Time: 30 mins</p>
-        <p>Difficulty: Easy</p>
-        <p>Servings: 4</p>
-      </section>
+      <article class="details-hero card">
+        <figure class="details-hero__media">
+          <img id="recipe-image" src="" alt="Recipe image" />
+        </figure>
+        <div class="details-hero__content">
+          <div class="details-hero__tags" id="recipe-tags"></div>
+          <h1 id="recipe-title">Recipe Title</h1>
+          <p id="recipe-summary">A short summary of the recipe...</p>
+          <ul class="details-hero__meta">
+            <li>
+              <span class="meta-label">Time</span>
+              <span id="recipe-time" class="meta-value">30 mins</span>
+            </li>
+            <li>
+              <span class="meta-label">Servings</span>
+              <span id="recipe-servings" class="meta-value">4 servings</span>
+            </li>
+          </ul>
+          <button id="view-original" class="btn btn-solid details-primary-action">
+            View Original Recipe
+            <span class="btn__icon" aria-hidden="true">↗</span>
+          </button>
+        </div>
+      </article>
 
-      <section>
-        <h2>Chef Information</h2>
-        <p>Recipe by: Chef Name</p>
-        <p><a href="#">View Profile</a></p>
-      </section>
-
-      <section>
-        <h2>Ingredients</h2>
-        <ul>
-          <li>Ingredient 1</li>
-          <li>Ingredient 2</li>
-          <li>Ingredient 3</li>
-        </ul>
+      <section class="details-grid">
+        <div class="details-panel card">
+          <h3>Ingredients</h3>
+          <ul id="ingredients-list"></ul>
+        </div>
+        <div class="details-panel card">
+          <h3>Instructions</h3>
+          <ol id="instructions-list"></ol>
+        </div>
       </section>
     </main>
 
-    <footer>
-      <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
+    <footer class="site-footer">
+      <div class="container">
+        <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
+      </div>
     </footer>
-    <script src="../js/script.js" type="module"></script>
+    <script src="../js/recipe-details.js" type="module"></script>
   </body>
 </html>

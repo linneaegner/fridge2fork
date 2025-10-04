@@ -4,52 +4,66 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridge2Fork - Turn Ingredients into Recipes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/modern_reset.css" />
     <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body>
-    <header>
-      <h1>Fridge2Fork</h1>
-      <nav>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="pages/about.html">About</a></li>
-          <li><a href="pages/contact.html">Contact</a></li>
-        </ul>
-      </nav>
+  <body class="home-page">
+    <header class="site-header">
+      <div class="site-header__inner container">
+        <a class="brand" href="index.html">
+          <span class="brand__icon">F2</span>
+          <span class="brand__name">Fridge2Fork</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <ul class="site-nav__list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pages/about.html">About</a></li>
+            <li><a href="pages/contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
-    <main>
-      <!-- Hero Section -->
-      <div>
-        <div>
-          <h1>Turn Your Fridge Into Meals</h1>
-          <p>
-            Reduce food waste and discover recipes based on the ingredients you
-            already have at home
-          </p>
-        </div>
-      </div>
+    <main class="home-main">
+      <section class="home-hero container">
+        <span class="home-hero__icon" aria-hidden="true">🍴</span>
+        <h1 class="home-hero__title">Turn Your Fridge Into Delicious Meals</h1>
+        <p class="home-hero__subtitle">
+          Reduce food waste and discover amazing recipes based on the ingredients you already have at home.
+        </p>
+      </section>
 
-      <!-- Input Section -->
-      <div>
-        <h2>What's in your fridge?</h2>
-        <form id="ingredient-form" action="pages/recipe-matches.html" method="get">
-          <label for="ingredients">Enter ingredients (comma-separated):</label>
-          <input
-            type="text"
-            id="ingredients"
-            name="ingredients"
-            placeholder="e.g., chicken, rice, broccoli"
-            required
-          />
-          <button type="submit">Find Recipes</button>
-        </form>
-      </div>
+      <section class="ingredient-section">
+        <div class="ingredient-card card">
+          <h2 class="ingredient-card__title">What's in your fridge?</h2>
+          <p class="ingredient-card__hint">Enter the ingredients you want to use and we'll suggest recipes that match.</p>
+          <form id="ingredient-form" class="ingredient-form">
+            <label class="sr-only" for="ingredients">Enter ingredients</label>
+            <div class="ingredient-input-row">
+              <input
+                type="text"
+                id="ingredients"
+                name="ingredients"
+                placeholder="e.g., chicken, tomatoes, rice"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-solid btn-full ingredient-submit">Find Recipes</button>
+          </form>
+        </div>
+      </section>
     </main>
 
-    <footer>
-      <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
+    <footer class="site-footer">
+      <div class="container">
+        <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
+      </div>
     </footer>
     <script src="js/script.js" type="module"></script>
   </body>

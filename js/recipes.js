@@ -157,7 +157,7 @@ function buildRecipeCard(recipe) {
     const diets = buildDietTags(recipe.diets);
 
     return `
-    <article class="recipe-card card">
+    <article class="recipe-card card" data-recipe-id="${recipe.id}" tabindex="0">
       <div class="recipe-card__media">
         <img src="${image}" alt="${recipe.title}" loading="lazy" />
         <span class="recipe-card__badge">${difficulty}</span>
@@ -179,11 +179,6 @@ function buildRecipeCard(recipe) {
       </div>
       <footer class="recipe-card__footer">
         <a href="recipe-details.html?recipeId=${recipe.id}" class="btn btn-solid btn-full">View Recipe</a>
-        <a href="${recipe.sourceUrl}" target="_blank" rel="noopener" class="btn btn-outline btn-full">
-          View Original Recipe
-          <span class="btn__icon" aria-hidden="true">↗</span>
-          <span class="sr-only">Opens in a new tab</span>
-        </a>
       </footer>
     </article>
   `;
@@ -199,6 +194,31 @@ function displayRecipes(recipes) {
     }
 
     recipeGrid.innerHTML = recipes.map((recipe) => buildRecipeCard(recipe)).join("");
+    enableRecipeCardNavigation();
+}
+
+function enableRecipeCardNavigation() {
+    const cards = document.querySelectorAll(".recipe-card[data-recipe-id]");
+    cards.forEach((card) => {
+        const recipeId = card.getAttribute("data-recipe-id");
+        if (!recipeId) return;
+
+        const navigateToRecipe = () => {
+            window.location.href = `recipe-details.html?recipeId=${recipeId}`;
+        };
+
+        card.addEventListener("click", (event) => {
+            if (event.target.closest("a, button")) return;
+            navigateToRecipe();
+        });
+
+        card.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                navigateToRecipe();
+            }
+        });
+    });
 }
 
 // --- Initialize Everything Once the Page Loads ---
