@@ -4,37 +4,71 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridge2Fork - Recipe Matches</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../css/modern_reset.css" />
     <link rel="stylesheet" href="../css/style.css" />
   </head>
-  <body>
-    <header>
-      <h1>Fridge2Fork</h1>
-      <nav>
-        <ul>
-          <li><a href="../index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
+  <body class="recipe-matches-page">
+    <header class="site-header">
+      <div class="site-header__inner container">
+        <a class="brand" href="../index.html">
+          <span class="brand__icon">F2</span>
+          <span class="brand__name">Fridge2Fork</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <ul class="site-nav__list">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
-    <main>
-      <h1>Recipe Matches</h1>
-      <p>Discover delicious recipes tailored to the ingredients you have on hand!</p>
+    <main class="container main-content">
+      <a class="back-link" href="../index.html">
+        <span aria-hidden="true">&larr;</span>
+        Back to Search
+      </a>
 
-      <section id="recipe-grid">
-        <!-- Recipes will be dynamically rendered here -->
-        
+      <section class="hero">
+        <p class="hero__eyebrow">Based on search</p>
+        <h1 class="hero__title">
+          Recipe <span class="highlight highlight--accent">Suggestions</span>
+        </h1>
+        <p class="hero__subtitle">
+          Based on:
+          <span id="selected-ingredients" class="hero__ingredients">your ingredients</span>
+        </p>
       </section>
 
-      <section id="dietary-filters">
-        <!-- Dietary filters will be dynamically added here -->
+      <section id="dietary-filters" class="filter-panel card">
+        <div class="filter-panel__header">
+          <h2 class="filter-panel__title">Dietary Preferences</h2>
+          <button id="clear-filters" class="btn btn-ghost btn-sm" type="button">
+            Clear all
+          </button>
+        </div>
+        <div id="dietary-options" class="pill-group"></div>
       </section>
+
+      <section id="filter-info" class="filter-summary">
+        <p id="active-filters" class="filter-summary__item">No active filters</p>
+        <p id="matched-recipes" class="filter-summary__item">Matched Recipes: 0</p>
+      </section>
+
+      <section id="recipe-grid" class="recipe-grid"></section>
     </main>
 
-    <footer>
-      <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
+    <footer class="site-footer">
+      <div class="container">
+        <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
+      </div>
     </footer>
     <script src="../js/recipes.js" type="module"></script>
   </body>
