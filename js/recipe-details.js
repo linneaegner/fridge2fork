@@ -1,5 +1,8 @@
+// recipe-details.js
+// Fetch the full recipe information once the user lands on recipe-details.html
 const API_KEY = "32fa164a90a4441385aec42d7c8fe44d";
 const BASE_URL = "https://api.spoonacular.com/recipes";
+const PLACEHOLDER_IMAGE = "https://via.placeholder.com/1280x720?text=No+Image";
 
 function getRecipeId() {
     const params = new URLSearchParams(window.location.search);
@@ -38,6 +41,7 @@ function renderInstructions(instructions) {
         return "<li>No instructions available.</li>";
     }
 
+    // Spoonacular groups steps inside the first element
     const steps = instructions[0]?.steps;
     if (!steps || !steps.length) {
         return "<li>No instructions available.</li>";
@@ -61,7 +65,7 @@ async function fetchRecipeDetails(recipeId) {
 }
 
 function populateRecipe(recipe) {
-    const image = recipe.image || "https://via.placeholder.com/1280x720?text=No+Image";
+    const image = recipe.image || PLACEHOLDER_IMAGE;
     const summaryPlain = recipe.summary ? recipe.summary.replace(/<[^>]+>/g, "") : "";
     const summaryDisplay = summaryPlain || "A delightful recipe discoverable via Spoonacular.";
 

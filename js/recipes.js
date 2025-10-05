@@ -1,11 +1,14 @@
 // recipes.js
+// Grab recipes from Spoonacular based on the ingredients saved in localStorage
 const API_KEY = "32fa164a90a4441385aec42d7c8fe44d";
 const BASE_URL = "https://api.spoonacular.com/recipes/complexSearch";
 
 let fetchedRecipes = [];
 let selectedFilters = [];
+let userIngredients = [];
+let userIngredientsNormalized = [];
 
-// --- Fetch Recipes ---
+// --- Fetch recipes that include the ingredients the user typed on the home page ---
 export async function getRecipesByIngredients(ingredients, number = 20) {
     const params = new URLSearchParams({
         includeIngredients: ingredients.join(","),
@@ -27,7 +30,7 @@ export async function getRecipesByIngredients(ingredients, number = 20) {
     }
 }
 
-// --- Dietary Filter Options (use Spoonacular naming) ---
+// --- Buttons for the dietary filters (Spoonacular expects these exact names) ---
 const DIETARY_OPTIONS = [
     { name: "gluten free", description: "Avoid gluten-containing grains." },
     { name: "ketogenic", description: "Low carb, high fat foods." },
@@ -39,12 +42,12 @@ const DIETARY_OPTIONS = [
     { name: "whole30", description: "No sugar, grains, or legumes." },
 ];
 
-// --- Utility Helpers ---
-function formatIngredients(ingredients) {
-    if (!ingredients || !ingredients.length) return "Nothing selected yet";
-    const trimmed = ingredients.filter(Boolean).map((item) => item.trim()).filter(Boolean);
-    if (!trimmed.length) return "Nothing selected yet";
-    return trimmed.join(", ");
+// --- Small helpers to keep rendering logic tidy ---
+function formatIngredients(list = []) {
+    const tidy = list
+        .map((item) => item?.trim())
+        .filter(Boolean);
+    return tidy.length ? tidy.join(", ") : "Nothing selected yet";
 }
 
 function calculateDifficulty(minutes) {
@@ -88,14 +91,13 @@ function createDietaryFilterButtons() {
 }
 
 function toggleFilter(filter, button) {
-    if (selectedFilters.includes(filter)) {
-        selectedFilters = selectedFilters.filter((f) => f !== filter);
-        button.classList.remove("active");
-    } else {
-        selectedFilters.push(filter);
-        button.classList.add("active");
-    }
+    const isActive = selectedFilters.includes(filter);
 
+    selectedFilters = isActive
+        ? selectedFilters.filter((name) => name !== filter)
+        : [...selectedFilters, filter];
+
+    button.classList.toggle("active", !isActive);
     filterRecipesByDiet();
     displayActiveFilters();
 }
@@ -148,6 +150,23 @@ function buildDietTags(diets) {
         .join("");
 }
 
+function getIngredientMatch(recipe) {
+    if (!userIngredientsNormalized.length) return null;
+
+    const recipeIngredients = (recipe.extendedIngredients || [])
+        .map((item) => item.name?.toLowerCase?.())
+        .filter(Boolean);
+
+    if (!recipeIngredients.length) return null;
+
+    const matched = userIngredientsNormalized.reduce((count, ingredient) => {
+        const hasMatch = recipeIngredients.some((name) => name.includes(ingredient));
+        return hasMatch ? count + 1 : count;
+    }, 0);
+
+    return { matched, total: userIngredientsNormalized.length };
+}
+
 function buildRecipeCard(recipe) {
     const image = recipe.image || "https://via.placeholder.com/400x280?text=No+Image";
     const difficulty = calculateDifficulty(recipe.readyInMinutes);
@@ -155,6 +174,10 @@ function buildRecipeCard(recipe) {
     const timeText = recipe.readyInMinutes ? `${recipe.readyInMinutes} mins` : "Time varies";
     const servingsText = recipe.servings ? `${recipe.servings} servings` : "Flexible servings";
     const diets = buildDietTags(recipe.diets);
+    const match = getIngredientMatch(recipe);
+    const matchMarkup = match
+        ? `<p class="ingredient-match"><span>${match.matched}</span> of ${match.total} ingredients matched</p>`
+        : "";
 
     return `
     <article class="recipe-card card" data-recipe-id="${recipe.id}" tabindex="0">
@@ -165,6 +188,7 @@ function buildRecipeCard(recipe) {
       <div class="recipe-card__body">
         <h3 class="recipe-card__title">${recipe.title}</h3>
         <p class="recipe-card__summary">${summary}</p>
+        ${matchMarkup}
         <ul class="recipe-card__meta">
           <li class="meta-item meta-item--time">
             <span class="meta-label">Time</span>
@@ -221,15 +245,17 @@ function enableRecipeCardNavigation() {
     });
 }
 
-// --- Initialize Everything Once the Page Loads ---
+// --- Kick everything off once the page loads ---
 document.addEventListener("DOMContentLoaded", () => {
-    const ingredients = JSON.parse(localStorage.getItem("ingredients")) || [];
-    const ingredientTarget = document.getElementById("selected-ingredients");
-    if (ingredientTarget) {
-        ingredientTarget.textContent = formatIngredients(ingredients);
-    }
+    userIngredients = JSON.parse(localStorage.getItem("ingredients")) || [];
+    userIngredientsNormalized = userIngredients
+        .map((item) => item?.toLowerCase?.().trim())
+        .filter(Boolean);
 
-    getRecipesByIngredients(ingredients).then((recipes) => {
+    const ingredientTarget = document.getElementById("selected-ingredients");
+    if (ingredientTarget) ingredientTarget.textContent = formatIngredients(userIngredients);
+
+    getRecipesByIngredients(userIngredients).then((recipes) => {
         displayRecipes(recipes);
         updateMatchedRecipes(recipes);
     });
