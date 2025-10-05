@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("ingredient-form");
     const input = document.getElementById("ingredients");
     const addButton = document.getElementById("add-ingredient");
+    const clearButton = document.getElementById("clear-ingredients");
     const badgeContainer = document.getElementById("ingredient-badges");
 
     if (!form || !input || !addButton || !badgeContainer) return;
@@ -63,6 +64,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     addButton.addEventListener("click", addIngredient);
+
+    if (clearButton) {
+        clearButton.addEventListener("click", () => {
+            ingredients = [];
+            renderBadges();
+            saveIngredients();
+            input.focus();
+        });
+    }
 
     input.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {

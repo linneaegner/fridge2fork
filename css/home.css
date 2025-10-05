@@ -105,11 +105,42 @@
   padding: 14px;
 }
 
+
+.ingredient-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .ingredient-badges {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   min-height: 32px;
+  flex: 1;
+}
+
+.ingredient-clear {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 2px;
+  border-radius: 8px;
+  transition: color var(--transition), background-color var(--transition);
+}
+
+.ingredient-clear:hover {
+  color: var(--color-accent);
+  background: rgba(243, 106, 34, 0.1);
+}
+
+.ingredient-clear:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .ingredient-empty {
@@ -156,5 +187,16 @@
 
   .ingredient-add {
     width: 100%;
+  }
+
+  .ingredient-chip-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .ingredient-clear {
+    width: 100%;
+    text-align: center;
   }
 }

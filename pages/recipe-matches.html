@@ -48,14 +48,26 @@
         </p>
       </section>
 
-      <section id="dietary-filters" class="filter-panel card">
-        <div class="filter-panel__header">
-          <h2 class="filter-panel__title">Dietary Preferences</h2>
-          <button id="clear-filters" class="btn btn-ghost btn-sm" type="button">
-            Clear all
-          </button>
+      <section class="filter-board card">
+        <div class="filter-board__head">
+          <h2 class="filter-board__title">Filter Recipes</h2>
+          <button id="clear-filters" class="filter-clear" type="button">Clear All</button>
         </div>
-        <div id="dietary-options" class="pill-group"></div>
+        <div class="filter-board__content">
+          <div class="filter-group">
+        <h3 class="filter-group__title">Dietary Preferences</h3>
+        <div id="dietary-options" class="filter-chip-row"></div>
+          </div>
+          <div class="filter-divider" role="presentation"></div>
+          <div class="filter-group">
+        <h3 class="filter-group__title">Difficulty Level</h3>
+        <div class="filter-chip-row">
+          <button type="button" data-difficulty="easy" class="filter-chip difficulty-chip">Easy</button>
+          <button type="button" data-difficulty="medium" class="filter-chip difficulty-chip">Medium</button>
+          <button type="button" data-difficulty="hard" class="filter-chip difficulty-chip">Hard</button>
+        </div>
+          </div>
+        </div>
       </section>
 
       <section id="filter-info" class="filter-summary">

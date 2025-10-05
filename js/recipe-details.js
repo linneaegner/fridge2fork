@@ -22,7 +22,7 @@ function renderTags(recipe) {
     if (recipe.diets && recipe.diets.length) {
         tags.push(...recipe.diets.slice(0, 3).map((diet) => buildTag(diet)));
     }
-    const difficulty = recipe.readyInMinutes <= 20 ? "Easy" : recipe.readyInMinutes <= 40 ? "Moderate" : "Advanced";
+    const difficulty = recipe.readyInMinutes <= 20 ? "Easy" : recipe.readyInMinutes <= 40 ? "Medium" : "Hard";
     tags.unshift(buildTag(difficulty, "primary"));
     return tags.join("");
 }

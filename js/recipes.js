@@ -7,9 +7,10 @@ let fetchedRecipes = [];
 let selectedFilters = [];
 let userIngredients = [];
 let userIngredientsNormalized = [];
+let selectedDifficulty = null;
 
 // --- Fetch recipes that include the ingredients the user typed on the home page ---
-export async function getRecipesByIngredients(ingredients, number = 20) {
+export async function getRecipesByIngredients(ingredients, number = 50) {
     const params = new URLSearchParams({
         includeIngredients: ingredients.join(","),
         number: number,
@@ -39,6 +40,8 @@ const DIETARY_OPTIONS = [
     { name: "pescatarian", description: "Includes fish and seafood." },
     { name: "paleo", description: "No grains, dairy, or legumes." },
     { name: "primal", description: "Similar to paleo, allows dairy." },
+    { name: "low FODMAP", description: "Avoid certain fermentable carbs." },
+    { name: "dairy free", description: "No milk or milk by-products." },
     { name: "whole30", description: "No sugar, grains, or legumes." },
 ];
 
@@ -52,9 +55,9 @@ function formatIngredients(list = []) {
 
 function calculateDifficulty(minutes) {
     if (!minutes) return "Easy";
-    if (minutes <= 20) return "Easy";
-    if (minutes <= 40) return "Moderate";
-    return "Advanced";
+    if (minutes <= 30) return "Easy";
+    if (minutes <= 45) return "Medium";
+    return "Hard";
 }
 
 function stripHTML(value) {
@@ -79,7 +82,7 @@ function createDietaryFilterButtons() {
     DIETARY_OPTIONS.forEach((option) => {
         const button = document.createElement("button");
         button.textContent = option.name.charAt(0).toUpperCase() + option.name.slice(1);
-        button.className = "filter-btn";
+        button.className = "filter-chip";
         button.title = option.description;
 
         button.addEventListener("click", () => toggleFilter(option.name, button));
@@ -107,9 +110,13 @@ function clearFilters() {
     document
         .querySelectorAll("#dietary-options button")
         .forEach((btn) => btn.classList.remove("active"));
-    displayRecipes(fetchedRecipes);
+    selectedDifficulty = null;
+    document
+        .querySelectorAll(".difficulty-chip")
+        .forEach((btn) => btn.classList.remove("active"));
+
     displayActiveFilters();
-    updateMatchedRecipes(fetchedRecipes);
+    filterRecipesByDiet();
 }
 
 function filterRecipesByDiet() {
@@ -120,6 +127,13 @@ function filterRecipesByDiet() {
         filtered = fetchedRecipes.filter((recipe) =>
             selectedFilters.every((filter) => recipe.diets && recipe.diets.includes(filter.toLowerCase()))
         );
+    }
+
+    if (selectedDifficulty) {
+        filtered = filtered.filter((recipe) => {
+            const difficulty = calculateDifficulty(recipe.readyInMinutes).toLowerCase();
+            return difficulty === selectedDifficulty;
+        });
     }
 
     displayRecipes(filtered);
@@ -150,23 +164,6 @@ function buildDietTags(diets) {
         .join("");
 }
 
-function getIngredientMatch(recipe) {
-    if (!userIngredientsNormalized.length) return null;
-
-    const recipeIngredients = (recipe.extendedIngredients || [])
-        .map((item) => item.name?.toLowerCase?.())
-        .filter(Boolean);
-
-    if (!recipeIngredients.length) return null;
-
-    const matched = userIngredientsNormalized.reduce((count, ingredient) => {
-        const hasMatch = recipeIngredients.some((name) => name.includes(ingredient));
-        return hasMatch ? count + 1 : count;
-    }, 0);
-
-    return { matched, total: userIngredientsNormalized.length };
-}
-
 function buildRecipeCard(recipe) {
     const image = recipe.image || "https://via.placeholder.com/400x280?text=No+Image";
     const difficulty = calculateDifficulty(recipe.readyInMinutes);
@@ -174,10 +171,6 @@ function buildRecipeCard(recipe) {
     const timeText = recipe.readyInMinutes ? `${recipe.readyInMinutes} mins` : "Time varies";
     const servingsText = recipe.servings ? `${recipe.servings} servings` : "Flexible servings";
     const diets = buildDietTags(recipe.diets);
-    const match = getIngredientMatch(recipe);
-    const matchMarkup = match
-        ? `<p class="ingredient-match"><span>${match.matched}</span> of ${match.total} ingredients matched</p>`
-        : "";
 
     return `
     <article class="recipe-card card" data-recipe-id="${recipe.id}" tabindex="0">
@@ -188,7 +181,6 @@ function buildRecipeCard(recipe) {
       <div class="recipe-card__body">
         <h3 class="recipe-card__title">${recipe.title}</h3>
         <p class="recipe-card__summary">${summary}</p>
-        ${matchMarkup}
         <ul class="recipe-card__meta">
           <li class="meta-item meta-item--time">
             <span class="meta-label">Time</span>
@@ -248,9 +240,6 @@ function enableRecipeCardNavigation() {
 // --- Kick everything off once the page loads ---
 document.addEventListener("DOMContentLoaded", () => {
     userIngredients = JSON.parse(localStorage.getItem("ingredients")) || [];
-    userIngredientsNormalized = userIngredients
-        .map((item) => item?.toLowerCase?.().trim())
-        .filter(Boolean);
 
     const ingredientTarget = document.getElementById("selected-ingredients");
     if (ingredientTarget) ingredientTarget.textContent = formatIngredients(userIngredients);
@@ -262,4 +251,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     createDietaryFilterButtons();
     displayActiveFilters();
+    setupDifficultyFilters();
 });
+
+function setupDifficultyFilters() {
+    const buttons = document.querySelectorAll(".difficulty-chip");
+    if (!buttons.length) return;
+
+    buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const difficulty = btn.dataset.difficulty;
+            const isActive = selectedDifficulty === difficulty;
+
+            selectedDifficulty = isActive ? null : difficulty;
+
+            buttons.forEach((other) => other.classList.toggle("active", other.dataset.difficulty === selectedDifficulty));
+            filterRecipesByDiet();
+        });
+    });
+}
