@@ -36,14 +36,18 @@
         <span class="home-hero__icon" aria-hidden="true">🍴</span>
         <h1 class="home-hero__title">Turn Your Fridge Into Delicious Meals</h1>
         <p class="home-hero__subtitle">
-          Reduce food waste and discover amazing recipes based on the ingredients you already have at home.
+          Reduce food waste and discover amazing recipes based on the
+          ingredients you already have at home.
         </p>
       </section>
 
       <section class="ingredient-section">
         <div class="ingredient-card card">
           <h2 class="ingredient-card__title">What's in your fridge?</h2>
-          <p class="ingredient-card__hint">Enter the ingredients you want to use and we'll suggest recipes that match.</p>
+          <p class="ingredient-card__hint">
+            Enter the ingredients you want to use and we'll suggest recipes that
+            match.
+          </p>
           <form id="ingredient-form" class="ingredient-form">
             <label class="sr-only" for="ingredients">Enter ingredients</label>
             <div class="ingredient-input-row">
@@ -53,13 +57,34 @@
                 name="ingredients"
                 placeholder="e.g., chicken"
               />
-              <button type="button" id="add-ingredient" class="btn btn-outline ingredient-add">Add</button>
+              <button
+                type="button"
+                id="add-ingredient"
+                class="btn btn-outline ingredient-add"
+              >
+                Add
+              </button>
             </div>
             <div class="ingredient-chip-row">
-              <div id="ingredient-badges" class="ingredient-badges" aria-live="polite"></div>
-              <button type="button" id="clear-ingredients" class="ingredient-clear">Clear all</button>
+              <div
+                id="ingredient-badges"
+                class="ingredient-badges"
+                aria-live="polite"
+              ></div>
+              <button
+                type="button"
+                id="clear-ingredients"
+                class="ingredient-clear"
+              >
+                Clear all
+              </button>
             </div>
-            <button type="submit" class="btn btn-solid btn-full ingredient-submit">Find Recipes</button>
+            <button
+              type="submit"
+              class="btn btn-solid btn-full ingredient-submit"
+            >
+              Find Recipes
+            </button>
           </form>
         </div>
       </section>

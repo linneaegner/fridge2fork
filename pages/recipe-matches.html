@@ -44,35 +44,61 @@
         </h1>
         <p class="hero__subtitle">
           Based on:
-          <span id="selected-ingredients" class="hero__ingredients">your ingredients</span>
+          <span id="selected-ingredients" class="hero__ingredients"
+            >your ingredients</span
+          >
         </p>
       </section>
 
       <section class="filter-board card">
         <div class="filter-board__head">
           <h2 class="filter-board__title">Filter Recipes</h2>
-          <button id="clear-filters" class="filter-clear" type="button">Clear All</button>
+          <button id="clear-filters" class="filter-clear" type="button">
+            Clear All
+          </button>
         </div>
         <div class="filter-board__content">
           <div class="filter-group">
-        <h3 class="filter-group__title">Dietary Preferences</h3>
-        <div id="dietary-options" class="filter-chip-row"></div>
+            <h3 class="filter-group__title">Dietary Preferences</h3>
+            <div id="dietary-options" class="filter-chip-row"></div>
           </div>
           <div class="filter-divider" role="presentation"></div>
           <div class="filter-group">
-        <h3 class="filter-group__title">Difficulty Level</h3>
-        <div class="filter-chip-row">
-          <button type="button" data-difficulty="easy" class="filter-chip difficulty-chip">Easy</button>
-          <button type="button" data-difficulty="medium" class="filter-chip difficulty-chip">Medium</button>
-          <button type="button" data-difficulty="hard" class="filter-chip difficulty-chip">Hard</button>
-        </div>
+            <h3 class="filter-group__title">Difficulty Level</h3>
+            <div class="filter-chip-row">
+              <button
+                type="button"
+                data-difficulty="easy"
+                class="filter-chip difficulty-chip"
+              >
+                Easy
+              </button>
+              <button
+                type="button"
+                data-difficulty="medium"
+                class="filter-chip difficulty-chip"
+              >
+                Medium
+              </button>
+              <button
+                type="button"
+                data-difficulty="hard"
+                class="filter-chip difficulty-chip"
+              >
+                Hard
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
       <section id="filter-info" class="filter-summary">
-        <p id="active-filters" class="filter-summary__item">No active filters</p>
-        <p id="matched-recipes" class="filter-summary__item">Matched Recipes: 0</p>
+        <p id="active-filters" class="filter-summary__item">
+          No active filters
+        </p>
+        <p id="matched-recipes" class="filter-summary__item">
+          Matched Recipes: 0
+        </p>
       </section>
 
       <section id="recipe-grid" class="recipe-grid"></section>
