@@ -1,5 +1,5 @@
 // script.js
-// Manage the ingredient list on the home page before jumping to recipe matches
+// Manage the ingredient list on the home page before jumping to recipe results
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("ingredient-form");
     const input = document.getElementById("ingredients");
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         saveIngredients();
-        window.location.href = "pages/recipe-matches.html";
+        window.location.href = "pages/recipe-results.html";
     });
 
     renderBadges();

@@ -95,7 +95,7 @@ function populateRecipe(recipe) {
 async function init() {
     const recipeId = getRecipeId();
     if (!recipeId) {
-        window.location.href = "recipe-matches.html";
+        window.location.href = "recipe-results.html";
         return;
     }
 
