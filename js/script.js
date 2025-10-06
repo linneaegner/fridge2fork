@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         saveIngredients();
-        window.location.href = "pages/recipe-results.html";
+        window.location.href = "pages/recipes.html";
     });
 
     renderBadges();
