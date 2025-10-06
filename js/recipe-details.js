@@ -1,62 +1,74 @@
-// ---------------------------
-// 🥘 RECIPE DETAILS PAGE
-// Shows one recipe's full information
-// ---------------------------
+// ---------------------------------------------------------
+// 📖 recipe-details.js – Visar detaljer för ett valt recept
+// ---------------------------------------------------------
 
 import { getRecipeDetails } from "./fetchdata.js";
 
-document.addEventListener("DOMContentLoaded", loadRecipe);
+export async function startRecipeDetailsPage() {
+  console.log("📄 Startar receptdetaljer");
 
-async function loadRecipe() {
   const recipeId = new URLSearchParams(window.location.search).get("recipeId");
   if (!recipeId) {
-    showMessage("No recipe found. Please go back and try again.");
+    showMessage("Kunde inte hitta något recept-ID.");
     return;
   }
 
   try {
     const recipe = await getRecipeDetails(recipeId);
     renderRecipe(recipe);
-  } catch {
-    showMessage("Couldn't load recipe. Please try later.");
+  } catch (error) {
+    console.error(error);
+    showMessage("Kunde inte ladda receptet just nu.");
   }
 }
 
 function renderRecipe(recipe) {
-  document.getElementById("recipe-image").src =
-    recipe.image || "https://via.placeholder.com/640x360?text=No+image";
-  document.getElementById("recipe-title").textContent = recipe.title || "Untitled";
-  document.getElementById("recipe-summary").textContent =
-    plainText(recipe.summary) || "No description available.";
-  document.getElementById("recipe-time").textContent =
-    recipe.readyInMinutes ? `${recipe.readyInMinutes} min` : "Unknown";
-  document.getElementById("recipe-servings").textContent =
-    recipe.servings ? `${recipe.servings} servings` : "Flexible servings";
-  document.getElementById("recipe-tags").textContent =
-    `${getDifficulty(recipe.readyInMinutes)} • ${recipe.diets?.join(", ") || "n/a"}`;
+  const image = document.getElementById("recipe-image");
+  const title = document.getElementById("recipe-title");
+  const summary = document.getElementById("recipe-summary");
+  const time = document.getElementById("recipe-time");
+  const servings = document.getElementById("recipe-servings");
+  const tags = document.getElementById("recipe-tags");
+  const button = document.getElementById("view-original-btn");
 
-  renderList("ingredients-list", recipe.extendedIngredients?.map((i) => i.original));
+  if (!image || !title || !summary || !time || !servings || !tags) {
+    console.warn("⚠️ Kunde inte hitta alla element för receptdetaljer.");
+    return;
+  }
+
+  image.src = recipe.image || "https://via.placeholder.com/640x360";
+  image.alt = recipe.title || "Receptbild";
+  title.textContent = recipe.title || "Okänt recept";
+  summary.textContent = plainText(recipe.summary) || "Ingen beskrivning tillgänglig.";
+  time.textContent = recipe.readyInMinutes ? `${recipe.readyInMinutes} min` : "Okänd";
+  servings.textContent = recipe.servings ? `${recipe.servings} portioner` : "Varierar";
+  tags.textContent = `${translateDifficulty(getDifficulty(recipe.readyInMinutes))} • ${
+    recipe.diets?.join(", ") || "n/a"
+  }`;
+
+  renderList("ingredients-list", recipe.extendedIngredients?.map((item) => item.original));
   renderList(
     "instructions-list",
-    recipe.analyzedInstructions?.[0]?.steps?.map((s) => s.step)
+    recipe.analyzedInstructions?.[0]?.steps?.map((step) => step.step)
   );
 
-  const btn = document.getElementById("view-original-btn");
-  if (recipe.sourceUrl) {
-    btn.addEventListener("click", () => window.open(recipe.sourceUrl, "_blank"));
-  } else {
-    btn.disabled = true;
-    btn.textContent = "Original recipe unavailable";
+  if (button) {
+    if (recipe.sourceUrl) {
+      button.addEventListener("click", () => window.open(recipe.sourceUrl, "_blank"));
+    } else {
+      button.disabled = true;
+      button.textContent = "Originalrecept saknas";
+    }
   }
 }
 
-// --- Helpers ---
 function renderList(id, items = []) {
   const list = document.getElementById(id);
   if (!list) return;
+
   list.innerHTML = items.length
     ? items.map((text) => `<li>${text}</li>`).join("")
-    : "<li>Not available.</li>";
+    : "<li>Ingen information.</li>";
 }
 
 function plainText(html) {
@@ -65,14 +77,28 @@ function plainText(html) {
   return div.textContent || "";
 }
 
-function getDifficulty(mins) {
-  if (!mins) return "Easy";
-  if (mins <= 30) return "Easy";
-  if (mins <= 45) return "Medium";
+function getDifficulty(minutes) {
+  if (!minutes) return "Easy";
+  if (minutes <= 30) return "Easy";
+  if (minutes <= 45) return "Medium";
   return "Hard";
 }
 
-function showMessage(msg) {
-  const main = document.querySelector("main");
-  main.innerHTML = `<p class="empty-state">${msg}</p>`;
+function translateDifficulty(value) {
+  switch (value) {
+    case "Easy":
+      return "Lätt";
+    case "Medium":
+      return "Medel";
+    case "Hard":
+      return "Svår";
+    default:
+      return value;
+  }
+}
+
+function showMessage(message) {
+  const main = document.querySelector("main.container");
+  if (!main) return;
+  main.innerHTML = `<p class="empty-state">${message}</p>`;
 }

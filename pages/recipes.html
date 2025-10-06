@@ -14,10 +14,11 @@
     />
 
     <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/modern_reset.css" />
     <link rel="stylesheet" href="../css/global.css" />
   </head>
 
-  <body id="recipes-page">
+  <body class="recipes-page">
     <!-- ===== HEADER ===== -->
     <header id="header">
       <div class="container header-content">
@@ -42,7 +43,7 @@
     <main id="main-content" class="container">
       <!-- Recipe Results Section -->
       <section id="recipes-section" aria-live="polite">
-        <!-- The JavaScript file (recipes.js) will fill this area dynamically -->
+        <!-- main.js laddar detta innehåll via recipes-modulen -->
         <h1 class="page-title">Your Recipe Results</h1>
         <div id="recipe-results"></div>
       </section>
@@ -59,6 +60,6 @@
     </footer>
 
     <!-- JavaScript File -->
-    <script src="../js/recipes.js" type="module"></script>
+    <script type="module" src="../js/main.js"></script>
   </body>
 </html>
