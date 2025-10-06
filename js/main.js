@@ -1,5 +1,5 @@
 // ---------------------------------------------------------
-// 🧭 main.js – Startar rätt modul beroende på aktuell sida
+// main.js – Startar rätt modul beroende på aktuell sida
 // ---------------------------------------------------------
 
 import { startHomepage } from "./homepage.js";
@@ -15,30 +15,21 @@ function init() {
     return;
   }
 
-  const classes = Array.from(body.classList);
+  const pageId = body.id;
 
-  if (classes.includes("home-page")) {
-    console.log("🏠 Startar startsidan");
+  if (pageId === "home-page") {
     startHomepage();
     return;
   }
 
-  if (classes.includes("recipes-page")) {
-    console.log("📋 Startar receptsidan");
+  if (pageId === "recipes-page") {
     startRecipesPage();
     return;
   }
 
-  if (classes.includes("details-page")) {
-    console.log("📄 Startar receptdetaljer");
+  if (pageId === "recipe-details-page") {
     startRecipeDetailsPage();
     return;
   }
 
-  if (classes.some((name) => ["about-page", "contact-page"].includes(name))) {
-    console.log("ℹ️ Ingen särskild JavaScript behövs här.");
-    return;
-  }
-
-  console.warn("❌ Okänd sida – inget script att köra.");
 }
