@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridge2Fork - Recipe Results</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet">
-    <link rel="stylesheet" href="../css/global.css">
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/global.css" />
   </head>
   <body class="recipes-page">
     <header class="site-header">
@@ -89,16 +90,21 @@
         </div>
       </section>
 
-      <section id="filter-info" class="filter-summary">
+      <div
+        id="filter-info"
+        class="filter-summary"
+        role="status"
+        aria-live="polite"
+      >
         <p id="active-filters" class="filter-summary__item">
           No active filters
         </p>
         <p id="matched-recipes" class="filter-summary__item">
           Matched Recipes: 0
         </p>
-      </section>
+      </div>
 
-      <section id="recipe-grid" class="recipe-grid"></section>
+      <div id="recipe-grid" class="recipe-grid" role="list"></div>
     </main>
 
     <footer class="site-footer">
@@ -106,6 +112,6 @@
         <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
       </div>
     </footer>
-    <script src="../js/show-recipes.js" type="module"></script>
+    <script src="../js/recipes.js" type="module"></script>
   </body>
 </html>

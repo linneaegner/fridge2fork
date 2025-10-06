@@ -1,5 +1,7 @@
 import { getRecipeDetails } from "./fetchdata.js";
 
+const API_KEY = "32fa164a90a4441385aec42d7c8fe44d";
+const BASE_URL = "https://api.spoonacular.com/recipes";
 const PLACEHOLDER_IMAGE = "https://via.placeholder.com/1280x720?text=No+Image";
 
 function getRecipeId() {
@@ -27,7 +29,7 @@ function writeRecipe(recipe) {
 
   if (image) {
     image.src = recipe.image || PLACEHOLDER_IMAGE;
-    image.alt = recipe.title;
+    image.alt = `Image of ${recipe.title}`;
   }
 
   if (title) title.textContent = recipe.title;
@@ -92,3 +94,43 @@ async function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const recipeId = new URLSearchParams(window.location.search).get("recipeId");
+  if (!recipeId) {
+    document.getElementById("recipe-details").innerHTML = "<p>Recipe not found.</p>";
+    return;
+  }
+
+  fetchRecipeDetails(recipeId);
+});
+
+async function fetchRecipeDetails(recipeId) {
+  const url = `${BASE_URL}/${recipeId}/information?apiKey=${API_KEY}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`API error ${response.status}`);
+    const recipe = await response.json();
+    renderRecipeDetails(recipe);
+  } catch (error) {
+    document.getElementById("recipe-details").innerHTML = `<p>Error fetching recipe: ${error.message}</p>`;
+  }
+}
+
+function renderRecipeDetails(recipe) {
+  const container = document.getElementById("recipe-details");
+  container.innerHTML = `
+    <h1>${recipe.title}</h1>
+    <img src="${recipe.image}" alt="Image of ${recipe.title}" loading="lazy" />
+    <p><strong>Servings:</strong> ${recipe.servings}</p>
+    <p><strong>Ready in:</strong> ${recipe.readyInMinutes} minutes</p>
+    <h2>Ingredients</h2>
+    <ul>
+      ${recipe.extendedIngredients
+        .map((ingredient) => `<li>${ingredient.original}</li>`)
+        .join("")}
+    </ul>
+    <h2>Instructions</h2>
+    <p>${recipe.instructions || "No instructions available."}</p>
+  `;
+}

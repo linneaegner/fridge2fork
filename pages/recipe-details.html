@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridge2Fork - Recipe Details</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet">
-    <link rel="stylesheet" href="../css/global.css">
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/modern_reset.css" />
+    <link rel="stylesheet" href="../css/global.css" />
   </head>
   <body class="details-page">
     <header class="site-header">
@@ -33,7 +35,11 @@
 
       <article class="details-hero card">
         <figure class="details-hero__media">
-          <img id="recipe-image" src="" alt="Image of the recipe">
+          <img
+            id="recipe-image"
+            src="https://via.placeholder.com/400x280?text=No+Image"
+            alt="Image of the recipe"
+          />
         </figure>
         <div class="details-hero__content">
           <div class="details-hero__tags" id="recipe-tags"></div>
@@ -76,6 +82,6 @@
         <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
       </div>
     </footer>
-    <script src="../js/show-recipe-details.js" type="module"></script>
+    <script src="../js/recipe-details.js" type="module"></script>
   </body>
 </html>
