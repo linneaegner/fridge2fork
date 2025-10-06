@@ -115,7 +115,7 @@ function goToRecipes(event) {
 function updateIngredientTags() {
   if (!ingredients.length) {
     ingredientTags.innerHTML =
-      '<p class="ingredient-empty">Inga ingredienser ännu. Lägg till en för att börja!</p>';
+      '<p class="ingredient-empty">No ingredients yet. Add one to start!</p>';
     return;
   }
 
