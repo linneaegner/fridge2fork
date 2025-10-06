@@ -1,122 +1,125 @@
-// Enkel logik för startsidan – hanterar ingredienslistan i formuläret
-document.addEventListener("DOMContentLoaded", initHomePage);
+// Hanterar ingredienslistan på startsidan på ett enkelt sätt
+document.addEventListener("DOMContentLoaded", () => {
+  const elements = {
+    form: document.getElementById("ingredient-form"),
+    input: document.getElementById("ingredients"),
+    add: document.getElementById("add-ingredient"),
+    clear: document.getElementById("clear-ingredients"),
+    badges: document.getElementById("ingredient-badges"),
+  };
 
-function initHomePage() {
-  const form = document.getElementById("ingredient-form");
-  const input = document.getElementById("ingredients");
-  const addButton = document.getElementById("add-ingredient");
-  const clearButton = document.getElementById("clear-ingredients");
-  const badgeContainer = document.getElementById("ingredient-badges");
-
-  if (!form || !input || !addButton || !badgeContainer) {
+  if (!elements.form || !elements.input || !elements.add || !elements.badges) {
     console.warn("Hittade inte formuläret – avbryter initiering");
     return;
   }
 
-  let ingredients = readStoredIngredients();
-  renderBadges();
+  const state = {
+    ingredients: readStoredIngredients(),
+  };
 
-  addButton.addEventListener("click", addIngredient);
-  badgeContainer.addEventListener("click", handleBadgeClick);
-  input.addEventListener("keydown", handleEnterKey);
-  form.addEventListener("submit", handleSubmit);
+  renderBadges(state, elements);
+  elements.add.addEventListener("click", () => addIngredient(state, elements));
+  elements.badges.addEventListener("click", (event) => handleBadgeClick(event, state, elements));
+  elements.input.addEventListener("keydown", (event) => handleEnterKey(event, state, elements));
+  elements.form.addEventListener("submit", (event) => handleSubmit(event, state, elements));
 
-  if (clearButton) {
-    clearButton.addEventListener("click", () => {
-      ingredients = [];
-      console.log("🧹 Alla ingredienser borttagna");
-      renderBadges();
-      saveIngredients();
-      input.focus();
-    });
+  if (elements.clear) {
+    elements.clear.addEventListener("click", () => clearIngredients(state, elements));
+  }
+});
+
+function readStoredIngredients() {
+  try {
+    const stored = localStorage.getItem("ingredients");
+    const list = stored ? JSON.parse(stored) : [];
+    return Array.isArray(list) ? list : [];
+  } catch (error) {
+    console.warn("Kunde inte läsa ingredienser från localStorage", error);
+    return [];
+  }
+}
+
+function saveIngredients(state) {
+  localStorage.setItem("ingredients", JSON.stringify(state.ingredients));
+}
+
+function renderBadges(state, elements) {
+  if (!state.ingredients.length) {
+    elements.badges.innerHTML = '<p class="ingredient-empty">No ingredients yet. Add one to get started!</p>';
+    return;
   }
 
-  // --- Hjälpfunktioner ---
-  function readStoredIngredients() {
-    try {
-      const stored = localStorage.getItem("ingredients");
-      const list = stored ? JSON.parse(stored) : [];
-      return Array.isArray(list) ? list : [];
-    } catch (error) {
-      console.warn("Kunde inte läsa ingredienser från localStorage", error);
-      return [];
-    }
+  elements.badges.innerHTML = state.ingredients
+    .map(
+      (name) => `
+        <span class="ingredient-badge" data-ingredient="${name}">
+          ${name}
+          <button type="button" aria-label="Remove ${name}" data-remove="${name}">×</button>
+        </span>
+      `
+    )
+    .join("");
+}
+
+function addIngredient(state, elements) {
+  const value = elements.input.value.trim();
+  if (!value) return;
+
+  const exists = state.ingredients.some((name) => normalizeValue(name) === normalizeValue(value));
+  if (exists) {
+    console.log("ℹ️ Ingrediensen fanns redan", value);
+    elements.input.value = "";
+    return;
   }
 
-  function saveIngredients() {
-    localStorage.setItem("ingredients", JSON.stringify(ingredients));
+  state.ingredients.push(value);
+  console.log("➕ Ingrediens tillagd", value);
+  elements.input.value = "";
+  renderBadges(state, elements);
+  saveIngredients(state);
+}
+
+function clearIngredients(state, elements) {
+  state.ingredients = [];
+  console.log("🧹 Alla ingredienser borttagna");
+  renderBadges(state, elements);
+  saveIngredients(state);
+  elements.input.focus();
+}
+
+function removeIngredient(name, state, elements) {
+  state.ingredients = state.ingredients.filter((item) => item !== name);
+  console.log("➖ Ingrediens borttagen", name);
+  renderBadges(state, elements);
+  saveIngredients(state);
+}
+
+function handleBadgeClick(event, state, elements) {
+  const button = event.target.closest("button[data-remove]");
+  if (!button) return;
+  removeIngredient(button.dataset.remove, state, elements);
+}
+
+function handleEnterKey(event, state, elements) {
+  if (event.key !== "Enter") return;
+  event.preventDefault();
+  addIngredient(state, elements);
+}
+
+function handleSubmit(event, state, elements) {
+  event.preventDefault();
+  addIngredient(state, elements);
+
+  if (!state.ingredients.length) {
+    elements.input.focus();
+    return;
   }
 
-  function renderBadges() {
-    if (!ingredients.length) {
-      badgeContainer.innerHTML = '<p class="ingredient-empty">No ingredients yet. Add one to get started!</p>';
-      return;
-    }
+  saveIngredients(state);
+  console.log("🚀 Navigerar till receptsidan", state.ingredients);
+  window.location.href = "pages/recipes.html";
+}
 
-    badgeContainer.innerHTML = ingredients
-      .map(
-        (name) => `
-          <span class="ingredient-badge" data-ingredient="${name}">
-            ${name}
-            <button type="button" aria-label="Remove ${name}" data-remove="${name}">×</button>
-          </span>
-        `
-      )
-      .join("");
-  }
-
-  function normalizeValue(text) {
-    return text.trim().toLowerCase();
-  }
-
-  function addIngredient() {
-    const value = input.value.trim();
-    if (!value) return;
-
-    const exists = ingredients.some((name) => normalizeValue(name) === normalizeValue(value));
-    if (exists) {
-      console.log("ℹ️ Ingrediensen fanns redan", value);
-      input.value = "";
-      return;
-    }
-
-    ingredients.push(value);
-    console.log("➕ Ingrediens tillagd", value);
-    input.value = "";
-    renderBadges();
-    saveIngredients();
-  }
-
-  function removeIngredient(name) {
-    ingredients = ingredients.filter((item) => item !== name);
-    console.log("➖ Ingrediens borttagen", name);
-    renderBadges();
-    saveIngredients();
-  }
-
-  function handleBadgeClick(event) {
-    const button = event.target.closest("button[data-remove]");
-    if (!button) return;
-    removeIngredient(button.dataset.remove);
-  }
-
-  function handleEnterKey(event) {
-    if (event.key !== "Enter") return;
-    event.preventDefault();
-    addIngredient();
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    addIngredient();
-
-    if (!ingredients.length) {
-      input.focus();
-      return;
-    }
-
-    saveIngredients();
-    console.log("🚀 Navigerar till receptsidan", ingredients);
-    window.location.href = "pages/recipes.html";
-  }
+function normalizeValue(text) {
+  return text.trim().toLowerCase();
 }

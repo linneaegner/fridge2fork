@@ -32,51 +32,45 @@
       </div>
     </header>
 
-    <main class="container details-main">
-      <a class="back-link" href="recipes.html">&larr; Back</a>
+    <main class="container page">
+      <a class="back-link" href="recipes.html">&larr; Back to recipes</a>
 
-      <article class="details-hero card">
-        <figure class="details-hero__media">
-          <picture id="recipe-picture" class="details-hero__picture">
-            <img
-              id="recipe-image"
-              src="https://via.placeholder.com/640x360?text=No+image"
-              alt="Image of the recipe"
-            />
-          </picture>
-        </figure>
-        <div class="details-hero__content">
-          <div class="details-hero__tags" id="recipe-tags"></div>
-          <h1 id="recipe-title">Recipe Title</h1>
-          <p id="recipe-summary">A short summary of the recipe...</p>
-          <ul class="details-hero__meta">
-            <li>
-              <span class="meta-label">Time</span>
-              <span id="recipe-time" class="meta-value">30 mins</span>
-            </li>
-            <li>
-              <span class="meta-label">Servings</span>
-              <span id="recipe-servings" class="meta-value">4 servings</span>
-            </li>
-          </ul>
-          <button
-            id="view-original"
-            class="btn btn-solid details-primary-action"
-          >
-            View Original Recipe
-            <span class="btn__icon" aria-hidden="true">↗</span>
+      <article class="recipe-details card">
+        <div class="recipe-details__media">
+          <img
+            id="recipe-image"
+            src="https://via.placeholder.com/640x360?text=No+image"
+            alt="Recipe photo"
+          />
+        </div>
+        <div class="recipe-details__body">
+          <h1 id="recipe-title">Recipe title</h1>
+          <p id="recipe-summary">A short summary of the recipe will appear here.</p>
+          <dl class="recipe-details__meta">
+            <div>
+              <dt>Time</dt>
+              <dd id="recipe-time">30 min</dd>
+            </div>
+            <div>
+              <dt>Servings</dt>
+              <dd id="recipe-servings">4 servings</dd>
+            </div>
+          </dl>
+          <p id="recipe-tags" class="recipe-details__tags"></p>
+          <button id="view-original" class="btn btn-solid" type="button">
+            View original recipe
           </button>
         </div>
       </article>
 
-      <section class="details-grid">
-        <div class="details-panel card">
-          <h3>Ingredients</h3>
-          <ul id="ingredients-list"></ul>
+      <section class="recipe-lists">
+        <div class="card">
+          <h2>Ingredients</h2>
+          <ul id="ingredients-list" class="recipe-list"></ul>
         </div>
-        <div class="details-panel card">
-          <h3>Instructions</h3>
-          <ol id="instructions-list"></ol>
+        <div class="card">
+          <h2>Instructions</h2>
+          <ol id="instructions-list" class="recipe-list recipe-list--ordered"></ol>
         </div>
       </section>
     </main>
@@ -86,7 +80,7 @@
         <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
         <a href="https://www.flaticon.com/free-icons/fork" title="fork icons"
           >Fork icons created by Freepik - Flaticon</a
-        >s
+        >
       </div>
     </footer>
     <script src="../js/recipe-details.js" type="module"></script>

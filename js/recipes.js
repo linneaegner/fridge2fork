@@ -3,7 +3,7 @@ import { getRecipes } from "./fetchdata.js";
 const PLACEHOLDER_IMAGE = "https://via.placeholder.com/640x360?text=No+image";
 const DETAILS_PAGE = "recipe-details.html";
 const WIDGET_ID = "recipe-widget";
-const DIET_FILTERS = [
+const DIET_OPTIONS = [
   "gluten free",
   "ketogenic",
   "vegetarian",
@@ -16,107 +16,88 @@ const DIET_FILTERS = [
   "whole30",
 ];
 
-let widgetRoot = null;
-let allRecipes = [];
-let selectedDiets = [];
-let selectedDifficulty = "";
-let ingredientList = [];
+const state = {
+  recipes: [],
+  diets: [],
+  difficulty: "",
+  ingredients: [],
+};
 
 document.addEventListener("DOMContentLoaded", initRecipePage);
 
 async function initRecipePage() {
-  widgetRoot = document.getElementById(WIDGET_ID);
-  if (!widgetRoot) {
+  const root = document.getElementById(WIDGET_ID);
+  if (!root) {
     console.warn("Hittade inte widget-roten – avbryter initiering");
     return;
   }
 
-  renderLayout();
-  ingredientList = readIngredients();
-  updateIngredientLabel();
-  buildDietButtons();
-  bindDifficultyButtons();
-  updateActiveFilterText();
-  await loadRecipes();
+  state.ingredients = readIngredients();
+  renderLayout(root);
+  const elements = collectElements(root);
+  updateIngredientLabel(elements);
+  buildDietButtons(elements);
+  bindDifficultyButtons(elements);
+  bindClearFilters(elements);
+  updateActiveFilterText(elements);
+
+  await loadRecipes(elements);
 }
 
-function renderLayout() {
-  widgetRoot.innerHTML = `
-    <a class="back-link" href="../index.html">
-      <span aria-hidden="true">&larr;</span>
-      Back to search
-    </a>
+function renderLayout(root) {
+  root.innerHTML = `
+    <a class="back-link" href="../index.html">&larr; Back to search</a>
 
-    <section class="hero">
-      <p class="hero__eyebrow">Based on your ingredients</p>
-      <h1 class="hero__title">
-        Recipe <span class="highlight highlight--accent">Suggestions</span>
-      </h1>
-      <p class="hero__subtitle">
+    <section class="widget card">
+      <p class="widget__eyebrow">Based on your ingredients</p>
+      <h1 class="widget__title">Recipe suggestions</h1>
+      <p class="widget__subtitle">
         Ingredients:
-        <span id="selected-ingredients" class="hero__ingredients">your ingredients</span>
+        <span id="selected-ingredients" class="widget__highlight">your ingredients</span>
       </p>
     </section>
 
-    <section class="filter-board card">
-      <div class="filter-board__head">
-        <h2 class="filter-board__title">Filter recipes</h2>
-        <button id="clear-filters" class="filter-clear" type="button">
-          Clear all
-        </button>
+    <section class="filter card">
+      <div class="filter__group">
+        <h2>Dietary preferences</h2>
+        <div id="dietary-options" class="chip-row"></div>
       </div>
-      <div class="filter-board__content">
-        <div class="filter-group">
-          <h3 class="filter-group__title">Dietary preferences</h3>
-          <div id="dietary-options" class="filter-chip-row"></div>
-        </div>
-        <div class="filter-divider" role="presentation"></div>
-        <div class="filter-group">
-          <h3 class="filter-group__title">Difficulty level</h3>
-          <div class="filter-chip-row">
-            <button type="button" data-difficulty="easy" class="filter-chip difficulty-chip">Easy</button>
-            <button type="button" data-difficulty="medium" class="filter-chip difficulty-chip">Medium</button>
-            <button type="button" data-difficulty="hard" class="filter-chip difficulty-chip">Hard</button>
-          </div>
+      <div class="filter__group">
+        <h2>Difficulty level</h2>
+        <div class="chip-row">
+          <button type="button" data-difficulty="easy" class="chip">Easy</button>
+          <button type="button" data-difficulty="medium" class="chip">Medium</button>
+          <button type="button" data-difficulty="hard" class="chip">Hard</button>
         </div>
       </div>
+      <button id="clear-filters" type="button" class="btn btn-outline">Clear filters</button>
     </section>
 
-    <div id="filter-info" class="filter-summary" role="status" aria-live="polite">
-      <p id="active-filters" class="filter-summary__item">No active filters</p>
-      <p id="matched-recipes" class="filter-summary__item">Matches: 0</p>
+    <div class="filter-info" role="status" aria-live="polite">
+      <p id="active-filters">No active filters</p>
+      <p id="matched-recipes">Matches: 0</p>
     </div>
 
     <div id="recipe-grid" class="recipe-grid" role="list"></div>
   `;
 }
 
-function buildImageSources(url) {
-  if (!url) {
-    return { small: PLACEHOLDER_IMAGE }; // Saknar bild från API
-  }
-
-  const sizePattern = /-(\d+)x(\d+)(\.\w+)$/;
-  const match = url.match(sizePattern);
-  if (!match) {
-    return { small: url };
-  }
-
-  const extension = match[3];
-  const basePath = url.replace(sizePattern, "");
-
+function collectElements(root) {
   return {
-    large: `${basePath}-636x393${extension}`,
-    medium: `${basePath}-480x360${extension}`,
-    small: `${basePath}-312x231${extension}`,
+    ingredients: root.querySelector("#selected-ingredients"),
+    dietRow: root.querySelector("#dietary-options"),
+    difficultyButtons: Array.from(root.querySelectorAll("button[data-difficulty]")),
+    clearButton: root.querySelector("#clear-filters"),
+    activeFilters: root.querySelector("#active-filters"),
+    matchCount: root.querySelector("#matched-recipes"),
+    grid: root.querySelector("#recipe-grid"),
   };
 }
 
 function readIngredients() {
   try {
     const stored = localStorage.getItem("ingredients");
-    if (!stored) return [];
-    const parsed = JSON.parse(stored);
+    const parsed = stored ? JSON.parse(stored) : [];
     return Array.isArray(parsed) ? parsed : [];
   } catch (error) {
     console.warn("Kunde inte läsa ingredienser från localStorage", error);
@@ -124,45 +105,44 @@ function readIngredients() {
   }
 }
 
-function updateIngredientLabel() {
-  const target = document.getElementById("selected-ingredients");
-  if (!target) return;
-  target.textContent = ingredientList.length ? ingredientList.join(", ") : "no ingredients selected";
+function updateIngredientLabel(elements) {
+  if (!elements.ingredients) return;
+  elements.ingredients.textContent = state.ingredients.length
+    ? state.ingredients.join(", ")
+    : "no ingredients selected";
 }
 
-async function loadRecipes() {
+async function loadRecipes(elements) {
   try {
-    allRecipes = await getRecipes({ ingredients: ingredientList, diets: selectedDiets });
-    console.log("✅ Fick tillbaka", allRecipes.length, "recept");
-    renderRecipes();
+    state.recipes = await getRecipes({ ingredients: state.ingredients, diets: state.diets });
+    console.log("✅ Hämtade receptlista", state.recipes.length);
+    renderRecipes(elements);
   } catch (error) {
-    console.error("❌ Det gick inte att hämta recept", error);
-    renderEmptyState("Unable to load recipes right now.");
+    console.error("❌ Kunde inte hämta recept", error);
+    renderEmptyState(elements, "Unable to load recipes right now.");
   }
 }
 
-function renderRecipes() {
-  const grid = document.getElementById("recipe-grid");
-  if (!grid) return;
+function renderRecipes(elements) {
+  if (!elements.grid) return;
 
-  const filtered = filterRecipes();
-  updateMatchCount(filtered.length);
+  const filtered = state.recipes.filter(matchesActiveFilters);
+  updateMatchCount(elements, filtered.length);
 
   if (!filtered.length) {
-    renderEmptyState("No recipes match the current filters.");
+    renderEmptyState(elements, "No recipes match the current filters.");
     return;
   }
 
-  grid.innerHTML = filtered.map(buildCard).join("");
-  bindCardNavigation(grid);
+  elements.grid.innerHTML = filtered.map(buildCard).join("");
 }
 
-function filterRecipes() {
-  return allRecipes.filter((recipe) => {
-    const matchesDiet = !selectedDiets.length || selectedDiets.every((diet) => recipe.diets?.includes(diet));
-    const matchesDifficulty = !selectedDifficulty || difficultyLabel(recipe.readyInMinutes).toLowerCase() === selectedDifficulty;
-    return matchesDiet && matchesDifficulty;
-  });
+function matchesActiveFilters(recipe) {
+  const matchesDiet =
+    !state.diets.length || state.diets.every((diet) => recipe.diets?.includes(diet));
+  const matchesDifficulty =
+    !state.difficulty || difficultyLabel(recipe.readyInMinutes).toLowerCase() === state.difficulty;
+  return matchesDiet && matchesDifficulty;
 }
 
 function difficultyLabel(minutes) {
@@ -172,164 +152,118 @@ function difficultyLabel(minutes) {
   return "Hard";
 }
 
-function buildDietButtons() {
-  const container = document.getElementById("dietary-options");
-  if (!container) return;
+function buildDietButtons(elements) {
+  if (!elements.dietRow) return;
+  elements.dietRow.innerHTML = "";
 
-  container.innerHTML = "";
-
-  DIET_FILTERS.forEach((diet) => {
+  DIET_OPTIONS.forEach((diet) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "filter-chip";
-    button.textContent = diet.replace(/\b\w/g, (letter) => letter.toUpperCase());
+    button.className = "chip";
     button.dataset.diet = diet;
+    button.textContent = toTitleCase(diet);
 
     button.addEventListener("click", () => {
-      if (selectedDiets.includes(diet)) {
-        selectedDiets = selectedDiets.filter((name) => name !== diet);
-        button.classList.remove("active");
-      } else {
-        selectedDiets.push(diet);
-        button.classList.add("active");
-      }
-      console.log("🧮 Valda dieter", selectedDiets);
-      updateActiveFilterText();
-      renderRecipes();
+      toggleDiet(diet, button);
+      updateActiveFilterText(elements);
+      renderRecipes(elements);
     });
 
-    container.appendChild(button);
+    elements.dietRow.appendChild(button);
   });
-
-  const clearButton = document.getElementById("clear-filters");
-  if (clearButton) {
-    clearButton.addEventListener("click", () => {
-      selectedDiets = [];
-      selectedDifficulty = "";
-      container.querySelectorAll("button").forEach((btn) => btn.classList.remove("active"));
-      document.querySelectorAll(".difficulty-chip").forEach((btn) => btn.classList.remove("active"));
-      console.log("🔄 Filter återställda");
-      updateActiveFilterText();
-      renderRecipes();
-    });
-  }
 }
 
-function bindDifficultyButtons() {
-  const buttons = document.querySelectorAll(".difficulty-chip");
-  if (!buttons.length) return;
+function toggleDiet(diet, button) {
+  if (state.diets.includes(diet)) {
+    state.diets = state.diets.filter((item) => item !== diet);
+    button.classList.remove("chip--active");
+  } else {
+    state.diets.push(diet);
+    button.classList.add("chip--active");
+  }
+  console.log("🧮 Valda dieter", state.diets);
+}
 
-  buttons.forEach((button) => {
+function bindDifficultyButtons(elements) {
+  elements.difficultyButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const level = button.dataset.difficulty;
-      selectedDifficulty = selectedDifficulty === level ? "" : level;
+      state.difficulty = state.difficulty === level ? "" : level;
 
-      buttons.forEach((other) => {
-        other.classList.toggle("active", other.dataset.difficulty === selectedDifficulty);
+      elements.difficultyButtons.forEach((other) => {
+        other.classList.toggle("chip--active", other.dataset.difficulty === state.difficulty);
       });
 
-      console.log("🎯 Vald svårighet", selectedDifficulty || "ingen");
-      updateActiveFilterText();
-      renderRecipes();
+      console.log("🎯 Vald svårighet", state.difficulty || "ingen");
+      updateActiveFilterText(elements);
+      renderRecipes(elements);
     });
   });
 }
 
-function updateActiveFilterText() {
-  const target = document.getElementById("active-filters");
-  if (!target) return;
-
-  const parts = [];
-  if (selectedDiets.length) parts.push(`Diet: ${selectedDiets.join(", ")}`);
-  if (selectedDifficulty) parts.push(`Difficulty: ${selectedDifficulty}`);
-
-  target.textContent = parts.length ? `Active filters: ${parts.join(" | ")}` : "No active filters";
+function bindClearFilters(elements) {
+  if (!elements.clearButton) return;
+  elements.clearButton.addEventListener("click", () => {
+    state.diets = [];
+    state.difficulty = "";
+    elements.dietRow?.querySelectorAll(".chip").forEach((chip) => chip.classList.remove("chip--active"));
+    elements.difficultyButtons.forEach((button) => button.classList.remove("chip--active"));
+    console.log("🔄 Filter återställda");
+    updateActiveFilterText(elements);
+    renderRecipes(elements);
+  });
 }
 
-function updateMatchCount(total) {
-  const target = document.getElementById("matched-recipes");
-  if (target) {
-    target.textContent = `Matches: ${total}`;
+function updateActiveFilterText(elements) {
+  if (!elements.activeFilters) return;
+
+  const parts = [];
+  if (state.diets.length) parts.push(`Diet: ${state.diets.join(", ")}`);
+  if (state.difficulty) parts.push(`Difficulty: ${state.difficulty}`);
+
+  elements.activeFilters.textContent = parts.length
+    ? `Active filters: ${parts.join(" | ")}`
+    : "No active filters";
+}
+
+function updateMatchCount(elements, total) {
+  if (elements.matchCount) {
+    elements.matchCount.textContent = `Matches: ${total}`;
   }
 }
 
-function renderEmptyState(message) {
-  const grid = document.getElementById("recipe-grid");
-  if (!grid) return;
-  grid.innerHTML = `<p class="empty-state">${message}</p>`;
-  updateMatchCount(0);
+function renderEmptyState(elements, message) {
+  if (!elements.grid) return;
+  elements.grid.innerHTML = `<p class="empty-state">${message}</p>`;
+  updateMatchCount(elements, 0);
 }
 
 function buildCard(recipe) {
-  const sources = buildImageSources(recipe.image);
-  const image = sources.small || PLACEHOLDER_IMAGE;
-  const summary = stripHtml(recipe.summary || "");
+  const summary = plainText(recipe.summary || "");
   const preview = summary.length > 140 ? `${summary.slice(0, 140).trim()}...` : summary;
-  const level = difficultyLabel(recipe.readyInMinutes);
-  const diets = (recipe.diets || [])
-    .slice(0, 4)
-    .map((diet) => `<span class="pill">${diet}</span>`)
-    .join("");
+  const diets = recipe.diets?.length ? `Diet: ${recipe.diets.slice(0, 3).join(", ")}` : "Diet: n/a";
+  const difficulty = difficultyLabel(recipe.readyInMinutes);
 
   return `
-    <article class="recipe-card card" data-recipe-id="${recipe.id}" tabindex="0" role="listitem">
-      <div class="recipe-card__media">
-        <picture class="recipe-card__picture">
-          ${sources.large ? `<source srcset="${sources.large}" media="(min-width: 1024px)">` : ""}
-          ${sources.medium ? `<source srcset="${sources.medium}" media="(min-width: 640px)">` : ""}
-          <img src="${image}" alt="Image of ${recipe.title}" loading="lazy" />
-        </picture>
-        <span class="recipe-card__badge">${level}</span>
-      </div>
+    <article class="recipe-card card" role="listitem">
+      <img class="recipe-card__image" src="${recipe.image || PLACEHOLDER_IMAGE}" alt="Recipe ${recipe.title}" loading="lazy" />
       <div class="recipe-card__body">
-        <h3 class="recipe-card__title">${recipe.title}</h3>
+        <h3>${recipe.title}</h3>
         <p class="recipe-card__summary">${preview || "Discover this recipe via Spoonacular."}</p>
-        <ul class="recipe-card__meta">
-          <li class="meta-item meta-item--time">
-            <span class="meta-label">Time</span>
-            <span class="meta-value">${recipe.readyInMinutes ? `${recipe.readyInMinutes} min` : "Varies"}</span>
-          </li>
-          <li class="meta-item meta-item--servings">
-            <span class="meta-label">Servings</span>
-            <span class="meta-value">${recipe.servings ? `${recipe.servings}` : "Flexible"}</span>
-          </li>
-        </ul>
-        <div class="recipe-card__tags">${diets}</div>
+        <p class="recipe-card__meta">Time: ${recipe.readyInMinutes ? `${recipe.readyInMinutes} min` : "Varies"} • Servings: ${recipe.servings || "Flexible"} • ${difficulty}</p>
+        <p class="recipe-card__tags">${diets}</p>
+        <a class="btn btn-solid" href="${DETAILS_PAGE}?recipeId=${recipe.id}">View recipe</a>
       </div>
-      <footer class="recipe-card__footer">
-        <a class="btn btn-solid btn-full" href="${DETAILS_PAGE}?recipeId=${recipe.id}">View recipe</a>
-      </footer>
     </article>
   `;
 }
 
-function stripHtml(text) {
+function plainText(text) {
   const wrapper = document.createElement("div");
   wrapper.innerHTML = text;
   return wrapper.textContent || "";
 }
 
-function bindCardNavigation(grid) {
-  if (grid.dataset.navigationBound === "true") return;
-  grid.dataset.navigationBound = "true";
-
-  const goToDetails = (id) => {
-    if (!id) return;
-    window.location.href = `${DETAILS_PAGE}?recipeId=${id}`;
-  };
-
-  grid.addEventListener("click", (event) => {
-    const card = event.target.closest(".recipe-card[data-recipe-id]");
-    if (!card) return;
-    if (event.target.closest("a, button")) return;
-    goToDetails(card.dataset.recipeId);
-  });
-
-  grid.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter" && event.key !== " ") return;
-    const card = event.target.closest(".recipe-card[data-recipe-id]");
-    if (!card) return;
-    event.preventDefault();
-    goToDetails(card.dataset.recipeId);
-  });
+function toTitleCase(text) {
+  return text.replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
