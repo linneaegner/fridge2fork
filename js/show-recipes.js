@@ -74,7 +74,7 @@ function buildCard(recipe) {
   return `
     <article class="recipe-card card" data-recipe-id="${recipe.id}" tabindex="0">
       <div class="recipe-card__media">
-        <img src="${image}" alt="${recipe.title}" loading="lazy" />
+        <img src="${image}" alt="Image of ${recipe.title}" loading="lazy" />
         <span class="recipe-card__badge">${difficulty}</span>
       </div>
       <div class="recipe-card__body">
