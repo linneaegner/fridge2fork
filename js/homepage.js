@@ -52,13 +52,13 @@ function addIngredient() {
 
   // Kolla så fältet inte är tomt
   if (!newIngredient) {
-    alert("Skriv in en ingrediens först!"); //vill dock inte använda alert i slutversionen kanske går att lösa snyggare genom att visa ett meddelande på sidan?
+    console.log("⚠️ Ingen ingrediens angiven.");
     return;
   }
 
   // Kolla så den inte redan finns
   if (ingredients.includes(newIngredient)) {
-    alert("Ingrediensen finns redan i listan.");
+    console.log("⚠️ Ingrediensen finns redan i listan.");
     ingredientInput.value = "";
     return;
   }
@@ -89,8 +89,6 @@ function removeIngredient(event) {
 
 // Rensar hela listan
 function clearIngredients() {
-  if (!confirm("Vill du ta bort alla ingredienser?")) return;
-
   ingredients = [];
   saveToLocalStorage();
   updateIngredientTags();
@@ -102,7 +100,7 @@ function goToRecipes(event) {
   event.preventDefault();
 
   if (!ingredients.length) {
-    alert("Lägg till minst en ingrediens först!");
+    console.log("⚠️ Inga ingredienser att använda.");
     return;
   }
 
