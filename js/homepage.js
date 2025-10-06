@@ -16,10 +16,10 @@ const ingredientTags = document.querySelector("#ingredient-tags");
 // START
 // ---------------------------------------------------------
 export function startHomepage() {
-  console.log("🚀 Initierar startsidan...");
+  console.log("🚀 Initializing homepage...");
 
   if (!ingredientForm || !ingredientInput || !addIngredientBtn || !ingredientTags) {
-    console.warn("⚠️ Kunde inte hitta formulärets element.");
+    console.warn("⚠️ Could not find the form elements.");
     return;
   }
 
@@ -52,13 +52,13 @@ function addIngredient() {
 
   // Kolla så fältet inte är tomt
   if (!newIngredient) {
-    console.log("⚠️ Ingen ingrediens angiven.");
+    console.log("⚠️ No ingredient provided.");
     return;
   }
 
   // Kolla så den inte redan finns
   if (ingredients.includes(newIngredient)) {
-    console.log("⚠️ Ingrediensen finns redan i listan.");
+    console.log("⚠️ Ingredient already in the list.");
     ingredientInput.value = "";
     return;
   }
@@ -68,7 +68,7 @@ function addIngredient() {
   saveToLocalStorage();
   updateIngredientTags();
 
-  console.log("➕ La till ingrediens:", newIngredient);
+  console.log("➕ Added ingredient:", newIngredient);
 
   // Rensa fältet
   ingredientInput.value = "";
@@ -84,7 +84,7 @@ function removeIngredient(event) {
   saveToLocalStorage();
   updateIngredientTags();
 
-  console.log("❌ Tog bort ingrediens:", name);
+  console.log("❌ Removed ingredient:", name);
 }
 
 // Rensar hela listan
@@ -92,7 +92,7 @@ function clearIngredients() {
   ingredients = [];
   saveToLocalStorage();
   updateIngredientTags();
-  console.log("🧹 Alla ingredienser borttagna.");
+  console.log("🧹 Cleared all ingredients.");
 }
 
 // Skickas när man klickar på "Find Recipes"
@@ -100,12 +100,12 @@ function goToRecipes(event) {
   event.preventDefault();
 
   if (!ingredients.length) {
-    console.log("⚠️ Inga ingredienser att använda.");
+    console.log("⚠️ No ingredients to use.");
     return;
   }
 
   saveToLocalStorage();
-  console.log("🚀 Går till receptsidan...");
+  console.log("🚀 Navigating to the recipes page...");
   window.location.href = "pages/recipes.html";
 }
 

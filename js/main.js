@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", init);
 function init() {
   const body = document.body;
   if (!body) {
-    console.warn("⚠️ Kunde inte hitta något body-element.");
+    console.warn("⚠️ Could not find a body element.");
     return;
   }
 
