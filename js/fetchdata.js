@@ -1,31 +1,21 @@
 const API_KEY = "32fa164a90a4441385aec42d7c8fe44d";
-const API_ROOT = "https://api.spoonacular.com";
-const SEARCH_ENDPOINT = `${API_ROOT}/recipes/complexSearch`;
-const RECIPE_ENDPOINT = `${API_ROOT}/recipes`;
+const API_BASE = "https://api.spoonacular.com";
 const DEFAULT_RESULT_COUNT = 24;
 
-async function request(url) {
+// Hjälpare som sköter själva fetch-anropet
+async function fetchJson(url) {
   const response = await fetch(url);
   if (!response.ok) {
-    const message = `Request failed with status ${response.status}`;
-    throw new Error(message);
+    throw new Error(`Kunde inte hämta data (status ${response.status})`);
   }
   return response.json();
 }
 
-export async function searchRecipes(options = {}) {
-  const {
-    ingredients = [],
-    diets = [],
-    number = DEFAULT_RESULT_COUNT,
-    sort,
-    sortDirection,
-    maxReadyTime,
-  } = options;
-
+// Hämtar en lista med recept baserat på ingredienser och kostfilter
+export async function getRecipes({ ingredients = [], diets = [] } = {}) {
   const params = new URLSearchParams({
     apiKey: API_KEY,
-    number: String(number),
+    number: String(DEFAULT_RESULT_COUNT),
     addRecipeInformation: "true",
     instructionsRequired: "true",
   });
@@ -38,25 +28,17 @@ export async function searchRecipes(options = {}) {
     params.set("diet", diets.join(","));
   }
 
-  if (typeof maxReadyTime === "number") {
-    params.set("maxReadyTime", String(maxReadyTime));
-  }
+  console.log("🔎 Hämtar receptlista", { ingredients, diets });
 
-  if (sort) {
-    params.set("sort", sort);
-    if (sortDirection) {
-      params.set("sortDirection", sortDirection);
-    }
-  }
-
-  const url = `${SEARCH_ENDPOINT}?${params.toString()}`;
-  const data = await request(url);
+  const url = `${API_BASE}/recipes/complexSearch?${params.toString()}`;
+  const data = await fetchJson(url);
   return Array.isArray(data.results) ? data.results : [];
 }
 
+// Hämtar detaljer för ett specifikt recept-id
 export async function getRecipeDetails(recipeId) {
   if (!recipeId) {
-    throw new Error("A recipe id is required");
+    throw new Error("Saknar recept-id");
   }
 
   const params = new URLSearchParams({
@@ -64,6 +46,8 @@ export async function getRecipeDetails(recipeId) {
     includeNutrition: "false",
   });
 
-  const url = `${RECIPE_ENDPOINT}/${recipeId}/information?${params.toString()}`;
-  return request(url);
+  console.log("📄 Hämtar receptdetalj", { recipeId });
+
+  const url = `${API_BASE}/recipes/${recipeId}/information?${params.toString()}`;
+  return fetchJson(url);
 }

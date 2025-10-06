@@ -1,73 +1,131 @@
 import { getRecipeDetails } from "./fetchdata.js";
 
-const API_KEY = "32fa164a90a4441385aec42d7c8fe44d";
-const BASE_URL = "https://api.spoonacular.com/recipes";
-const PLACEHOLDER_IMAGE = "https://via.placeholder.com/1280x720?text=No+Image";
+const PLACEHOLDER_IMAGE = "https://via.placeholder.com/1280x720?text=No+image";
 
-function getRecipeId() {
+// Startar detaljsidan när DOM:en är redo
+document.addEventListener("DOMContentLoaded", initDetailsPage);
+
+async function initDetailsPage() {
+  const recipeId = readRecipeId();
+  if (!recipeId) {
+    showError("We could not find a recipe. Please try again from the results page.");
+    return;
+  }
+
+  try {
+    const recipe = await getRecipeDetails(recipeId);
+    console.log("📄 Visar recept", recipe.title);
+    populateRecipe(recipe);
+  } catch (error) {
+    console.error("❌ Gick inte att hämta receptdetalj", error);
+    showError("Unable to load this recipe right now.");
+  }
+}
+
+function readRecipeId() {
   const params = new URLSearchParams(window.location.search);
   return params.get("recipeId");
 }
 
-function plainText(value) {
-  if (!value) return "";
-  const root = document.createElement("div");
-  root.innerHTML = value;
-  return root.textContent || "";
+function populateRecipe(recipe) {
+  setHeroImage(recipe);
+  setTitleAndSummary(recipe);
+  setMetaInfo(recipe);
+  setDietTags(recipe);
+  setIngredientList(recipe);
+  setInstructionList(recipe);
+  bindSourceButton(recipe);
 }
 
-function writeRecipe(recipe) {
+function setHeroImage(recipe) {
   const image = document.getElementById("recipe-image");
-  const title = document.getElementById("recipe-title");
-  const summary = document.getElementById("recipe-summary");
-  const time = document.getElementById("recipe-time");
-  const servings = document.getElementById("recipe-servings");
-  const tags = document.getElementById("recipe-tags");
-  const ingredients = document.getElementById("ingredients-list");
-  const instructions = document.getElementById("instructions-list");
-  const sourceButton = document.getElementById("view-original");
-
   if (image) {
     image.src = recipe.image || PLACEHOLDER_IMAGE;
-    image.alt = `Image of ${recipe.title}`;
+    image.alt = recipe.title || "Recipe image";
+  }
+}
+
+function setTitleAndSummary(recipe) {
+  const title = document.getElementById("recipe-title");
+  const summary = document.getElementById("recipe-summary");
+  const text = plainText(recipe.summary) || "Open the original recipe for more details.";
+
+  if (title) title.textContent = recipe.title || "Unknown recipe";
+  if (summary) summary.textContent = text;
+}
+
+function setMetaInfo(recipe) {
+  const time = document.getElementById("recipe-time");
+  const servings = document.getElementById("recipe-servings");
+
+  if (time) time.textContent = recipe.readyInMinutes ? `${recipe.readyInMinutes} min` : "Unknown";
+  if (servings) servings.textContent = recipe.servings ? `${recipe.servings} servings` : "Flexible";
+}
+
+function setDietTags(recipe) {
+  const target = document.getElementById("recipe-tags");
+  if (!target) return;
+
+  const level = difficultyLabel(recipe.readyInMinutes);
+  const diets = (recipe.diets || []).slice(0, 3).map((diet) => `<span class="pill">${diet}</span>`).join("");
+
+  target.innerHTML = `<span class="pill pill--muted">${level}</span>${diets}`;
+}
+
+function setIngredientList(recipe) {
+  const list = document.getElementById("ingredients-list");
+  if (!list) return;
+
+  const items = recipe.extendedIngredients || [];
+  if (!items.length) {
+    list.innerHTML = "<li>No ingredients available.</li>";
+    return;
   }
 
-  if (title) title.textContent = recipe.title;
-  if (summary) summary.textContent = plainText(recipe.summary) || "Explore the original recipe for full details.";
-  if (time) time.textContent = recipe.readyInMinutes ? `${recipe.readyInMinutes} mins` : "Time varies";
-  if (servings) servings.textContent = recipe.servings ? `${recipe.servings} servings` : "Flexible servings";
+  list.innerHTML = items.map((item) => `<li>${item.original}</li>`).join("");
+}
 
-  if (tags) {
-    const difficulty = recipe.readyInMinutes <= 20 ? "Easy" : recipe.readyInMinutes <= 40 ? "Medium" : "Hard";
-    const dietTags = (recipe.diets || []).slice(0, 3).map((diet) => `<span class="pill">${diet}</span>`).join("");
-    tags.innerHTML = `<span class="pill pill--muted">${difficulty}</span>${dietTags}`;
+function setInstructionList(recipe) {
+  const list = document.getElementById("instructions-list");
+  if (!list) return;
+
+  const steps = recipe.analyzedInstructions?.[0]?.steps || [];
+  if (!steps.length) {
+    list.innerHTML = "<li>No instructions available.</li>";
+    return;
   }
 
-  if (ingredients) {
-    const list = recipe.extendedIngredients || [];
-    ingredients.innerHTML = list.length
-      ? list.map((item) => `<li>${item.original}</li>`).join("")
-      : "<li>No ingredients listed.</li>";
-  }
+  list.innerHTML = steps.map((step) => `<li>${step.step}</li>`).join("");
+}
 
-  if (instructions) {
-    const steps = recipe.analyzedInstructions?.[0]?.steps || [];
-    instructions.innerHTML = steps.length
-      ? steps.map((step) => `<li>${step.step}</li>`).join("")
-      : "<li>No instructions provided.</li>";
-  }
+function bindSourceButton(recipe) {
+  const button = document.getElementById("view-original");
+  if (!button) return;
 
-  if (sourceButton) {
-    if (recipe.sourceUrl) {
-      sourceButton.disabled = false;
-      sourceButton.classList.remove("btn-disabled");
-      sourceButton.addEventListener("click", () => window.open(recipe.sourceUrl, "_blank", "noopener"));
-    } else {
-      sourceButton.disabled = true;
-      sourceButton.classList.add("btn-disabled");
-      sourceButton.textContent = "Original recipe unavailable";
-    }
+  if (recipe.sourceUrl) {
+    button.disabled = false;
+    button.classList.remove("btn-disabled");
+    button.textContent = "View original recipe";
+    button.addEventListener("click", () => window.open(recipe.sourceUrl, "_blank", "noopener"));
+  } else {
+    button.disabled = true;
+    button.classList.add("btn-disabled");
+    button.textContent = "Original recipe unavailable";
   }
+}
+
+function difficultyLabel(minutes) {
+  if (!minutes || Number.isNaN(minutes)) return "Easy";
+  if (minutes <= 30) return "Easy";
+  if (minutes <= 45) return "Medium";
+  return "Hard";
+}
+
+function plainText(html) {
+  if (!html) return "";
+  const container = document.createElement("div");
+  container.innerHTML = html;
+  return container.textContent || "";
 }
 
 function showError(message) {
@@ -75,62 +133,4 @@ function showError(message) {
   if (container) {
     container.innerHTML = `<p class="empty-state">${message}</p>`;
   }
-}
-
-async function init() {
-  const recipeId = getRecipeId();
-  if (!recipeId) {
-    showError("Recipe id is missing. Try selecting a recipe again.");
-    return;
-  }
-
-  try {
-    const recipe = await getRecipeDetails(recipeId);
-    writeRecipe(recipe);
-  } catch (error) {
-    console.error(error);
-    showError("Unable to load recipe details right now.");
-  }
-}
-
-document.addEventListener("DOMContentLoaded", init);
-
-document.addEventListener("DOMContentLoaded", () => {
-  const recipeId = new URLSearchParams(window.location.search).get("recipeId");
-  if (!recipeId) {
-    document.getElementById("recipe-details").innerHTML = "<p>Recipe not found.</p>";
-    return;
-  }
-
-  fetchRecipeDetails(recipeId);
-});
-
-async function fetchRecipeDetails(recipeId) {
-  const url = `${BASE_URL}/${recipeId}/information?apiKey=${API_KEY}`;
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`API error ${response.status}`);
-    const recipe = await response.json();
-    renderRecipeDetails(recipe);
-  } catch (error) {
-    document.getElementById("recipe-details").innerHTML = `<p>Error fetching recipe: ${error.message}</p>`;
-  }
-}
-
-function renderRecipeDetails(recipe) {
-  const container = document.getElementById("recipe-details");
-  container.innerHTML = `
-    <h1>${recipe.title}</h1>
-    <img src="${recipe.image}" alt="Image of ${recipe.title}" loading="lazy" />
-    <p><strong>Servings:</strong> ${recipe.servings}</p>
-    <p><strong>Ready in:</strong> ${recipe.readyInMinutes} minutes</p>
-    <h2>Ingredients</h2>
-    <ul>
-      ${recipe.extendedIngredients
-        .map((ingredient) => `<li>${ingredient.original}</li>`)
-        .join("")}
-    </ul>
-    <h2>Instructions</h2>
-    <p>${recipe.instructions || "No instructions available."}</p>
-  `;
 }
