@@ -1,6 +1,6 @@
 import { getRecipeDetails } from "./fetchdata.js";
 
-const PLACEHOLDER_IMAGE = "https://via.placeholder.com/1280x720?text=No+image";
+const PLACEHOLDER_IMAGE = "https://via.placeholder.com/960x540?text=No+image";
 
 // Startar detaljsidan när DOM:en är redo
 document.addEventListener("DOMContentLoaded", initDetailsPage);
@@ -38,10 +38,31 @@ function populateRecipe(recipe) {
 }
 
 function setHeroImage(recipe) {
+  const picture = document.getElementById("recipe-picture");
   const image = document.getElementById("recipe-image");
+  const sources = buildImageSources(recipe.image);
+
   if (image) {
-    image.src = recipe.image || PLACEHOLDER_IMAGE;
+    image.src = sources.large || sources.medium || sources.small || PLACEHOLDER_IMAGE;
     image.alt = recipe.title || "Recipe image";
+  }
+
+  if (picture && image) {
+    picture.querySelectorAll("source").forEach((node) => node.remove());
+
+    if (sources.large) {
+      const source = document.createElement("source");
+      source.srcset = sources.large;
+      source.media = "(min-width: 1024px)";
+      picture.insertBefore(source, image);
+    }
+
+    if (sources.medium) {
+      const source = document.createElement("source");
+      source.srcset = sources.medium;
+      source.media = "(min-width: 640px)";
+      picture.insertBefore(source, image);
+    }
   }
 }
 
@@ -133,4 +154,25 @@ function showError(message) {
   if (container) {
     container.innerHTML = `<p class="empty-state">${message}</p>`;
   }
+}
+
+function buildImageSources(url) {
+  if (!url) {
+    return { small: PLACEHOLDER_IMAGE };
+  }
+
+  const sizePattern = /-(\d+)x(\d+)(\.\w+)$/;
+  const match = url.match(sizePattern);
+  if (!match) {
+    return { large: url };
+  }
+
+  const extension = match[3];
+  const basePath = url.replace(sizePattern, "");
+
+  return {
+    large: `${basePath}-636x393${extension}`,
+    medium: `${basePath}-480x360${extension}`,
+    small: `${basePath}-312x231${extension}`,
+  };
 }

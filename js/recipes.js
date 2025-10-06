@@ -1,6 +1,6 @@
 import { getRecipes } from "./fetchdata.js";
 
-const PLACEHOLDER_IMAGE = "https://via.placeholder.com/400x280?text=No+image";
+const PLACEHOLDER_IMAGE = "https://via.placeholder.com/640x360?text=No+image";
 const DETAILS_PAGE = "recipe-details.html";
 const WIDGET_ID = "recipe-widget";
 const DIET_FILTERS = [
@@ -89,6 +89,27 @@ function renderLayout() {
 
     <div id="recipe-grid" class="recipe-grid" role="list"></div>
   `;
+}
+
+function buildImageSources(url) {
+  if (!url) {
+    return { small: PLACEHOLDER_IMAGE }; // Saknar bild från API
+  }
+
+  const sizePattern = /-(\d+)x(\d+)(\.\w+)$/;
+  const match = url.match(sizePattern);
+  if (!match) {
+    return { small: url };
+  }
+
+  const extension = match[3];
+  const basePath = url.replace(sizePattern, "");
+
+  return {
+    large: `${basePath}-636x393${extension}`,
+    medium: `${basePath}-480x360${extension}`,
+    small: `${basePath}-312x231${extension}`,
+  };
 }
 
 function readIngredients() {
@@ -240,7 +261,8 @@ function renderEmptyState(message) {
 }
 
 function buildCard(recipe) {
-  const image = recipe.image || PLACEHOLDER_IMAGE;
+  const sources = buildImageSources(recipe.image);
+  const image = sources.small || PLACEHOLDER_IMAGE;
   const summary = stripHtml(recipe.summary || "");
   const preview = summary.length > 140 ? `${summary.slice(0, 140).trim()}...` : summary;
   const level = difficultyLabel(recipe.readyInMinutes);
@@ -252,7 +274,11 @@ function buildCard(recipe) {
   return `
     <article class="recipe-card card" data-recipe-id="${recipe.id}" tabindex="0" role="listitem">
       <div class="recipe-card__media">
-        <img src="${image}" alt="Image of ${recipe.title}" loading="lazy" />
+        <picture class="recipe-card__picture">
+          ${sources.large ? `<source srcset="${sources.large}" media="(min-width: 1024px)">` : ""}
+          ${sources.medium ? `<source srcset="${sources.medium}" media="(min-width: 640px)">` : ""}
+          <img src="${image}" alt="Image of ${recipe.title}" loading="lazy" />
+        </picture>
         <span class="recipe-card__badge">${level}</span>
       </div>
       <div class="recipe-card__body">
