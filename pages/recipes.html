@@ -4,49 +4,61 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridge2Fork - Recipe Results</title>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- CSS Files -->
     <link rel="stylesheet" href="../css/global.css" />
   </head>
-  <body class="recipes-page">
-    <header class="site-header">
-      <div class="site-header__inner container">
-        <a class="brand" href="../index.html">
-          <span class="brand__icon">
-            <img src="../images/fork.png" alt="Fridge2Fork logo" />
-          </span>
-          <span class="brand__name">Fridge2Fork</span>
+
+  <body id="recipes-page">
+    <!-- ===== HEADER ===== -->
+    <header id="header">
+      <div class="container header-content">
+        <!-- Logo / Brand -->
+        <a id="logo" href="../index.html">
+          <img src="../images/fork.png" alt="Fridge2Fork logo" />
+          <span>Fridge2Fork</span>
         </a>
-        <nav class="site-nav" aria-label="Primary">
-          <ul class="site-nav__list">
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
+
+        <!-- Navigation Menu -->
+        <nav id="main-nav" aria-label="Main navigation">
+          <ul>
+            <li><a href="../index.html" class="nav-link">Home</a></li>
+            <li><a href="about.html" class="nav-link">About</a></li>
+            <li><a href="contact.html" class="nav-link">Contact</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <main class="container page">
-      <section
-        id="recipe-widget"
-        class="recipe-widget"
-        aria-live="polite"
-      ></section>
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="main-content" class="container">
+      <!-- Recipe Results Section -->
+      <section id="recipes-section" aria-live="polite">
+        <!-- The JavaScript file (recipes.js) will fill this area dynamically -->
+        <h1 class="page-title">Your Recipe Results</h1>
+        <div id="recipe-results"></div>
+      </section>
     </main>
 
-    <footer class="site-footer">
+    <!-- ===== FOOTER ===== -->
+    <footer id="footer">
       <div class="container">
         <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
-        <a href="https://www.flaticon.com/free-icons/fork" title="fork icons"
-          >Fork icons created by Freepik - Flaticon</a
-        >
+        <a href="https://www.flaticon.com/free-icons/fork" title="fork icons">
+          Fork icons created by Freepik - Flaticon
+        </a>
       </div>
     </footer>
+
+    <!-- JavaScript File -->
     <script src="../js/recipes.js" type="module"></script>
   </body>
 </html>

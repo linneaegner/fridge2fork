@@ -4,84 +4,87 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridge2Fork - Turn Ingredients into Recipes</title>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- CSS Files -->
     <link rel="stylesheet" href="css/modern_reset.css" />
     <link rel="stylesheet" href="css/global.css" />
   </head>
-  <body class="home-page">
-    <header class="site-header">
-      <div class="site-header__inner container">
-        <a class="brand" href="index.html">
-          <span class="brand__icon">
-            <img src="images/fork.png" alt="Fridge2Fork logo" />
-          </span>
-          <span class="brand__name">Fridge2Fork</span>
+
+  <body id="home-page">
+    <!-- ===== HEADER ===== -->
+    <header id="header">
+      <div class="container header-content">
+        <!-- Logo / Brand -->
+        <a id="logo" href="index.html">
+          <img src="images/fork.png" alt="Fridge2Fork logo" />
+          <span>Fridge2Fork</span>
         </a>
-        <nav class="site-nav" aria-label="Primary">
-          <ul class="site-nav__list">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="pages/about.html">About</a></li>
-            <li><a href="pages/contact.html">Contact</a></li>
+
+        <!-- Navigation Menu -->
+        <nav id="main-nav" aria-label="Main navigation">
+          <ul>
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="pages/about.html" class="nav-link">About</a></li>
+            <li><a href="pages/contact.html" class="nav-link">Contact</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <main class="home-main">
-      <section class="home-hero container">
-        <!-- <span class="home-hero__icon" aria-hidden="true">🍴</span> -->
-        <h1 class="home-hero__title">Turn Your Fridge Into Delicious Meals</h1>
-        <p class="home-hero__subtitle">
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="main-content">
+      <!-- Hero Section -->
+      <section id="hero" class="container">
+        <h1>Turn Your Fridge Into Delicious Meals</h1>
+        <p>
           Waste less food and find recipes based on the ingredients you already
           have at home.
         </p>
       </section>
 
-      <section class="ingredient-section">
-        <div class="ingredient-card card">
-          <h2 class="ingredient-card__title">What's in your fridge?</h2>
-          <form id="ingredient-form" class="ingredient-form">
-            <label class="ingredient-card__hint" for="ingredients">
-              Enter the ingredients you want to use and we'll suggest recipes that match.
+      <!-- Ingredient Form Section -->
+      <section id="ingredients-section" class="container">
+        <div class="card">
+          <h2>What's in your fridge?</h2>
+
+          <!-- Ingredient Form -->
+          <form id="ingredient-form">
+            <label for="ingredient-input">
+              Enter the ingredients you want to use, and we'll suggest recipes
+              that match.
             </label>
-            <div class="ingredient-input-row">
+
+            <!-- Input Row -->
+            <div class="input-row">
               <input
                 type="text"
-                id="ingredients"
+                id="ingredient-input"
                 name="ingredients"
                 placeholder="e.g., chicken, rice"
               />
-              <button
-                type="button"
-                id="add-ingredient"
-                class="btn btn-outline ingredient-add"
-              >
+              <button type="button" id="add-ingredient-btn" class="btn-outline">
                 Add
               </button>
             </div>
-            <div class="ingredient-chip-row">
-              <div
-                id="ingredient-badges"
-                class="ingredient-badges"
-                aria-live="polite"
-              ></div>
-              <button
-                type="button"
-                id="clear-ingredients"
-                class="ingredient-clear"
-              >
+
+            <!-- Ingredient List Row -->
+            <div class="ingredient-list">
+              <div id="ingredient-tags" aria-live="polite"></div>
+              <button type="button" id="clear-ingredients-btn" class="btn-clear">
                 Clear all
               </button>
             </div>
-            <button
-              type="submit"
-              class="btn btn-solid btn-full ingredient-submit"
-            >
+
+            <!-- Submit Button -->
+            <button type="submit" id="find-recipes-btn" class="btn-solid">
               Find Recipes
             </button>
           </form>
@@ -89,14 +92,17 @@
       </section>
     </main>
 
-    <footer class="site-footer">
+    <!-- ===== FOOTER ===== -->
+    <footer id="footer">
       <div class="container">
         <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
-        <a href="https://www.flaticon.com/free-icons/fork" title="fork icons"
-          >Fork icons created by Freepik - Flaticon</a
-        >
+        <a href="https://www.flaticon.com/free-icons/fork" title="fork icons">
+          Fork icons created by Freepik - Flaticon
+        </a>
       </div>
     </footer>
+
+    <!-- JavaScript File -->
     <script src="js/script.js" type="module"></script>
   </body>
 </html>

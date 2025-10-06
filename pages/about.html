@@ -4,44 +4,54 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridge2Fork - About</title>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- CSS Files -->
     <link rel="stylesheet" href="../css/modern_reset.css" />
     <link rel="stylesheet" href="../css/global.css" />
   </head>
-  <body class="info-page">
-    <header class="site-header">
-      <div class="site-header__inner container">
-        <a class="brand" href="../index.html">
-          <span class="brand__icon">
-            <img src="../images/fork.png" alt="Fridge2Fork logo" />
-          </span>
-          <span class="brand__name">Fridge2Fork</span>
+
+  <body id="about-page">
+    <!-- ===== HEADER ===== -->
+    <header id="header">
+      <div class="container header-content">
+        <!-- Logo / Brand -->
+        <a id="logo" href="../index.html">
+          <img src="../images/fork.png" alt="Fridge2Fork logo" />
+          <span>Fridge2Fork</span>
         </a>
-        <nav class="site-nav" aria-label="Primary">
-          <ul class="site-nav__list">
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
+
+        <!-- Navigation Menu -->
+        <nav id="main-nav" aria-label="Main navigation">
+          <ul>
+            <li><a href="../index.html" class="nav-link">Home</a></li>
+            <li><a href="about.html" class="nav-link active">About</a></li>
+            <li><a href="contact.html" class="nav-link">Contact</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <main class="container page-main">
-      <header class="page-hero">
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="main-content" class="container">
+      <!-- Hero Section -->
+      <section id="about-hero">
         <h1>About Fridge2Fork</h1>
         <p>
           Transforming everyday ingredients into meals while reducing food
           waste.
         </p>
-      </header>
+      </section>
 
-      <section class="page-section">
+      <!-- Mission Section -->
+      <section id="mission-section">
         <h2>Our Mission</h2>
         <p>
           Fridge2Fork was created to address two critical challenges: food waste
@@ -54,15 +64,16 @@
           Spoonacular's extensive database, providing personalized suggestions
           based on the ingredients you already have at home. Whether you're a
           student on a budget, a busy parent, or someone who simply wants to
-          make the most of their groceries, Fridge2Fork is here to help you
-          reduce waste and discover delicious meals.
+          make the most of their groceries, Fridge2Fork helps you reduce waste
+          and discover delicious meals.
         </p>
       </section>
 
-      <section class="page-section">
+      <!-- Values Section -->
+      <section id="values-section">
         <h2>Our Values</h2>
         <div class="values-grid">
-          <article class="value-card card">
+          <article class="card value-card">
             <h3>Sustainability</h3>
             <p>
               We're committed to reducing food waste and promoting sustainable
@@ -70,15 +81,16 @@
               environment.
             </p>
           </article>
-          <article class="value-card card">
+
+          <article class="card value-card">
             <h3>Simplicity</h3>
             <p>
               We believe cooking should be accessible to everyone. Our recipes
-              are designed to be clear, straightforward, and achievable for
-              cooks of all skill levels.
+              are clear, straightforward, and achievable for all skill levels.
             </p>
           </article>
-          <article class="value-card card">
+
+          <article class="card value-card">
             <h3>Community</h3>
             <p>
               We're building a community of conscious cooks who share our
@@ -86,40 +98,42 @@
               meals.
             </p>
           </article>
-          <article class="value-card card">
+
+          <article class="card value-card">
             <h3>Quality</h3>
             <p>
-              Every recipe is crafted with care, ensuring you get delicious
-              results that make the most of your ingredients without
-              compromising on taste.
+              Every recipe is crafted with care to ensure you get great results
+              that make the most of your ingredients without compromising taste.
             </p>
           </article>
         </div>
       </section>
 
-      <section class="page-section">
+      <!-- How It Works Section -->
+      <section id="how-it-works">
         <h2>How It Works</h2>
         <ol class="steps-list">
           <li>
-            <strong>Enter your ingredients:</strong> Simply type in the
-            ingredients you have available.
+            <strong>Enter your ingredients:</strong> Type in what you have at
+            home.
           </li>
           <li>
-            <strong>Get recipe suggestions:</strong> Our system searches
-            Spoonacular's database for recipes that match your ingredients.
+            <strong>Get recipe suggestions:</strong> We search Spoonacular's
+            database for matches.
           </li>
           <li>
-            <strong>Filter by preferences:</strong> Customize results based on
-            dietary restrictions.
+            <strong>Filter by preferences:</strong> Choose based on dietary or
+            ingredient preferences.
           </li>
           <li>
-            <strong>Start cooking:</strong> Follow step-by-step instructions to
-            create delicious meals.
+            <strong>Start cooking:</strong> Follow clear, step-by-step
+            instructions.
           </li>
         </ol>
       </section>
 
-      <section class="page-section">
+      <!-- Footer Note Section -->
+      <section id="credits">
         <p class="page-note">
           Developed as part of the Dynamiska Webbapplikationer course at Uppsala
           University – Campus Gotland.
@@ -127,12 +141,13 @@
       </section>
     </main>
 
-    <footer class="site-footer">
+    <!-- ===== FOOTER ===== -->
+    <footer id="footer">
       <div class="container">
         <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
-        <a href="https://www.flaticon.com/free-icons/fork" title="fork icons"
-          >Fork icons created by Freepik - Flaticon</a
-        >
+        <a href="https://www.flaticon.com/free-icons/fork" title="fork icons">
+          Fork icons created by Freepik - Flaticon
+        </a>
       </div>
     </footer>
   </body>

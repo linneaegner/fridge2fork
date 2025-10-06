@@ -1,125 +1,97 @@
-// Hanterar ingredienslistan på startsidan på ett enkelt sätt
+// ---------------------------
+// 🍳 HOMEPAGE SCRIPT
+// Handles the ingredient list form on the homepage
+// ---------------------------
+
 document.addEventListener("DOMContentLoaded", () => {
-  const elements = {
-    form: document.getElementById("ingredient-form"),
-    input: document.getElementById("ingredients"),
-    add: document.getElementById("add-ingredient"),
-    clear: document.getElementById("clear-ingredients"),
-    badges: document.getElementById("ingredient-badges"),
-  };
+    // Store references to all the important HTML elements
+    const form = document.getElementById("ingredient-form");
+    const input = document.getElementById("ingredient-input");
+    const addBtn = document.getElementById("add-ingredient-btn");
+    const clearBtn = document.getElementById("clear-ingredients-btn");
+    const tagContainer = document.getElementById("ingredient-tags");
 
-  if (!elements.form || !elements.input || !elements.add || !elements.badges) {
-    console.warn("Hittade inte formuläret – avbryter initiering");
-    return;
-  }
+    if (!form || !input || !addBtn || !tagContainer) return;
 
-  const state = {
-    ingredients: readStoredIngredients(),
-  };
+    // Load ingredients from local storage (if any)
+    let ingredients = loadIngredients();
+    renderTags();
 
-  renderBadges(state, elements);
-  elements.add.addEventListener("click", () => addIngredient(state, elements));
-  elements.badges.addEventListener("click", (event) => handleBadgeClick(event, state, elements));
-  elements.input.addEventListener("keydown", (event) => handleEnterKey(event, state, elements));
-  elements.form.addEventListener("submit", (event) => handleSubmit(event, state, elements));
+    // Add ingredient when button clicked
+    addBtn.addEventListener("click", addIngredient);
 
-  if (elements.clear) {
-    elements.clear.addEventListener("click", () => clearIngredients(state, elements));
-  }
-});
+    // Add ingredient when pressing Enter
+    input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            addIngredient();
+        }
+    });
 
-function readStoredIngredients() {
-  try {
-    const stored = localStorage.getItem("ingredients");
-    const list = stored ? JSON.parse(stored) : [];
-    return Array.isArray(list) ? list : [];
-  } catch (error) {
-    console.warn("Kunde inte läsa ingredienser från localStorage", error);
-    return [];
-  }
-}
+    // Remove an ingredient when clicking its X button
+    tagContainer.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-remove]");
+        if (!button) return;
+        ingredients = ingredients.filter((item) => item !== button.dataset.remove);
+        saveIngredients();
+        renderTags();
+    });
 
-function saveIngredients(state) {
-  localStorage.setItem("ingredients", JSON.stringify(state.ingredients));
-}
+    // Clear all ingredients
+    clearBtn.addEventListener("click", () => {
+        ingredients = [];
+        saveIngredients();
+        renderTags();
+    });
 
-function renderBadges(state, elements) {
-  if (!state.ingredients.length) {
-    elements.badges.innerHTML = '<p class="ingredient-empty">No ingredients yet. Add one to get started!</p>';
-    return;
-  }
+    // Handle form submission (go to recipes page)
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!ingredients.length) return;
+        saveIngredients();
+        window.location.href = "pages/recipes.html";
+    });
 
-  elements.badges.innerHTML = state.ingredients
-    .map(
-      (name) => `
-        <span class="ingredient-badge" data-ingredient="${name}">
+    // --- Helper functions ---
+
+    function addIngredient() {
+        const value = input.value.trim().toLowerCase();
+        if (!value || ingredients.includes(value)) return;
+
+        ingredients.push(value);
+        input.value = "";
+        saveIngredients();
+        renderTags();
+    }
+
+    function renderTags() {
+        if (!ingredients.length) {
+            tagContainer.innerHTML =
+                '<p class="ingredient-empty">No ingredients yet. Add one to start!</p>';
+            return;
+        }
+
+        tagContainer.innerHTML = ingredients
+            .map(
+                (name) => `
+        <span class="ingredient-badge">
           ${name}
-          <button type="button" aria-label="Remove ${name}" data-remove="${name}">×</button>
+          <button type="button" data-remove="${name}">×</button>
         </span>
       `
-    )
-    .join("");
-}
+            )
+            .join("");
+    }
 
-function addIngredient(state, elements) {
-  const value = elements.input.value.trim();
-  if (!value) return;
+    function loadIngredients() {
+        try {
+            return JSON.parse(localStorage.getItem("ingredients")) || [];
+        } catch {
+            return [];
+        }
+    }
 
-  const exists = state.ingredients.some((name) => normalizeValue(name) === normalizeValue(value));
-  if (exists) {
-    console.log("ℹ️ Ingrediensen fanns redan", value);
-    elements.input.value = "";
-    return;
-  }
-
-  state.ingredients.push(value);
-  console.log("➕ Ingrediens tillagd", value);
-  elements.input.value = "";
-  renderBadges(state, elements);
-  saveIngredients(state);
-}
-
-function clearIngredients(state, elements) {
-  state.ingredients = [];
-  console.log("🧹 Alla ingredienser borttagna");
-  renderBadges(state, elements);
-  saveIngredients(state);
-  elements.input.focus();
-}
-
-function removeIngredient(name, state, elements) {
-  state.ingredients = state.ingredients.filter((item) => item !== name);
-  console.log("➖ Ingrediens borttagen", name);
-  renderBadges(state, elements);
-  saveIngredients(state);
-}
-
-function handleBadgeClick(event, state, elements) {
-  const button = event.target.closest("button[data-remove]");
-  if (!button) return;
-  removeIngredient(button.dataset.remove, state, elements);
-}
-
-function handleEnterKey(event, state, elements) {
-  if (event.key !== "Enter") return;
-  event.preventDefault();
-  addIngredient(state, elements);
-}
-
-function handleSubmit(event, state, elements) {
-  event.preventDefault();
-  addIngredient(state, elements);
-
-  if (!state.ingredients.length) {
-    elements.input.focus();
-    return;
-  }
-
-  saveIngredients(state);
-  console.log("🚀 Navigerar till receptsidan", state.ingredients);
-  window.location.href = "pages/recipes.html";
-}
-
-function normalizeValue(text) {
-  return text.trim().toLowerCase();
-}
+    function saveIngredients() {
+        localStorage.setItem("ingredients", JSON.stringify(ingredients));
+    }
+});

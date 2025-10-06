@@ -1,53 +1,38 @@
-const API_KEY = "32fa164a90a4441385aec42d7c8fe44d";
-const API_BASE = "https://api.spoonacular.com";
-const DEFAULT_RESULT_COUNT = 24;
+// ---------------------------
+// 🌐 FETCH DATA MODULE
+// Handles all communication with Spoonacular API
+// ---------------------------
 
-// Hjälpare som sköter själva fetch-anropet
+const API_KEY = "YOUR_API_KEY_HERE"; // replace with your key
+const BASE_URL = "https://api.spoonacular.com";
+
+// Simple helper to fetch JSON safely
 async function fetchJson(url) {
   const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Kunde inte hämta data (status ${response.status})`);
-  }
+  if (!response.ok) throw new Error(`Error ${response.status}`);
   return response.json();
 }
 
-// Hämtar en lista med recept baserat på ingredienser och kostfilter
+// Get a list of recipes based on ingredients
 export async function getRecipes({ ingredients = [], diets = [] } = {}) {
   const params = new URLSearchParams({
     apiKey: API_KEY,
-    number: String(DEFAULT_RESULT_COUNT),
+    number: "24",
     addRecipeInformation: "true",
     instructionsRequired: "true",
   });
 
-  if (ingredients.length) {
-    params.set("includeIngredients", ingredients.join(","));
-  }
+  if (ingredients.length) params.set("includeIngredients", ingredients.join(","));
+  if (diets.length) params.set("diet", diets.join(","));
 
-  if (diets.length) {
-    params.set("diet", diets.join(","));
-  }
-
-  console.log("🔎 Hämtar receptlista", { ingredients, diets });
-
-  const url = `${API_BASE}/recipes/complexSearch?${params.toString()}`;
+  const url = `${BASE_URL}/recipes/complexSearch?${params.toString()}`;
   const data = await fetchJson(url);
-  return Array.isArray(data.results) ? data.results : [];
+  return data.results || [];
 }
 
-// Hämtar detaljer för ett specifikt recept-id
-export async function getRecipeDetails(recipeId) {
-  if (!recipeId) {
-    throw new Error("Saknar recept-id");
-  }
-
-  const params = new URLSearchParams({
-    apiKey: API_KEY,
-    includeNutrition: "false",
-  });
-
-  console.log("📄 Hämtar receptdetalj", { recipeId });
-
-  const url = `${API_BASE}/recipes/${recipeId}/information?${params.toString()}`;
+// Get details for a single recipe
+export async function getRecipeDetails(id) {
+  if (!id) throw new Error("Missing recipe ID");
+  const url = `${BASE_URL}/recipes/${id}/information?apiKey=${API_KEY}`;
   return fetchJson(url);
 }

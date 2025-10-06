@@ -4,85 +4,113 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridge2Fork - Recipe Details</title>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- CSS Files -->
     <link rel="stylesheet" href="../css/modern_reset.css" />
     <link rel="stylesheet" href="../css/global.css" />
   </head>
-  <body class="details-page">
-    <header class="site-header">
-      <div class="site-header__inner container">
-        <a class="brand" href="../index.html">
-          <span class="brand__icon">
-            <img src="../images/fork.png" alt="Fridge2Fork logo" />
-          </span>
-          <span class="brand__name">Fridge2Fork</span>
+
+  <body id="recipe-details-page">
+    <!-- ===== HEADER ===== -->
+    <header id="header">
+      <div class="container header-content">
+        <!-- Logo / Brand -->
+        <a id="logo" href="../index.html">
+          <img src="../images/fork.png" alt="Fridge2Fork logo" />
+          <span>Fridge2Fork</span>
         </a>
-        <nav class="site-nav" aria-label="Primary">
-          <ul class="site-nav__list">
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
+
+        <!-- Navigation Menu -->
+        <nav id="main-nav" aria-label="Main navigation">
+          <ul>
+            <li><a href="../index.html" class="nav-link">Home</a></li>
+            <li><a href="about.html" class="nav-link">About</a></li>
+            <li><a href="contact.html" class="nav-link">Contact</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <main class="container page">
-      <a class="back-link" href="recipes.html">&larr; Back to recipes</a>
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="main-content" class="container">
+      <!-- Back Link -->
+      <a id="back-to-recipes" href="recipes.html" class="back-link">
+        ← Back to recipes
+      </a>
 
-      <article class="recipe-details card">
-        <div class="recipe-details__media">
+      <!-- Recipe Details Card -->
+      <article id="recipe-details" class="card">
+        <div class="recipe-media">
           <img
             id="recipe-image"
             src="https://via.placeholder.com/640x360?text=No+image"
             alt="Recipe photo"
           />
         </div>
-        <div class="recipe-details__body">
-          <h1 id="recipe-title">Recipe title</h1>
-          <p id="recipe-summary">A short summary of the recipe will appear here.</p>
-          <dl class="recipe-details__meta">
+
+        <div class="recipe-info">
+          <h1 id="recipe-title">Recipe Title</h1>
+          <p id="recipe-summary">
+            A short summary of the recipe will appear here.
+          </p>
+
+          <!-- Recipe Meta Info -->
+          <dl class="recipe-meta">
             <div>
-              <dt>Time</dt>
+              <dt>Time:</dt>
               <dd id="recipe-time">30 min</dd>
             </div>
             <div>
-              <dt>Servings</dt>
+              <dt>Servings:</dt>
               <dd id="recipe-servings">4 servings</dd>
             </div>
           </dl>
-          <p id="recipe-tags" class="recipe-details__tags"></p>
-          <button id="view-original" class="btn btn-solid" type="button">
-            View original recipe
+
+          <!-- Recipe Tags -->
+          <p id="recipe-tags" class="recipe-tags"></p>
+
+          <!-- View Original Button -->
+          <button id="view-original-btn" class="btn-solid" type="button">
+            View Original Recipe
           </button>
         </div>
       </article>
 
-      <section class="recipe-lists">
+      <!-- Ingredients and Instructions -->
+      <section id="recipe-content" class="recipe-lists">
+        <!-- Ingredients List -->
         <div class="card">
           <h2>Ingredients</h2>
-          <ul id="ingredients-list" class="recipe-list"></ul>
+          <ul id="ingredients-list"></ul>
         </div>
+
+        <!-- Instructions List -->
         <div class="card">
           <h2>Instructions</h2>
-          <ol id="instructions-list" class="recipe-list recipe-list--ordered"></ol>
+          <ol id="instructions-list"></ol>
         </div>
       </section>
     </main>
 
-    <footer class="site-footer">
+    <!-- ===== FOOTER ===== -->
+    <footer id="footer">
       <div class="container">
         <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
-        <a href="https://www.flaticon.com/free-icons/fork" title="fork icons"
-          >Fork icons created by Freepik - Flaticon</a
-        >
+        <a href="https://www.flaticon.com/free-icons/fork" title="fork icons">
+          Fork icons created by Freepik - Flaticon
+        </a>
       </div>
     </footer>
+
+    <!-- JavaScript File -->
     <script src="../js/recipe-details.js" type="module"></script>
   </body>
 </html>
