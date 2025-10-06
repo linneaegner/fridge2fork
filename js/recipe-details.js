@@ -1,5 +1,5 @@
 // ---------------------------------------------------------
-// 📄 recipe-details.js – Handles rendering of a single recipe
+// recipe-details.js – Visar ett enskilt recept med ingredienser och steg
 // ---------------------------------------------------------
 
 import { getRecipeDetails } from "./fetchdata.js";
@@ -8,37 +8,42 @@ import { getRecipeDetails } from "./fetchdata.js";
 // START
 // ---------------------------------------------------------
 export async function startRecipeDetailsPage() {
-  console.log("📄 Initializing recipe details page...");
+  console.log("📄 Startar logiken för receptdetaljer...");
 
-  // 1️⃣ Grab the recipe ID from the URL (e.g. ?recipeId=12345)
+  // 1️⃣ Hämta recept-id från adressfältet (t.ex. ?recipeId=12345)
   const recipeId = new URLSearchParams(window.location.search).get("recipeId");
 
   if (!recipeId) {
-    console.warn("⚠️ No recipeId found in the URL.");
-    showMessage("We could not find a recipe. Please return to the recipes page.");
+    console.warn("⚠️ Hittade inget recipeId i URL:en.");
+    showMessage("Vi hittade inget recept. Gå tillbaka till föregående sida.");
     return;
   }
 
   try {
-    // 2️⃣ Fetch recipe details from the API
+    // 2️⃣ Hämta detaljerad information om receptet från API:et
     const recipe = await getRecipeDetails(recipeId);
-    console.log("✅ Recipe data loaded:", recipe.title);
 
-    // 3️⃣ Render the recipe on the page
+    if (!recipe) {
+      showMessage("Vi kunde inte läsa in det här receptet just nu.");
+      return;
+    }
+
+    console.log("✅ Receptdata inläst:", recipe.title);
+
+    // 3️⃣ Visa receptets information på sidan
     renderRecipe(recipe);
   } catch (error) {
-    console.error("❌ Could not load the recipe:", error);
-    showMessage("We could not load this recipe right now. Please try again later.");
+    console.error("❌ Kunde inte ladda receptet:", error);
+    showMessage("Vi kunde inte ladda receptet just nu. Försök igen senare.");
   }
 }
 
 // ---------------------------------------------------------
-// FUNCTIONS
+// FUNKTIONER
 // ---------------------------------------------------------
 
-// Render the full recipe on the page
+// Skriver ut hela receptet i rätt HTML-element
 function renderRecipe(recipe) {
-  // Grab all elements from the DOM
   const image = document.querySelector("#recipe-image");
   const title = document.querySelector("#recipe-title");
   const summary = document.querySelector("#recipe-summary");
@@ -47,44 +52,44 @@ function renderRecipe(recipe) {
   const tags = document.querySelector("#recipe-tags");
   const button = document.querySelector("#view-original-btn");
 
-  // Verify that every element exists
+  // Kontrollera att alla viktiga element finns innan vi försöker använda dem.
   if (!image || !title || !summary || !time || !servings || !tags) {
-    console.warn("⚠️ Missing elements required to render the recipe.");
+    console.warn("⚠️ Hittade inte alla element som behövs för att visa receptet.");
     return;
   }
 
-  // --- Populate primary information ---
-  image.src = recipe.image || "https://via.placeholder.com/640x360?text=No+image";
-  image.alt = recipe.title || "Recipe image";
-  title.textContent = recipe.title || "Unknown recipe";
-  summary.textContent = plainText(recipe.summary) || "No description available.";
-  time.textContent = recipe.readyInMinutes ? `${recipe.readyInMinutes} min` : "Unknown";
-  servings.textContent = recipe.servings ? `${recipe.servings} servings` : "Varies";
+  // --- Grundläggande information ---
+  image.src = recipe.image || "https://via.placeholder.com/640x360?text=Ingen+bild";
+  image.alt = recipe.title || "Bild på recept";
+  title.textContent = recipe.title || "Okänt recept";
+  summary.textContent = plainText(recipe.summary) || "Ingen beskrivning tillgänglig.";
+  time.textContent = recipe.readyInMinutes ? `${recipe.readyInMinutes} minuter` : "Okänd tid";
+  servings.textContent = recipe.servings ? `${recipe.servings} portioner` : "Varierar";
 
-  // --- Show difficulty and diet info ---
-  const difficulty = getDifficulty(recipe.readyInMinutes);
-  const diets = recipe.diets?.length ? recipe.diets.join(", ") : "n/a";
-  tags.textContent = `Difficulty: ${difficulty} • Diet: ${diets}`;
+  // --- Svårighetsgrad och kostinfo ---
+  const difficulty = translateDifficulty(getDifficulty(recipe.readyInMinutes));
+  const diets = recipe.diets?.length ? recipe.diets.join(", ") : "saknas"; // API:t är på engelska
+  tags.textContent = `Svårighet: ${difficulty} • Kost: ${diets}`;
 
-  // --- Render ingredients ---
+  // --- Ingredienser ---
   renderList(
     "ingredients-list",
     recipe.extendedIngredients?.map((item) => item.original) || [],
-    "No ingredients available."
+    "Inga ingredienser hittades."
   );
 
-  // --- Render instructions ---
+  // --- Tillagningssteg ---
   renderList(
     "instructions-list",
     recipe.analyzedInstructions?.[0]?.steps?.map((step) => step.step) || [],
-    "No instructions available."
+    "Inga steg hittades."
   );
 
-  // --- Handle the "View Original Recipe" button ---
+  // --- Länk till originalreceptet ---
   setupSourceButton(button, recipe.sourceUrl);
 }
 
-// Render a list (ingredients or instructions)
+// Skriver ut en lista (<ul>) med text, eller ett fallback-meddelande
 function renderList(id, items, emptyMessage) {
   const list = document.getElementById(id);
   if (!list) return;
@@ -94,34 +99,35 @@ function renderList(id, items, emptyMessage) {
     return;
   }
 
-  // Create an <li> for every entry
+  // Skapa ett <li>-element för varje rad och slå ihop till en sträng
   list.innerHTML = items.map((text) => `<li>${text}</li>`).join("");
 }
 
-// Manage the button linking to the original recipe
+// Hanterar knappen som öppnar originalreceptet i ny flik
 function setupSourceButton(button, url) {
   if (!button) return;
 
   if (url) {
     button.disabled = false;
+    button.textContent = "Visa originalrecept";
     button.addEventListener("click", () => {
-      console.log("🔗 Opening original recipe:", url);
+      console.log("🔗 Öppnar originalrecept:", url);
       window.open(url, "_blank", "noopener");
     });
   } else {
     button.disabled = true;
-    button.textContent = "Original recipe unavailable";
+    button.textContent = "Originalrecept saknas";
   }
 }
 
-// Remove HTML tags to show plain text
+// Tar bort HTML-taggar från API:et så vi bara visar ren text
 function plainText(html) {
   const div = document.createElement("div");
   div.innerHTML = html || "";
   return div.textContent || "";
 }
 
-// Determine difficulty based on cooking time
+// Omvandla tid i minuter till en enkel svårighetsnivå
 function getDifficulty(minutes) {
   if (!minutes) return "Easy";
   if (minutes <= 30) return "Easy";
@@ -129,7 +135,21 @@ function getDifficulty(minutes) {
   return "Hard";
 }
 
-// Display a message in the main section (used for errors)
+// Översätt API:ets engelska nivåer till svensk text
+function translateDifficulty(value) {
+  switch (value) {
+    case "Easy":
+      return "Lätt";
+    case "Medium":
+      return "Medel";
+    case "Hard":
+      return "Svår";
+    default:
+      return value;
+  }
+}
+
+// Visar ett meddelande mitt på sidan (främst vid fel)
 function showMessage(message) {
   const main = document.querySelector("main.container");
   if (!main) return;

@@ -1,53 +1,49 @@
 // ---------------------------------------------------------
-// 🍳 fetchdata.js – Fetches data from the Spoonacular API
+// fetchdata.js – Allt som har med API-anrop mot Spoonacular att göra
 // ---------------------------------------------------------
 
-// Your API key (replace with your own if needed)
+// OBS! API-nyckeln bör helst ligga i en miljövariabel i ett riktigt projekt.
 const API_KEY = "1663bb2ddfbf4b00891cffe70d26f9ed";
 const BASE_URL = "https://api.spoonacular.com";
 
 // ---------------------------------------------------------
-// 📦 Helper – Fetch JSON data from a URL
+// Hjälpfunktion – hämtar JSON-data från en URL
 // ---------------------------------------------------------
 async function fetchJson(url) {
-  console.log("🌐 Fetching data from:", url);
+  console.log("🌐 Hämtar data från:", url);
 
   try {
     const response = await fetch(url);
 
     if (!response.ok) {
-      // If the server responds with a non 200–299 status
-      throw new Error(`Could not fetch data. Status code: ${response.status}`);
+      // Servern svarade med ett fel (t.ex. 401, 404, 500)
+      throw new Error(`Kunde inte hämta data. Statuskod: ${response.status}`);
     }
 
-    // Return the JSON payload when everything succeeds
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
-    console.error("❌ Error when fetching data:", error);
-    throw error; // Re-throw the error for the caller to handle
+    console.error("❌ Fel uppstod vid hämtning av data:", error);
+    throw error; // Skicka vidare felet så att anroparen kan hantera det
   }
 }
 
 // ---------------------------------------------------------
-// 🥕 Fetch a recipe list filtered by ingredients and diet
+// Hämtar en lista med recept utifrån ingredienser och kostkrav
 // ---------------------------------------------------------
 export async function getRecipes({ ingredients = [], diets = [] } = {}) {
-  console.log("📋 Fetching recipes from the API...", { ingredients, diets });
+  console.log("📋 Hämtar recept från API:et...", { ingredients, diets });
 
   const params = new URLSearchParams({
     apiKey: API_KEY,
-    number: "24", // how many recipes to request
+    number: "24", // hur många recept vi vill ha tillbaka
     addRecipeInformation: "true",
     instructionsRequired: "true",
   });
 
-  // Include selected ingredients
   if (ingredients.length > 0) {
     params.set("includeIngredients", ingredients.join(","));
   }
 
-  // Include selected diets (e.g. vegan, gluten free)
   if (diets.length > 0) {
     params.set("diet", diets.join(","));
   }
@@ -56,20 +52,20 @@ export async function getRecipes({ ingredients = [], diets = [] } = {}) {
 
   try {
     const data = await fetchJson(url);
-    console.log(`✅ Found ${data.results?.length || 0} recipes`);
+    console.log(`✅ Hittade ${data.results?.length || 0} recept.`);
     return data.results || [];
   } catch (error) {
-    console.error("⚠️ Could not fetch the recipe list:", error);
-    return []; // Return an empty list instead of crashing
+    console.error("⚠️ Kunde inte hämta listan av recept:", error);
+    return []; // Returnera tom lista så att sidan fortfarande kan visas
   }
 }
 
 // ---------------------------------------------------------
-// 📖 Fetch recipe details for a specific recipe
+// Hämtar detaljerad information för ett specifikt recept
 // ---------------------------------------------------------
 export async function getRecipeDetails(id) {
   if (!id) {
-    console.warn("⚠️ Missing recipe ID when fetching details.");
+    console.warn("⚠️ Försökte hämta receptdetaljer utan att ange id.");
     return null;
   }
 
@@ -77,10 +73,10 @@ export async function getRecipeDetails(id) {
 
   try {
     const data = await fetchJson(url);
-    console.log("📄 Retrieved recipe details for:", data.title);
+    console.log("📄 Hämtade detaljer för recept:", data.title);
     return data;
   } catch (error) {
-    console.error("❌ Could not fetch recipe details:", error);
+    console.error("❌ Kunde inte hämta receptdetaljer:", error);
     return null;
   }
 }
