@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridge2Fork - Recipe Details</title>
 
-    <!-- Google Fonts -->
+    <!-- Laddar typsnitt från Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,20 +13,22 @@
       rel="stylesheet"
     />
 
-    <!-- CSS -->
+    <!-- Globala stilmallar -->
     <link rel="stylesheet" href="../css/modern_reset.css" />
     <link rel="stylesheet" href="../css/global.css" />
   </head>
 
   <body id="recipe-details-page">
-    <!-- ===== HEADER ===== -->
+    <!-- Webbplatsens toppsektion -->
     <header id="header">
       <div class="container header-content">
+        <!-- Logotyp och varumärke -->
         <a id="logo" href="../index.html">
           <img src="../images/fork.png" alt="Fridge2Fork logo" />
           <span>Fridge2Fork</span>
         </a>
 
+        <!-- Huvudmeny -->
         <nav id="main-nav" aria-label="Main navigation">
           <ul>
             <li><a href="../index.html" class="nav-link">Home</a></li>
@@ -37,16 +39,16 @@
       </div>
     </header>
 
-    <!-- ===== MAIN CONTENT ===== -->
+    <!-- Sidans huvudinnehåll -->
     <main id="main-content" class="container">
       <a id="back-to-recipes" href="recipes.html" class="back-link">
         ← Back to recipes
       </a>
 
-      <!-- Recipe Details -->
+      <!-- Detaljer för valt recept -->
       <article id="recipe-details" class="card">
         <div class="recipe-media">
-          <!-- Bild fylls i av JS -->
+          <!-- Bild fylls i av JavaScript -->
           <img
             id="recipe-image"
             src="https://via.placeholder.com/640x360?text=Loading..."
@@ -55,11 +57,11 @@
         </div>
 
         <div class="recipe-info">
-          <!-- Titel och sammanfattning fylls av JS -->
+          <!-- Titel och sammanfattning fylls i av JavaScript -->
           <h1 id="recipe-title"></h1>
           <p id="recipe-summary"></p>
 
-          <!-- Meta-info -->
+          <!-- Metadata om receptet -->
           <dl class="recipe-meta">
             <div>
               <dt>Time:</dt>
@@ -71,17 +73,17 @@
             </div>
           </dl>
 
-          <!-- Diet och svårighet -->
+          <!-- Visar dietpreferenser och svårighet -->
           <p id="recipe-tags" class="recipe-tags"></p>
 
-          <!-- Länk till originalrecept -->
+          <!-- Knapp för att öppna originalreceptet -->
           <button id="view-original-btn" class="btn-solid" type="button">
             View Original Recipe
           </button>
         </div>
       </article>
 
-      <!-- Ingredients & Instructions -->
+      <!-- Ingredienslista och instruktioner -->
       <section id="recipe-content" class="recipe-lists">
         <div class="card">
           <h2>Ingredients</h2>
@@ -95,7 +97,7 @@
       </section>
     </main>
 
-    <!-- ===== FOOTER ===== -->
+    <!-- Sidfot med upphovsrätt -->
     <footer id="footer">
       <div class="container">
         <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
@@ -105,7 +107,7 @@
       </div>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- Länkar in huvudskriptet -->
     <script type="module" src="../js/main.js"></script>
   </body>
 </html>

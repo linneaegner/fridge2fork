@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridge2Fork - Turn Ingredients into Recipes</title>
 
-    <!-- Google Fonts -->
+    <!-- Laddar typsnitt från Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,22 +13,22 @@
       rel="stylesheet"
     />
 
-    <!-- CSS Files -->
+    <!-- Globala stilmallar -->
     <link rel="stylesheet" href="css/modern_reset.css" />
     <link rel="stylesheet" href="css/global.css" />
   </head>
 
   <body id="home-page">
-    <!-- ===== HEADER ===== -->
+    <!-- Webbplatsens toppsektion -->
     <header id="header">
       <div class="container header-content">
-        <!-- Logo / Brand -->
+        <!-- Logotyp och varumärke -->
         <a id="logo" href="index.html">
           <img src="images/fork.png" alt="Fridge2Fork logo" />
           <span>Fridge2Fork</span>
         </a>
 
-        <!-- Navigation Menu -->
+        <!-- Huvudmeny -->
         <nav id="main-nav" aria-label="Main navigation">
           <ul>
             <li><a href="index.html" class="nav-link">Home</a></li>
@@ -39,9 +39,9 @@
       </div>
     </header>
 
-    <!-- ===== MAIN CONTENT ===== -->
+    <!-- Sidans huvudinnehåll -->
     <main id="main-content">
-      <!-- Hero Section -->
+      <!-- Introsektion med huvudbudskap -->
       <section id="hero" class="container">
         <h1>Turn Your Fridge Into Delicious Meals</h1>
         <p>
@@ -50,32 +50,32 @@
         </p>
       </section>
 
-      <!-- Ingredient Form Section -->
+      <!-- Formulär för ingredienser -->
       <section id="ingredients-section" class="container">
         <div class="card">
           <h2>What's in your fridge?</h2>
 
-          <!-- Ingredient Form -->
+          <!-- Formulär där användaren matar in ingredienser -->
           <form id="ingredient-form">
             <label for="ingredient-input">
               Enter the ingredients you want to use, and we'll suggest recipes
               that match.
             </label>
 
-            <!-- Input Row -->
+            <!-- Fält för att lägga till ingredienser -->
             <div class="input-row">
               <input
                 type="text"
                 id="ingredient-input"
                 name="ingredients"
-                placeholder="e.g., chicken, rice"
+                placeholder="e.g., chicken, pasta, tomato"
               />
               <button type="button" id="add-ingredient-btn" class="btn-outline">
                 Add
               </button>
             </div>
 
-            <!-- Ingredient List Row -->
+            <!-- Lista med valda ingredienser -->
             <div class="ingredient-list">
               <div id="ingredient-tags"></div>
               <button type="button" id="clear-ingredients-btn" class="btn-clear">
@@ -83,7 +83,7 @@
               </button>
             </div>
 
-            <!-- Submit Button -->
+            <!-- Knapp för att söka recept -->
             <button type="submit" id="find-recipes-btn" class="btn-solid">
               Find Recipes
             </button>
@@ -92,7 +92,7 @@
       </section>
     </main>
 
-    <!-- ===== FOOTER ===== -->
+    <!-- Sidfot med upphovsrätt -->
     <footer id="footer">
       <div class="container">
         <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
@@ -102,7 +102,7 @@
       </div>
     </footer>
 
-    <!-- JavaScript File -->
+    <!-- Länkar in huvudskriptet -->
     <script type="module" src="js/main.js"></script>
   </body>
 </html>
