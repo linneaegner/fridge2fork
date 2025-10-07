@@ -80,7 +80,6 @@ async function loadRecipes(ingredients) {
 // Här byggs hela receptsidan upp dynamiskt med rubrik, filter och tom grid.
 function renderLayout(ingredients) {
   recipeResults.innerHTML = `
-    <a href="../index.html" class="back-link">← Back</a>
     <h1>Recipes based on: ${ingredients.join(", ") || "no ingredients selected"}</h1>
 
     <section id="filter-section" class="card">
