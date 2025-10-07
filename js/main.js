@@ -43,6 +43,7 @@ function init() {
   // Hämta värdet på "id"-attributet från body
   // (Exempel: <body id="home-page"> eller <body id="recipes-page">)
   const pageId = body.id;
+  console.info("[Main] Initierar sida", pageId || "okänd");
 
   // ---------------------------------------------------------
   // 🏠 STARTSIDA

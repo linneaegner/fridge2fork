@@ -29,20 +29,30 @@ export async function startRecipeDetailsPage() {
   }
 
   try {
+    console.groupCollapsed(`📋 UI:startRecipeDetailsPage (${recipeId})`);
     // 2️⃣ Hämta detaljerad information om receptet från API:et
     const recipe = await getRecipeDetails(recipeId);
 
     // Om inget recept hittades – logga och avbryt
     if (!recipe) {
       console.warn("⚠️ Recipe data could not be loaded from the API.");
+      console.groupEnd();
       return;
     }
+
+    console.info("[RecipeDetails] Renderar recept", {
+      id: recipe.id,
+      title: recipe.title,
+      readyInMinutes: recipe.readyInMinutes,
+    });
 
     // 3️⃣ Visa receptets innehåll på sidan
     renderRecipe(recipe);
   } catch (error) {
     // Logga eventuella fel i konsolen (användaren ser inget fel)
     console.error("❌ Failed to load recipe details:", error);
+  } finally {
+    console.groupEnd?.();
   }
 }
 

@@ -34,6 +34,7 @@ export async function startRecipesPage() {
 
   // 1️⃣ Läs in ingredienser som användaren valt på startsidan
   const ingredients = loadIngredients();
+  console.info("[Recipes] Startar sidan med ingredienser", ingredients);
 
   // 2️⃣ Bygg upp layouten för sidan (rubrik, filter och tomt receptgrid)
   renderLayout(ingredients);
@@ -56,6 +57,14 @@ export async function startRecipesPage() {
 // Denna funktion anropar getRecipes() från fetchdata.js
 // och skickar med alla aktuella filter (kost + intoleranser).
 async function loadRecipes(ingredients) {
+  console.groupCollapsed("📋 UI:loadRecipes");
+  console.info("Aktuella filter innan anrop", {
+    ingredients,
+    diets: selectedDiets,
+    intolerances: selectedIntolerances,
+    difficulty: selectedDifficulty,
+  });
+
   try {
     allRecipes = await getRecipes({
       ingredients,
@@ -65,12 +74,22 @@ async function loadRecipes(ingredients) {
 
     filteredRecipes = allRecipes; // Vi sparar kopian som vi filtrerar lokalt
 
+    console.info(`[Recipes] Mottog ${allRecipes.length} recept från API:t`);
+    if (allRecipes.length) {
+      console.table(
+        allRecipes.map(({ id, title, readyInMinutes }) => ({ id, title, readyInMinutes }))
+      );
+    }
+
     // Uppdatera visuell information (filterstatus och antal träffar)
     displayActiveFilters();
     updateMatchedRecipes(filteredRecipes);
-  } catch {
+  } catch (error) {
     // Om något går fel – visa ett meddelande på sidan
+    console.error("[Recipes] Kunde inte ladda recept", error);
     recipeResults.innerHTML = `<p class="empty-state">Unable to fetch recipes right now.</p>`;
+  } finally {
+    console.groupEnd();
   }
 }
 
@@ -180,6 +199,8 @@ function createFilterButtons(options, containerSelector, selectedArray, type) {
       if (type === "diet") selectedDiets = active;
       if (type === "intolerance") selectedIntolerances = active;
 
+      console.info(`[Filters] Uppdaterade ${type}-val`, active);
+
       // Hämta nya recept från API:et baserat på de nya filtren
       await loadRecipes(loadIngredients());
 
@@ -204,6 +225,8 @@ function setupDifficultyButtons(buttons) {
       selectedDifficulty =
         button.dataset.difficulty === selectedDifficulty ? "" : button.dataset.difficulty;
 
+      console.info("[Filters] Vald svårighetsgrad", selectedDifficulty || "Alla");
+
       // Markera endast den valda knappen
       buttons.forEach((btn) => {
         btn.classList.toggle("chip--active", btn.dataset.difficulty === selectedDifficulty);
@@ -226,6 +249,8 @@ function setupClearButton(clearButton) {
     selectedDiets = [];
     selectedIntolerances = [];
     selectedDifficulty = "";
+
+    console.info("[Filters] Rensade alla filter");
 
     // Ta bort visuell markering på alla knappar
     document.querySelectorAll(".chip").forEach((btn) => btn.classList.remove("chip--active"));
@@ -250,6 +275,12 @@ function applyFilters() {
     const matchDifficulty =
       !selectedDifficulty || getDifficulty(recipe.readyInMinutes) === selectedDifficulty;
     return matchDifficulty;
+  });
+
+  console.info("[Filters] Resultat efter lokal filtrering", {
+    difficulty: selectedDifficulty || "Alla",
+    matchCount: filteredRecipes.length,
+    total: allRecipes.length,
   });
 
   // Visa resultaten och uppdatera informationen

@@ -37,6 +37,7 @@ export function startHomepage() {
 
   // 1️⃣ Läs in ingredienser från localStorage (om det finns några sparade)
   ingredients = loadFromLocalStorage();
+  console.info("[Homepage] Läste in ingredienser", ingredients);
   updateIngredientTags();
 
   // 2️⃣ Koppla knappar och formulär till sina funktioner
@@ -82,6 +83,10 @@ function addIngredient() {
   ingredients.push(ingredientName);
   saveToLocalStorage();
   updateIngredientTags();
+  console.info("[Homepage] Lade till ingrediens", {
+    ingredient: ingredientName,
+    total: ingredients.length,
+  });
 
   // Rensa fältet efteråt
   ingredientInput.value = "";
@@ -98,6 +103,10 @@ function removeIngredient(event) {
   ingredients = ingredients.filter((item) => item !== name); // Ta bort den ur listan
   saveToLocalStorage();
   updateIngredientTags();
+  console.info("[Homepage] Tog bort ingrediens", {
+    ingredient: name,
+    total: ingredients.length,
+  });
 }
 
 // ---------------------------------------------------------
@@ -107,6 +116,7 @@ function clearIngredients() {
   ingredients = []; // Töm arrayen
   saveToLocalStorage(); // Spara tom lista
   updateIngredientTags(); // Uppdatera visningen
+  console.info("[Homepage] Rensade alla ingredienser");
 }
 
 // ---------------------------------------------------------
@@ -126,6 +136,7 @@ function goToRecipes(event) {
   // Spara ingredienser och gå vidare till nästa sida
   saveToLocalStorage();
   window.location.href = "pages/recipes.html";
+  console.info("[Homepage] Navigerar till recipes.html", ingredients);
 }
 
 // ---------------------------------------------------------
@@ -160,6 +171,7 @@ function updateIngredientTags() {
 // ---------------------------------------------------------
 function saveToLocalStorage() {
   localStorage.setItem("ingredients", JSON.stringify(ingredients));
+  console.debug("[Homepage] Sparade ingredienser i localStorage", ingredients);
 }
 
 // ---------------------------------------------------------
@@ -168,7 +180,9 @@ function saveToLocalStorage() {
 function loadFromLocalStorage() {
   try {
     // Om det finns sparade ingredienser – hämta dem som en lista
-    return JSON.parse(localStorage.getItem("ingredients")) || [];
+    const stored = JSON.parse(localStorage.getItem("ingredients")) || [];
+    console.debug("[Homepage] Hittade ingredienser i localStorage", stored);
+    return stored;
   } catch {
     // Om något är fel i localStorage – returnera tom lista istället
     return [];

@@ -29,6 +29,7 @@ const BASE_URL = "https://api.spoonacular.com";
 //
 async function fetchJson(url) {
   try {
+    console.debug("[API] Skickar förfrågan", url);
     const response = await fetch(url);
 
     // 🧱 Kontroll: API:t svarade med ett fel (t.ex. 404 eller 401)
@@ -108,6 +109,14 @@ export async function getRecipes({ ingredients = [], diets = [], intolerances = 
   // ---------------------------------------------------------
   const url = `${BASE_URL}/recipes/complexSearch?${params.toString()}`;
 
+  console.groupCollapsed("📡 API:getRecipes");
+  console.info("Filter för anropet", {
+    ingredients,
+    diets,
+    intolerances,
+    url,
+  });
+
   try {
     // 🔹 Använd vår hjälpfunktion för att hämta datan
     const data = await fetchJson(url);
@@ -116,11 +125,19 @@ export async function getRecipes({ ingredients = [], diets = [], intolerances = 
     // const results = (data.results || []).slice(0, 6); // ← exempel på hur man kan begränsa
     const results = data.results || [];
 
-    console.log(`✅ Hämtade ${results.length} recept från API:t`);
+    console.info(`✅ API svarade med ${results.length} recept`);
+    if (results.length) {
+      console.table(
+        results.map(({ id, title, readyInMinutes }) => ({ id, title, readyInMinutes }))
+      );
+    }
+
     return results;
   } catch (error) {
     console.error("Kunde inte hämta recept:", error);
     return [];
+  } finally {
+    console.groupEnd();
   }
 }
 
@@ -147,12 +164,24 @@ export async function getRecipeDetails(id) {
   //
   const url = `${BASE_URL}/recipes/${id}/information?apiKey=${API_KEY}`;
 
+  console.groupCollapsed(`📡 API:getRecipeDetails (${id})`);
+  console.info("Hämtar detaljer för recept", { id, url });
+
   try {
     // 🔸 Hämta datan från API:et
     const data = await fetchJson(url);
+    if (data) {
+      console.info("✅ Hämtade detaljer för recept", {
+        id: data.id,
+        title: data.title,
+        readyInMinutes: data.readyInMinutes,
+      });
+    }
     return data;
   } catch (error) {
     console.error("Kunde inte hämta receptdetaljer:", error);
     return null;
+  } finally {
+    console.groupEnd();
   }
 }
