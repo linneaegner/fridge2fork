@@ -6,7 +6,7 @@
 
 // 🍏 Kostalternativ (Spoonaculars officiella namn)
 export const DIETARY_OPTIONS = [
-  { name: "gluten free", description: "Avoid gluten-containing grains." },
+  //{ name: "gluten free", description: "Avoid gluten-containing grains." },
   { name: "ketogenic", description: "Low carb, high fat diet." },
   { name: "vegetarian", description: "No meat or meat by-products." },
   { name: "lacto-vegetarian", description: "Vegetarian diet, no eggs." },
