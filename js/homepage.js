@@ -146,7 +146,7 @@ function updateIngredientTags() {
       (name) => `
       <span class="ingredient-badge">
         ${name}
-        <button type="button" data-remove="${name}" aria-label="Remove ${name}">×</button>
+        <button type="button" data-remove="${name}">×</button>
       </span>
     `
     )
