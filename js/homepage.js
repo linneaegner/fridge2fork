@@ -16,10 +16,7 @@ const ingredientTags = document.querySelector("#ingredient-tags");
 // START
 // ---------------------------------------------------------
 export function startHomepage() {
-  console.log("🚀 Initializing homepage...");
-
   if (!ingredientForm || !ingredientInput || !addIngredientBtn || !ingredientTags) {
-    console.warn("⚠️ Could not find the form elements.");
     return;
   }
 
@@ -30,6 +27,7 @@ export function startHomepage() {
   // 2. Lägg till eventlyssnare
   addIngredientBtn.addEventListener("click", addIngredient);
   clearIngredientsBtn?.addEventListener("click", clearIngredients);
+
   ingredientTags.addEventListener("click", removeIngredient);
   ingredientForm.addEventListener("submit", goToRecipes);
 
@@ -52,13 +50,11 @@ function addIngredient() {
 
   // Kolla så fältet inte är tomt
   if (!newIngredient) {
-    console.log("⚠️ No ingredient provided.");
     return;
   }
 
   // Kolla så den inte redan finns
   if (ingredients.includes(newIngredient)) {
-    console.log("⚠️ Ingredient already in the list.");
     ingredientInput.value = "";
     return;
   }
@@ -67,9 +63,6 @@ function addIngredient() {
   ingredients.push(newIngredient);
   saveToLocalStorage();
   updateIngredientTags();
-
-  console.log("➕ Added ingredient:", newIngredient);
-
   // Rensa fältet
   ingredientInput.value = "";
 }
@@ -78,13 +71,10 @@ function addIngredient() {
 function removeIngredient(event) {
   const button = event.target.closest("button[data-remove]");
   if (!button) return;
-
   const name = button.dataset.remove;
   ingredients = ingredients.filter((item) => item !== name);
   saveToLocalStorage();
   updateIngredientTags();
-
-  console.log("❌ Removed ingredient:", name);
 }
 
 // Rensar hela listan
@@ -92,7 +82,6 @@ function clearIngredients() {
   ingredients = [];
   saveToLocalStorage();
   updateIngredientTags();
-  console.log("🧹 Cleared all ingredients.");
 }
 
 // Skickas när man klickar på "Find Recipes"
@@ -100,12 +89,10 @@ function goToRecipes(event) {
   event.preventDefault();
 
   if (!ingredients.length) {
-    console.log("⚠️ No ingredients to use.");
     return;
   }
 
   saveToLocalStorage();
-  console.log("🚀 Navigating to the recipes page...");
   window.location.href = "pages/recipes.html";
 }
 
@@ -113,7 +100,7 @@ function goToRecipes(event) {
 function updateIngredientTags() {
   if (!ingredients.length) {
     ingredientTags.innerHTML =
-      '<p class="ingredient-empty">No ingredients yet. Add one to start!</p>';
+      "<p class=\"ingredient-empty\">No ingredients yet. Add one to start!</p>";
     return;
   }
 

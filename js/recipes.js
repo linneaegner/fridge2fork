@@ -3,144 +3,177 @@
 // ---------------------------------------------------------
 
 import { getRecipes } from "./fetchdata.js";
+import { DIETARY_OPTIONS, INTOLERANCE_OPTIONS } from "./filter-options.js";
 
 // ---------------------------------------------------------
-// GLOBALA VARIABLER
+// GLOBALA VARIABLER – lagrar aktuella filter och hämtad data
 // ---------------------------------------------------------
-let allRecipes = []; // Alla recept som hämtas från API:et
-let filteredRecipes = []; // Receptlistan efter att filter har applicerats
-let selectedDiets = []; // Aktuellt valda kostpreferenser
-let selectedDifficulty = ""; // Aktuellt vald svårighetsgrad
+let allRecipes = [];          // Alla recept vi fått från API:et
+let filteredRecipes = [];     // De recept som matchar valda filter
+let selectedDiets = [];       // Användarens valda kostalternativ
+let selectedIntolerances = [];// Användarens valda intoleranser
+let selectedDifficulty = "";  // Vald svårighetsgrad
 
-// Hämtar referensen till huvudbehållaren på sidan
 const recipeResults = document.querySelector("#recipe-results");
 
 // ---------------------------------------------------------
-// START
+// START – körs när sidan laddas
 // ---------------------------------------------------------
 export async function startRecipesPage() {
-  console.log("📦 Startar logiken för receptsidan...");
+  if (!recipeResults) return;
 
-  if (!recipeResults) {
-    console.warn("⚠️ Hittade inte elementet #recipe-results.");
-    return;
-  }
-
-  // 1️⃣ Hämta ingredienser som sparats på startsidan.
+  // 1️⃣ Läs in ingredienser från startsidan
   const ingredients = loadIngredients();
-  console.log("🥕 Ingredienser som används i sökningen:", ingredients);
 
-  // 2️⃣ Skapa grundlayouten och knapparna för filter.
+  // 2️⃣ Skapa sidans layout (rubrik, filter, receptgrid)
   renderLayout(ingredients);
-  setupFilterButtons();
 
-  // 3️⃣ Hämta recept från API:et baserat på ingredienserna.
+  // 3️⃣ Koppla knappar och filter
+  setupFilters();
+
+  // 4️⃣ Hämta recept från API:et baserat på ingredienser
   await loadRecipes(ingredients);
 
-  // 4️⃣ Visa den första listan med recept.
+  // 5️⃣ Visa resultaten
   renderRecipes(filteredRecipes);
 }
 
 // ---------------------------------------------------------
-// FUNKTIONER
+// Hämta recept från API:et via fetchdata.js
 // ---------------------------------------------------------
-
-// Hämtar recept från API:et och sparar resultatet
 async function loadRecipes(ingredients) {
   try {
-    allRecipes = await getRecipes({ ingredients });
-    filteredRecipes = allRecipes; // Börja med att visa allt
-    console.log(`✅ Fick ${allRecipes.length} recept från API:et.`);
-  } catch (error) {
-    console.error("❌ Kunde inte hämta recept:", error);
-    recipeResults.innerHTML = `<p class="empty-state">Kunde inte hämta recept just nu.</p>`;
+    // 🔹 Skickar både diet och intoleranser till API:et
+    allRecipes = await getRecipes({
+      ingredients,
+      diets: selectedDiets,
+      intolerances: selectedIntolerances,
+    });
+
+    filteredRecipes = allRecipes;
+  } catch {
+    recipeResults.innerHTML = `<p class="empty-state">Unable to fetch recipes right now.</p>`;
   }
 }
 
-// Skapar uppbyggnaden för sidan: rubriker, filter och tomt resultatgrid
+// ---------------------------------------------------------
+// Skapar upp sidan: rubrik, filter och receptområde
+// ---------------------------------------------------------
 function renderLayout(ingredients) {
   recipeResults.innerHTML = `
-    <a href="../index.html" class="back-link">← Tillbaka</a>
-    <h1>Recept baserade på: ${ingredients.join(", ") || "inga ingredienser"}</h1>
+    <a href="../index.html" class="back-link">← Back</a>
+    <h1>Recipes based on: ${ingredients.join(", ") || "no ingredients selected"}</h1>
 
     <section id="filter-section" class="card">
-      <h2>Filtrera recept</h2>
+      <h2>Filter recipes</h2>
 
-      <!-- Kost -->
+      <!-- Kostfilter -->
       <div class="filter-group">
-        <h3>Kost</h3>
-        <div id="diet-buttons" class="chip-row">
-          <button class="chip" data-diet="gluten free">Glutenfritt</button>
-          <button class="chip" data-diet="vegetarian">Vegetariskt</button>
-          <button class="chip" data-diet="vegan">Veganskt</button>
-          <button class="chip" data-diet="pescatarian">Pescetariskt</button>
-        </div>
+        <h3>Diet</h3>
+        <div id="diet-buttons" class="chip-row"></div>
+      </div>
+
+      <!-- Intoleranser -->
+      <div class="filter-group">
+        <h3>Intolerances</h3>
+        <div id="intolerance-buttons" class="chip-row"></div>
       </div>
 
       <!-- Svårighetsgrad -->
       <div class="filter-group">
-        <h3>Svårighetsgrad</h3>
+        <h3>Difficulty</h3>
         <div id="difficulty-buttons" class="chip-row">
-          <button class="chip" data-difficulty="Easy">Lätt</button>
-          <button class="chip" data-difficulty="Medium">Medel</button>
-          <button class="chip" data-difficulty="Hard">Svår</button>
+          <button class="chip" data-difficulty="Easy">Easy</button>
+          <button class="chip" data-difficulty="Medium">Medium</button>
+          <button class="chip" data-difficulty="Hard">Hard</button>
         </div>
       </div>
 
-      <button id="clear-filters" class="btn-outline">Rensa filter</button>
+      <button id="clear-filters" class="btn-outline">Clear filters</button>
     </section>
 
-    <!-- Här kommer kort för recepten att placeras -->
+    <!-- Här visas recepten -->
     <div id="recipe-grid" class="recipe-grid"></div>
   `;
 }
 
-// Läser in ingredienser från localStorage
+// ---------------------------------------------------------
+// Läser in ingredienser från localStorage (från startsidan)
+// ---------------------------------------------------------
 function loadIngredients() {
   try {
     return JSON.parse(localStorage.getItem("ingredients")) || [];
-  } catch (error) {
-    console.warn("⚠️ Kunde inte läsa ingredienser från localStorage:", error);
+  } catch {
     return [];
   }
 }
 
-// Kopplar knapparna för filter till rätt funktioner
-function setupFilterButtons() {
-  const dietButtons = Array.from(document.querySelectorAll("#diet-buttons .chip"));
-  const difficultyButtons = Array.from(document.querySelectorAll("#difficulty-buttons .chip"));
+// ---------------------------------------------------------
+// Skapar alla filterknappar och kopplar funktionerna
+// ---------------------------------------------------------
+function setupFilters() {
+  // 🔹 Skapar knappar automatiskt baserat på listorna i filter-options.js
+  createFilterButtons(DIETARY_OPTIONS, "#diet-buttons", selectedDiets, "diet");
+  createFilterButtons(INTOLERANCE_OPTIONS, "#intolerance-buttons", selectedIntolerances, "intolerance");
+
+  // 🔹 Hämta övriga knappar
+  const difficultyButtons = document.querySelectorAll("#difficulty-buttons .chip");
   const clearButton = document.querySelector("#clear-filters");
 
-  setupDietButtons(dietButtons);
+  // 🔹 Aktivera deras funktionalitet
   setupDifficultyButtons(difficultyButtons);
-  setupClearButton(clearButton, dietButtons, difficultyButtons);
+  setupClearButton(clearButton);
 }
 
-// Hantera klick på kostknapparna
-function setupDietButtons(dietButtons) {
-  dietButtons.forEach((button) => {
-    button.addEventListener("click", () => {
+// ---------------------------------------------------------
+// Skapar filterknappar dynamiskt från en lista
+// ---------------------------------------------------------
+function createFilterButtons(options, containerSelector, selectedArray, type) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
+
+  options.forEach((option) => {
+    const button = document.createElement("button");
+    button.className = "chip";
+    button.textContent = option.name;     // Namnet visas för användaren
+    button.title = option.description;    // Kort beskrivning när man hovrar
+    button.dataset[type] = option.name;   // Lagrar t.ex. "diet" eller "intolerance"
+
+    // När användaren klickar på en knapp
+    button.addEventListener("click", async () => {
       button.classList.toggle("chip--active");
 
-      selectedDiets = dietButtons
-        .filter((btn) => btn.classList.contains("chip--active"))
-        .map((btn) => btn.dataset.diet);
+      // Hitta alla valda knappar av samma typ (t.ex. alla valda dieter)
+      const active = Array.from(container.querySelectorAll(".chip--active")).map(
+        (btn) => btn.dataset[type]
+      );
 
+      // Uppdatera rätt lista i våra globala variabler
+      if (type === "diet") selectedDiets = active;
+      if (type === "intolerance") selectedIntolerances = active;
+
+      // Ladda om recepten baserat på nya val
+      await loadRecipes(loadIngredients());
       applyFilters();
     });
+
+    container.appendChild(button);
   });
 }
 
-// Hantera klick på svårighetsknapparna (endast en aktiv åt gången)
-function setupDifficultyButtons(difficultyButtons) {
-  difficultyButtons.forEach((button) => {
+// ---------------------------------------------------------
+// Hanterar svårighetsfilter (lätt, medel, svår)
+// ---------------------------------------------------------
+function setupDifficultyButtons(buttons) {
+  buttons.forEach((button) => {
     button.addEventListener("click", () => {
+      // Om man klickar på samma knapp igen → ta bort markering
       selectedDifficulty =
         button.dataset.difficulty === selectedDifficulty ? "" : button.dataset.difficulty;
 
-      difficultyButtons.forEach((btn) => {
-        const shouldBeActive = btn.dataset.difficulty === selectedDifficulty;
-        btn.classList.toggle("chip--active", shouldBeActive);
+      // Markera bara den valda
+      buttons.forEach((btn) => {
+        btn.classList.toggle("chip--active", btn.dataset.difficulty === selectedDifficulty);
       });
 
       applyFilters();
@@ -148,84 +181,71 @@ function setupDifficultyButtons(difficultyButtons) {
   });
 }
 
-// Återställer alla filter till ursprungsläge
-function setupClearButton(clearButton, dietButtons, difficultyButtons) {
-  clearButton?.addEventListener("click", () => {
+// ---------------------------------------------------------
+// Rensa alla filter (kost, intoleranser, svårighet)
+// ---------------------------------------------------------
+function setupClearButton(clearButton) {
+  clearButton.addEventListener("click", async () => {
+    // Återställ val
     selectedDiets = [];
+    selectedIntolerances = [];
     selectedDifficulty = "";
-    dietButtons.forEach((btn) => btn.classList.remove("chip--active"));
-    difficultyButtons.forEach((btn) => btn.classList.remove("chip--active"));
+
+    // Ta bort visuell markering på alla knappar
+    document.querySelectorAll(".chip").forEach((btn) => btn.classList.remove("chip--active"));
+
+    // Ladda om allt
+    await loadRecipes(loadIngredients());
     applyFilters();
   });
 }
 
-// Filtrerar recepten baserat på valda filter
+// ---------------------------------------------------------
+// Filtrerar recepten lokalt efter svårighet (API hanterar resten)
+// ---------------------------------------------------------
 function applyFilters() {
-  console.log("🔍 Filtrerar recept...");
-
   filteredRecipes = allRecipes.filter((recipe) => {
-    const matchDiet =
-      !selectedDiets.length || selectedDiets.every((diet) => recipe.diets?.includes(diet));
-
     const matchDifficulty =
       !selectedDifficulty || getDifficulty(recipe.readyInMinutes) === selectedDifficulty;
-
-    return matchDiet && matchDifficulty;
+    return matchDifficulty;
   });
 
   renderRecipes(filteredRecipes);
 }
 
-// Visar alla receptkort i griden
+// ---------------------------------------------------------
+// Visar alla receptkort på sidan
+// ---------------------------------------------------------
 function renderRecipes(recipes) {
   const grid = document.querySelector("#recipe-grid");
   if (!grid) return;
 
   if (!recipes.length) {
-    grid.innerHTML = `<p class="empty-state">Inga recept matchade dina filter.</p>`;
+    grid.innerHTML = `<p class="empty-state">No recipes found for these filters.</p>`;
     return;
   }
 
   grid.innerHTML = recipes
-    .map((recipe) => {
-      const difficulty = getDifficulty(recipe.readyInMinutes);
-      const difficultyLabel = translateDifficulty(difficulty);
-      const diets = recipe.diets?.slice(0, 3).join(", ") || "saknas"; // API:t returnerar engelska ord
-
-      return `
+    .map(
+      (recipe) => `
         <article class="recipe-card card">
-          <img
-            src="${recipe.image || "https://via.placeholder.com/640x360"}"
-            alt="${recipe.title}"
-          />
+          <img src="${recipe.image || "https://via.placeholder.com/640x360"}" alt="${recipe.title}" />
           <h3>${recipe.title}</h3>
-          <p>Tid: ${recipe.readyInMinutes || "?"} min • Svårighet: ${difficultyLabel}</p>
-          <p>Kost: ${diets}</p>
-          <a href="recipe-details.html?recipeId=${recipe.id}" class="btn-solid">Visa recept</a>
+          <p>Ready in: ${recipe.readyInMinutes || "?"} min • Difficulty: ${getDifficulty(recipe.readyInMinutes)}</p>
+          <p>Diets: ${recipe.diets?.slice(0, 3).join(", ") || "None"}</p>
+          <a href="recipe-details.html?recipeId=${recipe.id}" class="btn-solid">View Recipe</a>
         </article>
-      `;
-    })
+      `
+    )
     .join("");
 }
 
-// Returnerar svårighetsnivå beroende på tid i minuter
+// ---------------------------------------------------------
+// Hjälpfunktioner – beräknar svårighetsgrad
+// ---------------------------------------------------------
 function getDifficulty(minutes) {
-  if (!minutes) return "Easy"; // Vi använder API:ets engelska värde för att matcha knapparna
+  if (!minutes) return "Easy";
   if (minutes <= 30) return "Easy";
   if (minutes <= 45) return "Medium";
   return "Hard";
-}
-
-// Översätter API:ets engelska svårighetsnivå till svensk text för visning
-function translateDifficulty(value) {
-  switch (value) {
-    case "Easy":
-      return "Lätt";
-    case "Medium":
-      return "Medel";
-    case "Hard":
-      return "Svår";
-    default:
-      return value;
-  }
 }

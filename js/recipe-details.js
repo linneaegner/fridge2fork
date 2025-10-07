@@ -8,13 +8,10 @@ import { getRecipeDetails } from "./fetchdata.js";
 // START
 // ---------------------------------------------------------
 export async function startRecipeDetailsPage() {
-  console.log("📄 Startar logiken för receptdetaljer...");
-
   // 1️⃣ Hämta recept-id från adressfältet (t.ex. ?recipeId=12345)
   const recipeId = new URLSearchParams(window.location.search).get("recipeId");
 
   if (!recipeId) {
-    console.warn("⚠️ Hittade inget recipeId i URL:en.");
     showMessage("Vi hittade inget recept. Gå tillbaka till föregående sida.");
     return;
   }
@@ -28,12 +25,9 @@ export async function startRecipeDetailsPage() {
       return;
     }
 
-    console.log("✅ Receptdata inläst:", recipe.title);
-
     // 3️⃣ Visa receptets information på sidan
     renderRecipe(recipe);
-  } catch (error) {
-    console.error("❌ Kunde inte ladda receptet:", error);
+  } catch {
     showMessage("Vi kunde inte ladda receptet just nu. Försök igen senare.");
   }
 }
@@ -54,7 +48,6 @@ function renderRecipe(recipe) {
 
   // Kontrollera att alla viktiga element finns innan vi försöker använda dem.
   if (!image || !title || !summary || !time || !servings || !tags) {
-    console.warn("⚠️ Hittade inte alla element som behövs för att visa receptet.");
     return;
   }
 
@@ -111,7 +104,6 @@ function setupSourceButton(button, url) {
     button.disabled = false;
     button.textContent = "Visa originalrecept";
     button.addEventListener("click", () => {
-      console.log("🔗 Öppnar originalrecept:", url);
       window.open(url, "_blank", "noopener");
     });
   } else {
