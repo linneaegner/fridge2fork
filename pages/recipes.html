@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fridge2Fork - Recipe Results</title>
+    <title>Fridge2Fork - Recipes</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,7 +13,7 @@
       rel="stylesheet"
     />
 
-    <!-- CSS Files -->
+    <!-- CSS -->
     <link rel="stylesheet" href="../css/modern_reset.css" />
     <link rel="stylesheet" href="../css/global.css" />
   </head>
@@ -22,13 +22,11 @@
     <!-- ===== HEADER ===== -->
     <header id="header">
       <div class="container header-content">
-        <!-- Logo / Brand -->
         <a id="logo" href="../index.html">
           <img src="../images/fork.png" alt="Fridge2Fork logo" />
           <span>Fridge2Fork</span>
         </a>
 
-        <!-- Navigation Menu -->
         <nav id="main-nav" aria-label="Main navigation">
           <ul>
             <li><a href="../index.html" class="nav-link">Home</a></li>
@@ -41,10 +39,8 @@
 
     <!-- ===== MAIN CONTENT ===== -->
     <main id="main-content" class="container">
-      <!-- Recipe Results Section -->
-      <section id="recipes-section" aria-live="polite">
-        <!-- main.js laddar detta innehåll via recipes-modulen -->
-        <h1 class="page-title">Your Recipe Results</h1>
+      <!-- Här laddar recipes.js hela innehållet -->
+      <section id="recipes-section">
         <div id="recipe-results"></div>
       </section>
     </main>
@@ -59,7 +55,7 @@
       </div>
     </footer>
 
-    <!-- JavaScript File -->
+    <!-- JavaScript -->
     <script type="module" src="../js/main.js"></script>
   </body>
 </html>

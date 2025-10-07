@@ -13,7 +13,7 @@
       rel="stylesheet"
     />
 
-    <!-- CSS Files -->
+    <!-- CSS -->
     <link rel="stylesheet" href="../css/modern_reset.css" />
     <link rel="stylesheet" href="../css/global.css" />
   </head>
@@ -22,13 +22,11 @@
     <!-- ===== HEADER ===== -->
     <header id="header">
       <div class="container header-content">
-        <!-- Logo / Brand -->
         <a id="logo" href="../index.html">
           <img src="../images/fork.png" alt="Fridge2Fork logo" />
           <span>Fridge2Fork</span>
         </a>
 
-        <!-- Navigation Menu -->
         <nav id="main-nav" aria-label="Main navigation">
           <ul>
             <li><a href="../index.html" class="nav-link">Home</a></li>
@@ -41,58 +39,55 @@
 
     <!-- ===== MAIN CONTENT ===== -->
     <main id="main-content" class="container">
-      <!-- Back Link -->
       <a id="back-to-recipes" href="recipes.html" class="back-link">
         ← Back to recipes
       </a>
 
-      <!-- Recipe Details Card -->
+      <!-- Recipe Details -->
       <article id="recipe-details" class="card">
         <div class="recipe-media">
+          <!-- Bild fylls i av JS -->
           <img
             id="recipe-image"
-            src="https://via.placeholder.com/640x360?text=No+image"
-            alt="Recipe photo"
+            src="https://via.placeholder.com/640x360?text=Loading..."
+            alt="Recipe image"
           />
         </div>
 
         <div class="recipe-info">
-          <h1 id="recipe-title">Recipe Title</h1>
-          <p id="recipe-summary">
-            A short summary of the recipe will appear here.
-          </p>
+          <!-- Titel och sammanfattning fylls av JS -->
+          <h1 id="recipe-title"></h1>
+          <p id="recipe-summary"></p>
 
-          <!-- Recipe Meta Info -->
+          <!-- Meta-info -->
           <dl class="recipe-meta">
             <div>
               <dt>Time:</dt>
-              <dd id="recipe-time">30 min</dd>
+              <dd id="recipe-time"></dd>
             </div>
             <div>
               <dt>Servings:</dt>
-              <dd id="recipe-servings">4 servings</dd>
+              <dd id="recipe-servings"></dd>
             </div>
           </dl>
 
-          <!-- Recipe Tags -->
+          <!-- Diet och svårighet -->
           <p id="recipe-tags" class="recipe-tags"></p>
 
-          <!-- View Original Button -->
+          <!-- Länk till originalrecept -->
           <button id="view-original-btn" class="btn-solid" type="button">
             View Original Recipe
           </button>
         </div>
       </article>
 
-      <!-- Ingredients and Instructions -->
+      <!-- Ingredients & Instructions -->
       <section id="recipe-content" class="recipe-lists">
-        <!-- Ingredients List -->
         <div class="card">
           <h2>Ingredients</h2>
           <ul id="ingredients-list"></ul>
         </div>
 
-        <!-- Instructions List -->
         <div class="card">
           <h2>Instructions</h2>
           <ol id="instructions-list"></ol>
@@ -110,7 +105,7 @@
       </div>
     </footer>
 
-    <!-- JavaScript File -->
+    <!-- JavaScript -->
     <script type="module" src="../js/main.js"></script>
   </body>
 </html>
