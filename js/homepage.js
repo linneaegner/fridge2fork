@@ -1,11 +1,25 @@
 // ---------------------------------------------------------
 // homepage.js – Hanterar ingredienslistan på startsidan
 // ---------------------------------------------------------
+//
+// Den här filen ansvarar för allt som händer på startsidan.
+// Användaren kan:
+//  - Skriva in ingredienser (t.ex. "tomato", "cheese")
+//  - Se dem som “taggar” på sidan
+//  - Ta bort dem en och en eller rensa alla
+//  - Klicka på “Find Recipes” för att gå vidare till receptsidan
+//
+// All data sparas i localStorage, så att den finns kvar om man laddar om sidan.
+// ---------------------------------------------------------
 
-// GLOBALA VARIABLER
-let ingredients = []; // Array som håller alla ingredienser
+// ---------------------------------------------------------
+// 🌿 GLOBALA VARIABLER – lagrar ingredienslistan
+// ---------------------------------------------------------
+let ingredients = []; // Array som håller alla ingredienser som användaren lagt till
 
-// Hämtar referenser till alla element vi behöver i DOM
+// ---------------------------------------------------------
+// 📦 HÄMTAR REFERENSER TILL ELEMENT I DOM
+// ---------------------------------------------------------
 const ingredientForm = document.querySelector("#ingredient-form");
 const ingredientInput = document.querySelector("#ingredient-input");
 const addIngredientBtn = document.querySelector("#add-ingredient-btn");
@@ -13,119 +27,164 @@ const clearIngredientsBtn = document.querySelector("#clear-ingredients-btn");
 const ingredientTags = document.querySelector("#ingredient-tags");
 
 // ---------------------------------------------------------
-// START
+// 🚀 START – körs när sidan laddas
 // ---------------------------------------------------------
 export function startHomepage() {
+  // Om något element saknas i HTML → avbryt för att undvika fel
   if (!ingredientForm || !ingredientInput || !addIngredientBtn || !ingredientTags) {
     return;
   }
 
-  // 1. Ladda ingredienser från localStorage
+  // 1️⃣ Läs in ingredienser från localStorage (om det finns några sparade)
   ingredients = loadFromLocalStorage();
   updateIngredientTags();
 
-  // 2. Lägg till eventlyssnare
+  // 2️⃣ Koppla knappar och formulär till sina funktioner
   addIngredientBtn.addEventListener("click", addIngredient);
   clearIngredientsBtn?.addEventListener("click", clearIngredients);
 
+  // Klick på “×” i en tagg ska ta bort ingrediensen
   ingredientTags.addEventListener("click", removeIngredient);
+
+  // Klick på “Find Recipes” (formuläret skickas)
   ingredientForm.addEventListener("submit", goToRecipes);
 
-  // 3. Gör det möjligt att trycka Enter i inputfältet
+  // 3️⃣ Gör så att man kan trycka Enter i inputfältet för att lägga till
   ingredientInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
-      event.preventDefault();
+      event.preventDefault(); // Hindrar att sidan laddas om
       addIngredient();
     }
   });
 }
 
 // ---------------------------------------------------------
-// FUNKTIONER
+// ✏️ LÄGG TILL EN NY INGREDIENS
 // ---------------------------------------------------------
-
-// Lägger till en ny ingrediens i listan
 function addIngredient() {
-  let newIngredient = ingredientInput.value.trim().toLowerCase();
+  // Hämtar texten användaren skrev in och rensar mellanslag
+  const ingredientName = ingredientInput.value.trim().toLowerCase();
 
-  // Kolla så fältet inte är tomt
-  if (!newIngredient) {
+  // 🧱 Kontroll 1: Fältet får inte vara tomt
+  if (!ingredientName) {
+    showTemporaryMessage("Please enter an ingredient name.");
     return;
   }
 
-  // Kolla så den inte redan finns
-  if (ingredients.includes(newIngredient)) {
+  // 🧱 Kontroll 2: Samma ingrediens får inte läggas till flera gånger
+  if (ingredients.includes(ingredientName)) {
+    showTemporaryMessage("That ingredient is already added.");
     ingredientInput.value = "";
     return;
   }
 
-  // Lägg till och spara
-  ingredients.push(newIngredient);
+  // ✅ Allt okej – lägg till i listan
+  ingredients.push(ingredientName);
   saveToLocalStorage();
   updateIngredientTags();
-  // Rensa fältet
+
+  // Rensa fältet efteråt
   ingredientInput.value = "";
 }
 
-// Tar bort en ingrediens (klick på “×”)
+// ---------------------------------------------------------
+// ❌ TA BORT EN INGREDIENS (klick på "×"-knapp)
+// ---------------------------------------------------------
 function removeIngredient(event) {
   const button = event.target.closest("button[data-remove]");
-  if (!button) return;
-  const name = button.dataset.remove;
-  ingredients = ingredients.filter((item) => item !== name);
+  if (!button) return; // Om man inte klickade på en knapp – gör inget
+
+  const name = button.dataset.remove; // Hämta namnet på ingrediensen
+  ingredients = ingredients.filter((item) => item !== name); // Ta bort den ur listan
   saveToLocalStorage();
   updateIngredientTags();
 }
 
-// Rensar hela listan
+// ---------------------------------------------------------
+// 🧼 RENSAR HELA LISTAN (klick på “Clear All”)
+// ---------------------------------------------------------
 function clearIngredients() {
-  ingredients = [];
-  saveToLocalStorage();
-  updateIngredientTags();
+  ingredients = []; // Töm arrayen
+  saveToLocalStorage(); // Spara tom lista
+  updateIngredientTags(); // Uppdatera visningen
 }
 
-// Skickas när man klickar på "Find Recipes"
+// ---------------------------------------------------------
+// 🍳 GÅ VIDARE TILL RECEPTSIDAN
+// ---------------------------------------------------------
+// När man klickar på “Find Recipes” kontrolleras att man har minst 1 ingrediens.
+// Sedan sparas listan och man skickas vidare till recipes.html
 function goToRecipes(event) {
   event.preventDefault();
 
+  // Om listan är tom – gör inget
   if (!ingredients.length) {
+    showTemporaryMessage("Add at least one ingredient before searching!");
     return;
   }
 
+  // Spara ingredienser och gå vidare till nästa sida
   saveToLocalStorage();
   window.location.href = "pages/recipes.html";
 }
 
-// Uppdaterar visuella “taggar” på sidan
+// ---------------------------------------------------------
+// 🏷️ UPPDATERAR VISUELL LISTA MED “TAGGAR”
+// ---------------------------------------------------------
+// Denna funktion ritar upp ingredienserna på sidan.
+// Varje ingrediens får en liten tagg med ett “×”-kryss för att ta bort den.
 function updateIngredientTags() {
   if (!ingredients.length) {
     ingredientTags.innerHTML =
-      "<p class=\"ingredient-empty\">No ingredients yet. Add one to start!</p>";
+      '<p class="ingredient-empty">No ingredients yet. Add one to start!</p>';
     return;
   }
 
-  let tagHTML = "";
-  ingredients.forEach((name) => {
-    tagHTML += // Skapar en ny tagg för varje ingrediens.
-    `<span class="ingredient-badge">
+  // Skapar en HTML-sträng med alla taggar
+  const tagHTML = ingredients
+    .map(
+      (name) => `
+      <span class="ingredient-badge">
         ${name}
-        <button type="button" data-remove="${name}">×</button>
+        <button type="button" data-remove="${name}" aria-label="Remove ${name}">×</button>
       </span>
-    `;
-  });
+    `
+    )
+    .join("");
+
   ingredientTags.innerHTML = tagHTML;
 }
 
-// Sparar till localStorage
+// ---------------------------------------------------------
+// 💾 SPARAR INGREDIENSER TILL LOCALSTORAGE
+// ---------------------------------------------------------
 function saveToLocalStorage() {
   localStorage.setItem("ingredients", JSON.stringify(ingredients));
 }
 
-// Läser in från localStorage
+// ---------------------------------------------------------
+// 📥 LÄSER IN INGREDIENSER FRÅN LOCALSTORAGE
+// ---------------------------------------------------------
 function loadFromLocalStorage() {
   try {
-    return JSON.parse(localStorage.getItem("ingredients")) || []; //om det inte finns något i local storage så returnerar den en tom array
-  } catch { //denna kodsnutt gör att om det är fel i local storage så kommer det inte att krascha utan bara returnera en tom lista vilket är bra för användarupplevelsen utifall ingredienserna inte kan laddas in
+    // Om det finns sparade ingredienser – hämta dem som en lista
+    return JSON.parse(localStorage.getItem("ingredients")) || [];
+  } catch {
+    // Om något är fel i localStorage – returnera tom lista istället
     return [];
   }
+}
+
+// ---------------------------------------------------------
+// 💬 VISAR ETT LITET TEMPORÄRT MEDDELANDE PÅ SIDAN
+// ---------------------------------------------------------
+// Den här funktionen används när något inte går att lägga till, t.ex. om fältet är tomt.
+function showTemporaryMessage(message) {
+  const msg = document.createElement("p");
+  msg.textContent = message;
+  msg.className = "temp-message";
+  document.body.appendChild(msg);
+
+  // Gör att meddelandet försvinner automatiskt efter 2 sekunder
+  setTimeout(() => msg.remove(), 2000);
 }
