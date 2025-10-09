@@ -50,41 +50,49 @@
           <header class="recipes-header">
             <h1 class="recipes-header__title">Recipe Suggestions</h1>
             <p class="recipes-header__subtitle">
-              Based on: <span id="selected-ingredients">no ingredients selected</span>
+              Based on:
+              <span id="selected-ingredients">no ingredients selected</span>
             </p>
           </header>
 
-          <section id="filter-section" class="filters-panel">
-            <header class="filters-panel__header">
-              <div>
-                <h2 class="filters-panel__title">Refine results</h2>
-                <p class="filters-panel__subtitle">
-                  Toggle the options below to personalise your recipes.
-                </p>
-              </div>
-              <button id="clear-filters" class="filters-panel__clear" type="button">
-                Clear all
-              </button>
-            </header>
-
-            <div class="filters-panel__body">
-              <div class="filters-panel__group">
-                <span class="filters-panel__label">Dietary Preferences</span>
+          <section
+            id="filter-section"
+            class="filters-bar"
+            aria-label="Recipe filters"
+          >
+            <div class="filters-bar__groups">
+              <div class="filters-bar__group">
+                <h2 class="filters-bar__label">Dietary Preferences</h2>
                 <div id="diet-buttons" class="chip-row"></div>
               </div>
 
-              <div class="filters-panel__group">
-                <span class="filters-panel__label">Intolerances</span>
+              <div class="filters-bar__group">
+                <h2 class="filters-bar__label">Intolerances</h2>
                 <div id="intolerance-buttons" class="chip-row"></div>
               </div>
 
-              <div class="filters-panel__group">
-                <span class="filters-panel__label">Difficulty</span>
+              <div class="filters-bar__group">
+                <h2 class="filters-bar__label">Difficulty</h2>
                 <div id="difficulty-buttons" class="chip-row">
-                  <button class="chip" type="button" data-difficulty="Easy">Easy</button>
-                  <button class="chip" type="button" data-difficulty="Medium">Medium</button>
-                  <button class="chip" type="button" data-difficulty="Hard">Hard</button>
+                  <button class="chip" type="button" data-difficulty="Easy">
+                    Easy
+                  </button>
+                  <button class="chip" type="button" data-difficulty="Medium">
+                    Medium
+                  </button>
+                  <button class="chip" type="button" data-difficulty="Hard">
+                    Hard
+                  </button>
                 </div>
+              </div>
+              <div class="filters-bar__controls">
+                <button
+                  id="clear-filters"
+                  class="filters-bar__clear"
+                  type="button"
+                >
+                  Clear all
+                </button>
               </div>
             </div>
           </section>

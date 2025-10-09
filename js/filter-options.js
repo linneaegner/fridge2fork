@@ -15,8 +15,8 @@ export const DIETARY_OPTIONS = [
   { name: "pescetarian", description: "Includes fish and seafood, no meat." },
   { name: "paleo", description: "No grains, dairy, or legumes." },
   { name: "primal", description: "Similar to paleo but includes dairy." },
-  { name: "low fodmap", description: "Avoid high-FODMAP foods." },
-  { name: "whole30", description: "No sugar, grains, dairy, or legumes." },
+  //{ name: "low fodmap", description: "Avoid high-FODMAP foods." },
+  //{ name: "whole30", description: "No sugar, grains, dairy, or legumes." },
 ];
 
 // 🚫 Intoleranser (Spoonaculars officiella namn)
