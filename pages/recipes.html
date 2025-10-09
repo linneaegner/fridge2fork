@@ -85,22 +85,22 @@
                   </button>
                 </div>
               </div>
-              <div class="filters-bar__controls">
-                <button
-                  id="clear-filters"
-                  class="filters-bar__clear"
-                  type="button"
-                >
-                  Clear all
-                </button>
-              </div>
             </div>
           </section>
 
           <section class="filters-status">
-            <span id="active-filters">No active filters</span>
-            <span aria-hidden="true">•</span>
-            <span id="matched-recipes">Matched Recipes: 0</span>
+            <div class="filters-status__details">
+              <span id="active-filters">No active filters</span>
+              <span aria-hidden="true">•</span>
+              <span id="matched-recipes">Matched Recipes: 0</span>
+            </div>
+            <button
+              id="clear-filters"
+              class="filters-status__clear"
+              type="button"
+            >
+              Clear all
+            </button>
           </section>
 
           <div id="food-widget" class="recipe-grid"></div>
