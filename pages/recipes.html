@@ -44,9 +44,59 @@
       <a id="back-to-search" href="../index.html" class="back-link">
         Back to search
       </a>
-      <!-- JavaScript fyller denna sektion med recept -->
+      <!-- Receptsektion -->
       <section id="recipes-section">
-        <div id="recipe-results"></div>
+        <div id="recipe-results">
+          <header class="recipes-header">
+            <h1 class="recipes-header__title">Recipe Suggestions</h1>
+            <p class="recipes-header__subtitle">
+              Based on: <span id="selected-ingredients">no ingredients selected</span>
+            </p>
+          </header>
+
+          <section id="filter-section" class="filters-panel">
+            <header class="filters-panel__header">
+              <div>
+                <h2 class="filters-panel__title">Refine results</h2>
+                <p class="filters-panel__subtitle">
+                  Toggle the options below to personalise your recipes.
+                </p>
+              </div>
+              <button id="clear-filters" class="filters-panel__clear" type="button">
+                Clear all
+              </button>
+            </header>
+
+            <div class="filters-panel__body">
+              <div class="filters-panel__group">
+                <span class="filters-panel__label">Dietary Preferences</span>
+                <div id="diet-buttons" class="chip-row"></div>
+              </div>
+
+              <div class="filters-panel__group">
+                <span class="filters-panel__label">Intolerances</span>
+                <div id="intolerance-buttons" class="chip-row"></div>
+              </div>
+
+              <div class="filters-panel__group">
+                <span class="filters-panel__label">Difficulty</span>
+                <div id="difficulty-buttons" class="chip-row">
+                  <button class="chip" type="button" data-difficulty="Easy">Easy</button>
+                  <button class="chip" type="button" data-difficulty="Medium">Medium</button>
+                  <button class="chip" type="button" data-difficulty="Hard">Hard</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="filters-status">
+            <span id="active-filters">No active filters</span>
+            <span aria-hidden="true">•</span>
+            <span id="matched-recipes">Matched Recipes: 0</span>
+          </section>
+
+          <div id="food-widget" class="recipe-grid"></div>
+        </div>
       </section>
     </main>
 
