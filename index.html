@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fridge2Fork - Turn Ingredients into Recipes</title>
 
-    <!-- Laddar typsnitt från Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,22 +12,18 @@
       rel="stylesheet"
     />
 
-    <!-- Globala stilmallar -->
     <link rel="stylesheet" href="css/modern_reset.css" />
     <link rel="stylesheet" href="css/global.css" />
   </head>
 
   <body id="home-page">
-    <!-- Webbplatsens toppsektion -->
     <header id="header">
       <div class="container header-content">
-        <!-- Logotyp och varumärke -->
         <a id="logo" href="index.html">
           <img src="images/fork.png" alt="Fridge2Fork logo" />
           <span>Fridge2Fork</span>
         </a>
 
-        <!-- Huvudmeny -->
         <nav id="main-nav">
           <ul>
             <li><a href="index.html" class="nav-link active">Home</a></li>
@@ -39,9 +34,7 @@
       </div>
     </header>
 
-    <!-- Sidans huvudinnehåll -->
     <main id="main-content">
-      <!-- Introsektion med huvudbudskap -->
       <section id="hero" class="container">
         <h1>Turn Your Fridge Into Delicious Meals</h1>
         <p>
@@ -50,15 +43,11 @@
         </p>
       </section>
 
-      <!-- Formulär för ingredienser -->
       <section id="ingredients-section" class="container">
         <div class="card">
           <h2>What's in your fridge?</h2>
 
-          <!-- Formulär där användaren matar in ingredienser -->
           <form id="ingredient-form">
-            
-            <!-- Fält för att lägga till ingredienser -->
             <div class="input-row">
               <input
                 type="text"
@@ -71,7 +60,6 @@
               </button>
             </div>
 
-            <!-- Lista med valda ingredienser -->
             <div class="ingredient-list">
               <div id="ingredient-tags"></div>
               <button
@@ -83,7 +71,6 @@
               </button>
             </div>
 
-            <!-- Knapp för att söka recept -->
             <button type="submit" id="find-recipes-btn" class="btn-solid">
               Find Recipes
             </button>
@@ -92,7 +79,6 @@
       </section>
     </main>
 
-    <!-- Sidfot med upphovsrätt -->
     <footer id="footer">
       <div class="container">
         <p>&copy; 2025 Fridge2Fork. All rights reserved.</p>
@@ -102,7 +88,6 @@
       </div>
     </footer>
 
-    <!-- Länkar in huvudskriptet -->
     <script type="module" src="js/main.js"></script>
   </body>
 </html>
