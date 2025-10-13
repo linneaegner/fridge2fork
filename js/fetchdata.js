@@ -51,13 +51,12 @@ async function fetchJson(url) {
 // ---------------------------------------------------------
 //
 // Denna funktion anropas från recipes.js.
-// Den hämtar en lista med recept som matchar användarens ingredienser,
-// kostpreferenser (diets) och intoleranser (t.ex. "gluten" eller "dairy").
+// Den hämtar en lista med recept som matchar användarens ingredienser.
 //
 // API-parametrarna byggs upp med URLSearchParams, vilket gör det enkelt
 // att lägga till eller ta bort värden på ett säkert sätt.
 //
-export async function getRecipes({ ingredients = [], diets = [], intolerances = [] } = {}) {
+export async function getRecipes({ ingredients = [] } = {}) {
   // ---------------------------------------------------------
   // 🔧 Skapa API-parametrar
   // ---------------------------------------------------------
@@ -84,27 +83,6 @@ export async function getRecipes({ ingredients = [], diets = [], intolerances = 
   }
 
   // ---------------------------------------------------------
-  // 🌱 Lägg till kostpreferenser (t.ex. vegan, paleo, gluten free)
-  // ---------------------------------------------------------
-  //
-  // Flera värden separeras med komma = AND-villkor.
-  // Exempel: "gluten free,vegetarian" → måste vara båda.
-  //
-  if (diets.length > 0) {
-    params.set("diet", diets.join(","));
-  }
-
-  // ---------------------------------------------------------
-  // 🚫 Lägg till intoleranser (t.ex. dairy, peanut, shellfish)
-  // ---------------------------------------------------------
-  //
-  // Dessa fungerar som "måste undvikas" i API:et.
-  //
-  if (intolerances.length > 0) {
-    params.set("intolerances", intolerances.join(","));
-  }
-
-  // ---------------------------------------------------------
   // 🧩 Bygg ihop den slutliga URL:en till API-anropet
   // ---------------------------------------------------------
   const url = `${BASE_URL}/recipes/complexSearch?${params.toString()}`;
@@ -112,8 +90,6 @@ export async function getRecipes({ ingredients = [], diets = [], intolerances = 
   console.groupCollapsed("📡 API:getRecipes");
   console.info("Filter för anropet", {
     ingredients,
-    diets,
-    intolerances,
     url,
   });
 
