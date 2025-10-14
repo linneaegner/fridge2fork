@@ -52,14 +52,20 @@
           <h1 id="recipe-title"></h1>
           <p id="recipe-summary"></p>
 
-          <dl class="recipe-meta">
-            <div>
-              <dt>Time:</dt>
-              <dd id="recipe-time"></dd>
+          <dl class="recipe-meta recipe-card__meta">
+            <div class="recipe-meta__item recipe-card__meta-item">
+              <dt class="sr-only">Time</dt>
+              <dd id="recipe-time">
+                <span aria-hidden="true" class="recipe-card__icon">⏱️</span>
+                <span id="recipe-time-value"></span>
+              </dd>
             </div>
-            <div>
-              <dt>Servings:</dt>
-              <dd id="recipe-servings"></dd>
+            <div class="recipe-meta__item recipe-card__meta-item">
+              <dt class="sr-only">Servings</dt>
+              <dd id="recipe-servings">
+                <span aria-hidden="true" class="recipe-card__icon">👥</span>
+                <span id="recipe-servings-value"></span>
+              </dd>
             </div>
           </dl>
 

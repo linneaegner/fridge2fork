@@ -67,13 +67,13 @@ function renderRecipe(recipe) {
   const image = document.querySelector("#recipe-image");
   const title = document.querySelector("#recipe-title");
   const summary = document.querySelector("#recipe-summary");
-  const time = document.querySelector("#recipe-time");
-  const servings = document.querySelector("#recipe-servings");
+  const timeValue = document.querySelector("#recipe-time-value");
+  const servingsValue = document.querySelector("#recipe-servings-value");
   const tags = document.querySelector("#recipe-tags");
   const button = document.querySelector("#view-original-btn");
 
   // Kontrollera att alla nödvändiga element finns
-  if (!image || !title || !summary || !time || !servings || !tags) {
+  if (!image || !title || !summary || !timeValue || !servingsValue || !tags) {
     console.warn("⚠️ Missing one or more DOM elements for recipe details.");
     return;
   }
@@ -89,19 +89,14 @@ function renderRecipe(recipe) {
   // ---------------------------------------------------------
   // ⏱️ TILLAGNINGSTID OCH PORTIONER
   // ---------------------------------------------------------
-  time.textContent = recipe.readyInMinutes
-    ? `${recipe.readyInMinutes} minutes`
-    : "Time not available";
-  servings.textContent = recipe.servings
-    ? `${recipe.servings} servings`
-    : "Serving size varies";
+  timeValue.textContent = formatMinutes(recipe.readyInMinutes);
+  servingsValue.textContent = formatServings(recipe.servings);
 
   // ---------------------------------------------------------
-  // 🧩 SVÅRIGHETSGRAD OCH KOST
+  // 🧩 KOST- OCH DIETSPECIFIKA TAGGAR
   // ---------------------------------------------------------
-  const difficulty = getDifficulty(recipe.readyInMinutes);
-  const diets = recipe.diets?.length ? recipe.diets.join(", ") : "None";
-  tags.textContent = `Difficulty: ${difficulty} • Diet: ${diets}`;
+  const dietTags = formatDietTags(recipe.diets);
+  tags.innerHTML = dietTags;
 
   // ---------------------------------------------------------
   // 🧾 INGREDIENSER
@@ -186,15 +181,56 @@ function plainText(html) {
 }
 
 // ---------------------------------------------------------
-// 💪 BERÄKNA SVÅRIGHET BASERAT PÅ TILLAGNINGSTID
+// ⏱️ FORMATTERINGS-HJÄLPARE FÖR TID, PORTIONER OCH DIETER
 // ---------------------------------------------------------
-//
-// En enkel funktion som klassificerar receptets svårighet
-// baserat på hur många minuter det tar att laga.
-//
-function getDifficulty(minutes) {
-  if (!minutes) return "Easy";
-  if (minutes <= 30) return "Easy";
-  if (minutes <= 45) return "Medium";
-  return "Hard";
+function formatMinutes(minutes) {
+  if (!minutes || Number.isNaN(Number(minutes))) {
+    return "N/A";
+  }
+
+  return `${minutes} ${minutes === 1 ? "min" : "mins"}`;
+}
+
+function formatServings(servings) {
+  if (!servings || Number.isNaN(Number(servings))) {
+    return "N/A servings";
+  }
+
+  const value = Number(servings);
+  return `${value} ${value === 1 ? "serving" : "servings"}`;
+}
+
+function formatDietTags(diets = []) {
+  if (!Array.isArray(diets) || diets.length === 0) {
+    return createTag("Diet: None", "none");
+  }
+
+  return diets
+    .slice(0, 4)
+    .map((diet) => createTag(capitalizeWords(diet), slugifyClass(diet)))
+    .join("");
+}
+
+function createTag(label, variant = "") {
+  const classes = ["recipe-tag", "recipe-tag--diet"];
+
+  if (variant) {
+    classes.push(`recipe-tag--${variant}`);
+  }
+
+  return `<span class="${classes.join(" ")}">${label}</span>`;
+}
+
+function capitalizeWords(text = "") {
+  return text
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+function slugifyClass(text = "") {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }

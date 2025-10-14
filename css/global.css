@@ -799,31 +799,56 @@ textarea:focus {
 .recipe-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
-  margin: 0;
+  gap: 22px;
+  margin: 12px 0 0;
+  padding: 0;
+  order: initial;
 }
 
-.recipe-meta div {
+.recipe-meta__item {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
 }
 
-.recipe-meta dt {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-text-muted);
-}
-
-.recipe-meta dd {
+.recipe-meta__item dd {
   margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 600;
+  color: var(--color-text);
 }
 
 .recipe-tags {
-  margin: 0;
+  margin: 18px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.recipe-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(231, 225, 216, 0.55);
+  color: var(--color-text);
   font-weight: 600;
+  font-size: 0.87rem;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.recipe-tag--diet {
+  background: rgba(243, 106, 34, 0.12);
+  color: var(--color-accent);
+}
+
+.recipe-tag--none {
+  background: rgba(231, 225, 216, 0.4);
   color: var(--color-text-muted);
 }
 
