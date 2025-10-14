@@ -189,7 +189,7 @@ ol {
 /* --------------------------------------------------
    HERO / INTRO
 -------------------------------------------------- */
-#hero {
+#home-hero {
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -197,13 +197,13 @@ ol {
   gap: 18px;
 }
 
-#hero h1 {
+#home-hero h1 {
   font-size: clamp(2.8rem, 6vw, 4rem);
   line-height: 1.08;
   letter-spacing: -0.01em;
 }
 
-#hero p {
+#home-hero p {
   max-width: 640px;
   font-size: 1.05rem;
 }
@@ -1123,17 +1123,17 @@ textarea:focus {
     --page-gutter: clamp(22px, 9vw, 28px);
   }
 
-  #hero {
+  #home-hero {
     text-align: left;
     align-items: flex-start;
     gap: 14px;
   }
 
-  #hero h1 {
+  #home-hero h1 {
     font-size: clamp(2.2rem, 10vw, 2.6rem);
   }
 
-  #hero p {
+  #home-hero p {
     font-size: 1.02rem;
   }
 
