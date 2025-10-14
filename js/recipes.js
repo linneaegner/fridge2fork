@@ -310,7 +310,7 @@ function renderRecipes(recipes) {
                 </dd>
               </div>
             </dl>
-            <p class="recipe-card__difficulty">Difficulty: ${getDifficulty(recipe.readyInMinutes)}</p>
+            
           </div>
           <footer class="recipe-card__footer">
             <a href="recipe-details.html?recipeId=${recipe.id}" class="btn-solid">View Recipe</a>
@@ -347,13 +347,13 @@ function formatServings(servings) {
 
 function formatDiets(diets = []) {
   if (!Array.isArray(diets) || diets.length === 0) {
-    return "&nbsp;";
+    return "";
   }
 
   return diets
     .slice(0, 3)
-    .map((diet) => capitalizeWords(diet))
-    .join(", ");
+    .map((diet) => `<span class="recipe-card__diet-tag">${capitalizeWords(diet)}</span>`)
+    .join("");
 }
 
 function capitalizeWords(text = "") {
