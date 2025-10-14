@@ -189,7 +189,9 @@ ol {
 /* --------------------------------------------------
    HERO / INTRO
 -------------------------------------------------- */
-#home-hero {
+#home-hero,
+#about-hero,
+#contact-hero {
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -197,13 +199,17 @@ ol {
   gap: 18px;
 }
 
-#home-hero h1 {
+#home-hero h1,
+#about-hero h1,
+#contact-hero h1 {
   font-size: clamp(2.8rem, 6vw, 4rem);
   line-height: 1.08;
   letter-spacing: -0.01em;
 }
 
-#home-hero p {
+#home-hero p,
+#about-hero p,
+#contact-hero p {
   max-width: 640px;
   font-size: 1.05rem;
 }
@@ -870,16 +876,6 @@ textarea:focus {
 /* --------------------------------------------------
    ABOUT & CONTACT PAGES
 -------------------------------------------------- */
-#about-hero,
-#contact-hero {
-  text-align: center;
-  max-width: 680px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
 #mission-section,
 #values-section,
 #how-it-works,
