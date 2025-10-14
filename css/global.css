@@ -878,7 +878,7 @@ textarea:focus {
 -------------------------------------------------- */
 #mission-section,
 #values-section,
-#how-it-works,
+#how-it-works-section,
 #contact-section {
   display: flex;
   flex-direction: column;
@@ -909,7 +909,7 @@ textarea:focus {
   resize: vertical;
 }
 
-.page-note {
+.project-note {
   text-align: center;
   font-style: italic;
   color: var(--color-text-muted);
