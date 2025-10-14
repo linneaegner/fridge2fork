@@ -310,12 +310,12 @@ ol {
 /* --------------------------------------------------
    INGREDIENT FORM
 -------------------------------------------------- */
-#ingredients-section {
+#fridge-section {
   display: flex;
   justify-content: center;
 }
 
-#ingredients-section .card {
+#fridge-section .card {
   width: min(640px, 100%);
   display: flex;
   flex-direction: column;
@@ -323,7 +323,7 @@ ol {
   text-align: left;
 }
 
-#ingredients-section h2 {
+#fridge-section h2 {
   font-size: clamp(2rem, 5vw, 2.6rem);
 }
 
