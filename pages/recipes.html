@@ -45,10 +45,16 @@
           </p>
         </header>
 
-        <section id="filter-section" class="filters-bar">
+        <form
+          id="filter-section"
+          class="filters-bar"
+          aria-labelledby="filter-section-heading"
+        >
           <div class="filters-bar__groups">
-            <div class="filters-bar__group">
-              <h2 class="filters-bar__label">Difficulty</h2>
+            <fieldset class="filters-bar__group">
+              <legend id="filter-section-heading" class="filters-bar__label">
+                Difficulty
+              </legend>
               <div id="difficulty-buttons" class="chip-row">
                 <button class="chip" type="button" data-difficulty="Easy">
                   Easy
@@ -60,12 +66,12 @@
                   Hard
                 </button>
               </div>
-            </div>
+            </fieldset>
           </div>
-        </section>
+        </form>
 
-        <section class="filters-status">
-          <div class="filters-status__details">
+        <div class="filters-status">
+          <div class="filters-status__details" role="status" aria-live="polite">
             <span id="active-filters">No active filters</span>
             <span aria-hidden="true">•</span>
             <span id="matched-recipes">Matched Recipes: 0</span>
@@ -73,7 +79,7 @@
           <button id="clear-filters" class="filters-status__clear" type="button">
             Clear all
           </button>
-        </section>
+        </div>
 
         <div id="food-widget" class="recipe-grid" aria-label="Recipe Grid">
           <!-- Recipe cards will be dynamically inserted here -->
