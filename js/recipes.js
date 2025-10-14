@@ -115,8 +115,8 @@ function renderLayout(ingredients) {
   }
 
   document
-    .querySelectorAll("#difficulty-buttons .chip")
-    .forEach((button) => button.classList.remove("chip--active"));
+    .querySelectorAll("#difficulty-buttons .filter-button")
+    .forEach((button) => button.classList.remove("active"));
 
   if (foodWidget) {
     foodWidget.innerHTML = "";
@@ -155,7 +155,7 @@ function loadIngredients() {
 // ---------------------------------------------------------
 function setupFilters() {
   // Hämtar svårighetsknappar och återställningsknapp
-  const difficultyButtons = document.querySelectorAll("#difficulty-buttons .chip");
+  const difficultyButtons = document.querySelectorAll("#difficulty-buttons .filter-button");
   const clearButton = document.querySelector("#clear-filters");
 
   // Kopplar deras funktionalitet
@@ -176,7 +176,7 @@ function setupDifficultyButtons(buttons) {
 
       // Markera endast den valda knappen
       buttons.forEach((btn) => {
-        btn.classList.toggle("chip--active", btn.dataset.difficulty === selectedDifficulty);
+        btn.classList.toggle("active", btn.dataset.difficulty === selectedDifficulty);
       });
 
       // Uppdatera filtrering och visning
@@ -201,8 +201,8 @@ function setupClearButton(clearButton) {
 
     // Ta bort visuell markering på alla knappar
     document
-      .querySelectorAll("#difficulty-buttons .chip")
-      .forEach((btn) => btn.classList.remove("chip--active"));
+      .querySelectorAll("#difficulty-buttons .filter-button")
+      .forEach((btn) => btn.classList.remove("active"));
 
     // Ladda om recepten utan filter
     const success = await loadRecipes(loadIngredients());

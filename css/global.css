@@ -426,7 +426,7 @@ textarea:focus {
    FILTER BAR (Compact)
 -------------------------------------------------- */
 
-#filter-section {
+#filter-recipes {
   border: 1px solid rgba(231, 225, 216, 0.8);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.82);
@@ -450,19 +450,19 @@ textarea:focus {
   padding: 0;
 }
 
-.filters-bar__groups {
+.filter-groups {
   display: grid;
   gap: clamp(12px, 3vw, 18px);
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
-.filters-bar__group {
+.filter-group {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.filters-bar__label {
+.filter-heading {
   margin: 0;
   font-size: 1.02rem;
   font-weight: 600;
@@ -470,13 +470,13 @@ textarea:focus {
   color: var(--color-text);
 }
 
-.chip-row {
+.filter-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.chip {
+.filter-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -491,8 +491,8 @@ textarea:focus {
   transition: background-color var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition), transform var(--transition);
 }
 
-.chip:hover,
-.chip:focus-visible {
+.filter-button:hover,
+.filter-button:focus-visible {
   color: var(--color-text);
   border-color: rgba(243, 106, 34, 0.45);
   background: rgba(243, 106, 34, 0.12);
@@ -500,26 +500,26 @@ textarea:focus {
   transform: translateY(-1px);
 }
 
-.chip:focus-visible {
+.filter-button:focus-visible {
   outline: none;
 }
 
-.chip--active {
+.filter-button.active {
   border-color: var(--color-accent);
   background: var(--color-accent);
   color: #fff;
   box-shadow: 0 8px 18px rgba(243, 106, 34, 0.16);
 }
 
-.chip--active:hover,
-.chip--active:focus-visible {
+.filter-button.active:hover,
+.filter-button.active:focus-visible {
   background: var(--color-accent-dark);
   border-color: var(--color-accent-dark);
   box-shadow: 0 10px 22px rgba(243, 106, 34, 0.2);
   color: #fff;
 }
 
-.filters-status {
+.filter-summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -532,18 +532,18 @@ textarea:focus {
   color: var(--color-text-muted);
 }
 
-.filters-status__details {
+.filter-summary-details {
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
 }
 
-.filters-status span[aria-hidden="true"] {
+.filter-summary span:nth-of-type(2) {
   color: rgba(111, 98, 88, 0.4);
 }
 
-.filters-status__clear {
+.filter-summary-button {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -558,15 +558,15 @@ textarea:focus {
   transition: border-color var(--transition), color var(--transition), background-color var(--transition), box-shadow var(--transition);
 }
 
-.filters-status__clear:hover,
-.filters-status__clear:focus-visible {
+.filter-summary-button:hover,
+.filter-summary-button:focus-visible {
   border-color: rgba(243, 106, 34, 0.4);
   color: var(--color-text);
   background: rgba(243, 106, 34, 0.12);
   box-shadow: 0 8px 20px rgba(243, 106, 34, 0.18);
 }
 
-.filters-status__clear:focus-visible {
+.filter-summary-button:focus-visible {
   outline: 2px solid rgba(243, 106, 34, 0.35);
   outline-offset: 2px;
 }
@@ -586,25 +586,25 @@ textarea:focus {
   margin-top: clamp(24px, 5vw, 36px);
 }
 
-#recipes-section > .recipes-header__subtitle {
+#recipes-section > .based-on-ingredients {
   margin-top: 12px;
 }
 
-#recipes-page .recipes-header__subtitle {
+#recipes-page .based-on-ingredients {
   max-width: 48ch;
 }
 
-.recipes-header__title {
+.recipe-title, .recipe-suggestions {
   font-size: clamp(2.6rem, 5vw, 3.4rem);
   line-height: 1.1;
 }
 
-.recipes-header__subtitle {
+.based-on-ingredients {
   font-size: 1.05rem;
   color: var(--color-text-muted);
 }
 
-.recipes-header__subtitle span {
+.based-on-ingredients span {
   color: var(--color-text);
   font-weight: 600;
 }
@@ -1016,20 +1016,20 @@ textarea:focus {
     gap: 10px;
   }
 
-  #filter-section {
+  #filter-recipes {
     padding: clamp(18px, 5vw, 24px);
   }
 
-  .filters-bar__groups {
+  .filter-groups {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
-  .filters-status {
+  .filter-summary {
     align-items: flex-start;
     gap: 10px;
   }
 
-  .recipes-header__title {
+  .recipe-title, .recipe-suggestions {
     font-size: clamp(2.3rem, 7vw, 3rem);
   }
 
@@ -1083,12 +1083,12 @@ textarea:focus {
     height: 210px;
   }
 
-  .filters-status {
+  .filter-summary {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .filters-status__clear {
+  .filter-summary-button {
     width: 100%;
     justify-content: center;
   }
@@ -1139,11 +1139,11 @@ textarea:focus {
     padding: clamp(20px, 8vw, 26px);
   }
 
-  .chip-row {
+  .filter-buttons {
     gap: 6px;
   }
 
-  .chip {
+  .filter-button {
     padding: 6px 12px;
     font-size: 0.85rem;
   }
@@ -1152,18 +1152,14 @@ textarea:focus {
     margin-bottom: 18px;
   }
 
-  .filters-status__details {
+  .filter-summary-details {
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
   }
 
-  .filters-status span[aria-hidden="true"] {
-    display: none;
-  }
-
   .recipe-tags,
-  .recipes-header__subtitle {
+  .based-on-ingredients {
     font-size: 0.96rem;
   }
 }
