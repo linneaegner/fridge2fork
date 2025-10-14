@@ -37,50 +37,46 @@
     <main id="main-content" class="container">
       <a href="../index.html" class="back-link"> Back to search </a>
       <section id="recipes-section">
-        <div id="recipe-results">
-          <header class="recipes-header">
-            <h1 class="recipes-header__title">Recipe Suggestions</h1>
-            <p class="recipes-header__subtitle">
-              Based on:
-              <span id="selected-ingredients">no ingredients selected</span>
-            </p>
-          </header>
+        <header class="recipes-header">
+          <h1 class="recipes-header__title">Recipe Suggestions</h1>
+          <p class="recipes-header__subtitle">
+            Based on:
+            <span id="selected-ingredients">no ingredients selected</span>
+          </p>
+        </header>
 
-          <section id="filter-section" class="filters-bar">
-            <div class="filters-bar__groups">
-              <div class="filters-bar__group">
-                <h2 class="filters-bar__label">Difficulty</h2>
-                <div id="difficulty-buttons" class="chip-row">
-                  <button class="chip" type="button" data-difficulty="Easy">
-                    Easy
-                  </button>
-                  <button class="chip" type="button" data-difficulty="Medium">
-                    Medium
-                  </button>
-                  <button class="chip" type="button" data-difficulty="Hard">
-                    Hard
-                  </button>
-                </div>
+        <section id="filter-section" class="filters-bar">
+          <div class="filters-bar__groups">
+            <div class="filters-bar__group">
+              <h2 class="filters-bar__label">Difficulty</h2>
+              <div id="difficulty-buttons" class="chip-row">
+                <button class="chip" type="button" data-difficulty="Easy">
+                  Easy
+                </button>
+                <button class="chip" type="button" data-difficulty="Medium">
+                  Medium
+                </button>
+                <button class="chip" type="button" data-difficulty="Hard">
+                  Hard
+                </button>
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section class="filters-status">
-            <div class="filters-status__details">
-              <span id="active-filters">No active filters</span>
-              <span aria-hidden="true">•</span>
-              <span id="matched-recipes">Matched Recipes: 0</span>
-            </div>
-            <button
-              id="clear-filters"
-              class="filters-status__clear"
-              type="button"
-            >
-              Clear all
-            </button>
-          </section>
+        <section class="filters-status">
+          <div class="filters-status__details">
+            <span id="active-filters">No active filters</span>
+            <span aria-hidden="true">•</span>
+            <span id="matched-recipes">Matched Recipes: 0</span>
+          </div>
+          <button id="clear-filters" class="filters-status__clear" type="button">
+            Clear all
+          </button>
+        </section>
 
-          <div id="food-widget" class="recipe-grid"></div>
+        <div id="food-widget" class="recipe-grid" aria-label="Recipe Grid">
+          <!-- Recipe cards will be dynamically inserted here -->
         </div>
       </section>
     </main>

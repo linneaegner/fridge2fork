@@ -18,14 +18,14 @@ let filteredRecipes = [];    // De recept som just nu visas (efter filter)
 let selectedDifficulty = ""; // Användarens valda svårighetsnivå
 
 // Huvudbehållaren där allt innehåll ska placeras
-const recipeResults = document.querySelector("#recipe-results");
+const recipesSection = document.querySelector("#recipes-section");
 const foodWidget = document.querySelector("#food-widget");
 
 // ---------------------------------------------------------
 // 🚀 START – körs automatiskt när sidan laddas
 // ---------------------------------------------------------
 export async function startRecipesPage() {
-  if (!recipeResults || !foodWidget) return; // Om element saknas, avbryt
+  if (!recipesSection || !foodWidget) return; // Om element saknas, avbryt
 
   // 1️⃣ Läs in ingredienser som användaren valt på startsidan
   const ingredients = loadIngredients();
