@@ -70,9 +70,13 @@ function init() {
   }
 
   // ---------------------------------------------------------
-  // ⚠️ OM INGET ID MATCHAR
+  // ⚠️ ÖVRIGA SIDOR
   // ---------------------------------------------------------
-  // Denna del körs bara om sidan inte har något av de förväntade ID:na.
-  // Det kan hända om man t.ex. glömmer att sätta ett id på body i HTML.
-  console.warn("Ingen känd sida att starta. Kontrollera <body id='...'> i HTML-filen.");
-}
+  console.warn(
+    "[Main] Varning: Ingen startfunktion för denna sida (id=" +
+      pageId +
+      ")"
+  );
+} // End of init()
+
+
