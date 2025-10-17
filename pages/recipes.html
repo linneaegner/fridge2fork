@@ -49,8 +49,12 @@
             <button class="filter-button" type="button" data-difficulty="Easy">
               Easy
             </button>
-            <button class="filter-button" type="button" data-difficulty="Medium">
-              Medium
+            <button
+              class="filter-button"
+              type="button"
+              data-difficulty="Medium"
+            >
+              Mediums
             </button>
             <button class="filter-button" type="button" data-difficulty="Hard">
               Hard
@@ -58,20 +62,23 @@
           </div>
         </form>
 
-        <!-- Fortsätt här -->
-        <div class="filter-summary">
+        <div class="filter-summary-container">
           <div class="filter-summary-details">
             <span id="active-filters">No active filters</span>
             <span>•</span>
             <span id="matched-recipes">Matched Recipes: 0</span>
           </div>
-          <button id="clear-filters" class="filter-summary-button" type="button">
+          <button
+            id="clear-filters"
+            class="filter-summary-button"
+            type="button"
+          >
             Clear Filters
           </button>
         </div>
 
-        <div id="food-widget" class="recipe-grid">
-          <!-- Recipe cards will be dynamically inserted here -->
+        <div id="recipes-widget" class="recipes-grid">
+          <!-- Recipes shows here dynamically -->
         </div>
       </section>
     </main>

@@ -19,7 +19,7 @@ let selectedDifficulty = ""; // Användarens valda svårighetsnivå
 
 // Huvudbehållaren där allt innehåll ska placeras
 const recipesSection = document.querySelector("#recipes-section");
-const foodWidget = document.querySelector("#food-widget");
+const foodWidget = document.querySelector("#recipes-widget");
 
 // ---------------------------------------------------------
 // 🚀 START – körs automatiskt när sidan laddas
