@@ -46,17 +46,18 @@
         <form id="filter-recipes">
           <h2 class="filter-heading">Difficulty</h2>
           <div id="difficulty-buttons" class="filter-buttons">
-            <button class="filter-button" type="button" data-difficulty="Easy">
+            <button id="difficulty-easy" class="btn-secondary filter-button" type="button" data-difficulty="Easy">
               Easy
             </button>
             <button
-              class="filter-button"
+              id="difficulty-medium"
+              class="btn-secondary filter-button"
               type="button"
               data-difficulty="Medium"
             >
               Mediums
             </button>
-            <button class="filter-button" type="button" data-difficulty="Hard">
+            <button id="difficulty-hard" class="btn-secondary filter-button" type="button" data-difficulty="Hard">
               Hard
             </button>
           </div>
@@ -70,7 +71,7 @@
           </div>
           <button
             id="clear-filters"
-            class="filter-summary-button"
+            class="btn-secondary filter-button"
             type="button"
           >
             Clear Filters

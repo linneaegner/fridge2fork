@@ -14,6 +14,7 @@
   --color-accent-dark: #dc5913;
   --shadow-soft: 0 14px 32px rgba(41, 30, 20, 0.12);
   --shadow-lifted: 0 18px 42px rgba(243, 106, 34, 0.18);
+  --shadow-lifted-hover: 0 22px 50px rgba(243, 106, 34, 0.24);
   --radius-md: 16px;
   --radius-lg: 22px;
   --transition: 180ms ease;
@@ -259,12 +260,23 @@ ol {
 .btn-primary {
   background: var(--color-accent);
   color: #fff;
-  box-shadow: 0 10px 24px rgba(243, 106, 34, 0.22);
+  box-shadow: var(--shadow-lifted);
+}
+
+a.btn-primary:link,
+a.btn-primary:visited {
+  color: #fff;
 }
 
 .btn-primary:hover {
   background: var(--color-accent-dark);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-lifted-hover);
+  color: #fff;
+}
+
+.btn-primary:focus-visible {
+  color: #fff;
 }
 
 .btn-primary:disabled {
@@ -303,7 +315,6 @@ ol {
   align-self: flex-start;
   padding: 16px 36px;
   font-weight: 700;
-  box-shadow: var(--shadow-lifted);
 }
 
 /* --------------------------------------------------
@@ -451,46 +462,25 @@ textarea:focus {
 }
 
 .filter-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(111, 98, 88, 0.18);
-  background: rgba(255, 255, 255, 0.94);
-  cursor: pointer;
-  font-weight: 600;
+  padding: 8px 18px;
   font-size: 0.9rem;
-  color: var(--color-text-muted);
-  transition: background-color var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition), transform var(--transition);
-}
-
-.filter-button:hover,
-.filter-button:focus-visible {
-  color: var(--color-text);
-  border-color: rgba(243, 106, 34, 0.45);
-  background: rgba(243, 106, 34, 0.12);
-  box-shadow: 0 8px 18px rgba(243, 106, 34, 0.16);
-  transform: translateY(-1px);
-}
-
-.filter-button:focus-visible {
-  outline: none;
 }
 
 .filter-button.active {
   border-color: var(--color-accent);
   background: var(--color-accent);
   color: #fff;
-  box-shadow: 0 8px 18px rgba(243, 106, 34, 0.16);
+  box-shadow: var(--shadow-lifted);
+  transform: translateY(0);
 }
 
 .filter-button.active:hover,
 .filter-button.active:focus-visible {
   background: var(--color-accent-dark);
   border-color: var(--color-accent-dark);
-  box-shadow: 0 10px 22px rgba(243, 106, 34, 0.2);
   color: #fff;
+  box-shadow: var(--shadow-lifted-hover);
+  transform: translateY(-2px);
 }
 
 .filter-summary-container {
@@ -517,32 +507,10 @@ textarea:focus {
   color: rgba(111, 98, 88, 0.4);
 }
 
-.filter-summary-button {
-  display: inline-flex;
-  align-items: center;
+#clear-filters.filter-button {
   gap: 6px;
-  border: 1px solid rgba(111, 98, 88, 0.28);
-  border-radius: 999px;
-  padding: 6px 16px;
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--color-text-muted);
-  font-weight: 600;
   font-size: 0.85rem;
-  cursor: pointer;
-  transition: border-color var(--transition), color var(--transition), background-color var(--transition), box-shadow var(--transition);
-}
-
-.filter-summary-button:hover,
-.filter-summary-button:focus-visible {
-  border-color: rgba(243, 106, 34, 0.4);
-  color: var(--color-text);
-  background: rgba(243, 106, 34, 0.12);
-  box-shadow: 0 8px 20px rgba(243, 106, 34, 0.18);
-}
-
-.filter-summary-button:focus-visible {
-  outline: 2px solid rgba(243, 106, 34, 0.35);
-  outline-offset: 2px;
+  padding: 6px 16px;
 }
 
 /* --------------------------------------------------
@@ -721,11 +689,6 @@ textarea:focus {
   max-width: 240px;
   padding: 16px 28px;
   font-size: 1.02rem;
-  box-shadow: 0 12px 28px rgba(243, 106, 34, 0.26);
-}
-
-.recipe-card__footer .btn-primary:hover {
-  box-shadow: 0 16px 32px rgba(243, 106, 34, 0.32);
 }
 
 .recipe-card__diets:empty {
@@ -1054,7 +1017,7 @@ textarea:focus {
     align-items: stretch;
   }
 
-  .filter-summary-button {
+  #clear-filters.filter-button {
     width: 100%;
     justify-content: center;
   }

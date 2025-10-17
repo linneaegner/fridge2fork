@@ -21,6 +21,18 @@ let selectedDifficulty = ""; // Användarens valda svårighetsnivå
 const recipesSection = document.querySelector("#recipes-section");
 const foodWidget = document.querySelector("#recipes-widget");
 
+const difficultyButtonIds = [
+  "difficulty-easy",
+  "difficulty-medium",
+  "difficulty-hard",
+];
+
+function getDifficultyButtons() {
+  return difficultyButtonIds
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+}
+
 // ---------------------------------------------------------
 // 🚀 START – körs automatiskt när sidan laddas
 // ---------------------------------------------------------
@@ -114,9 +126,7 @@ function renderLayout(ingredients) {
     matchedRecipes.textContent = "Matched Recipes: 0";
   }
 
-  document
-    .querySelectorAll("#difficulty-buttons .filter-button")
-    .forEach((button) => button.classList.remove("active"));
+  getDifficultyButtons().forEach((button) => button.classList.remove("active"));
 
   if (foodWidget) {
     foodWidget.innerHTML = "";
@@ -155,7 +165,7 @@ function loadIngredients() {
 // ---------------------------------------------------------
 function setupFilters() {
   // Hämtar svårighetsknappar och återställningsknapp
-  const difficultyButtons = document.querySelectorAll("#difficulty-buttons .filter-button");
+  const difficultyButtons = getDifficultyButtons();
   const clearButton = document.querySelector("#clear-filters");
 
   // Kopplar deras funktionalitet
@@ -200,9 +210,7 @@ function setupClearButton(clearButton) {
     console.info("[Filters] Rensade alla filter");
 
     // Ta bort visuell markering på alla knappar
-    document
-      .querySelectorAll("#difficulty-buttons .filter-button")
-      .forEach((btn) => btn.classList.remove("active"));
+    getDifficultyButtons().forEach((btn) => btn.classList.remove("active"));
 
     // Ladda om recepten utan filter
     const success = await loadRecipes(loadIngredients());
