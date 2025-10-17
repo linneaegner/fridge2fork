@@ -15,7 +15,7 @@
 
 import { getRecipeDetails } from "./fetchdata.js";
 
-const RecipeDetails = document.querySelector("#recipe-details-section");
+const RecipeDetails = document.querySelector("#recipe-details-widget");
 
 function showFallback(message = "Could not find recipe.") {
   if (!RecipeDetails) return;
