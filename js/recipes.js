@@ -313,7 +313,7 @@ function renderRecipes(recipes) {
             
           </div>
           <footer class="recipe-card__footer">
-            <a href="recipe-details.html?recipeId=${recipe.id}" class="btn-solid">View Recipe</a>
+            <a href="recipe-details.html?recipeId=${recipe.id}" class="btn-primary">View Recipe</a>
           </footer>
         </article>
         `;

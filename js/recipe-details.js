@@ -113,7 +113,7 @@ function renderRecipe(recipe) {
 
         <p id="recipe-tags" class="recipe-tags"></p>
 
-        <button id="view-original-btn" class="btn-solid" type="button">
+        <button id="view-original-btn" class="btn-primary" type="button">
           View Original Recipe
         </button>
       </div>
