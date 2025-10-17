@@ -38,56 +38,10 @@
       <a href="recipes.html" class="back-link">
         Back to recipes
       </a>
-
-      <article id="recipe-details" class="card">
-        <div class="recipe-media">
-          <img
-            id="recipe-image"
-            src="https://via.placeholder.com/640x360?text=Loading..."
-            alt="Recipe image"
-          />
-        </div>
-
-        <div class="recipe-info">
-          <h1 id="recipe-title"></h1>
-          <p id="recipe-summary"></p>
-
-          <dl class="recipe-meta recipe-card__meta">
-            <div class="recipe-meta__item recipe-card__meta-item">
-              <dt class="sr-only">Time</dt>
-              <dd id="recipe-time">
-                <span aria-hidden="true" class="recipe-card__icon">⏱️</span>
-                <span id="recipe-time-value"></span>
-              </dd>
-            </div>
-            <div class="recipe-meta__item recipe-card__meta-item">
-              <dt class="sr-only">Servings</dt>
-              <dd id="recipe-servings">
-                <span aria-hidden="true" class="recipe-card__icon">👥</span>
-                <span id="recipe-servings-value"></span>
-              </dd>
-            </div>
-          </dl>
-
-          <p id="recipe-tags" class="recipe-tags"></p>
-
-          <button id="view-original-btn" class="btn-solid" type="button">
-            View Original Recipe
-          </button>
-        </div>
-      </article>
-
-      <section id="recipe-content" class="recipe-lists">
-        <div class="card">
-          <h2>Ingredients</h2>
-          <ul id="ingredients-list"></ul>
-        </div>
-
-        <div class="card">
-          <h2>Instructions</h2>
-          <ol id="instructions-list"></ol>
-        </div>
-      </section>
+      <!-- Fortsätt här -->
+      <div id="recipe-details-section">
+        <p class="empty-state">Could not find recipe.</p>
+      </div>
     </main>
 
     <footer id="footer">

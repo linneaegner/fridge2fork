@@ -18,7 +18,7 @@
   --radius-lg: 22px;
   --transition: 180ms ease;
   --layout-max: 1100px;
-  --page-gutter: clamp(28px, 4vw, 48px);
+  --page-gutter: clamp(28px, 4vw, 48px); /* Standardized value */
 }
 
 /* --------------------------------------------------

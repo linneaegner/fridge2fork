@@ -15,16 +15,29 @@
 
 import { getRecipeDetails } from "./fetchdata.js";
 
+const RecipeDetails = document.querySelector("#recipe-details-section");
+
+function showFallback(message = "Could not find recipe.") {
+  if (!RecipeDetails) return;
+  RecipeDetails.innerHTML = `<p class="empty-state">${message}</p>`;
+}
+
 // ---------------------------------------------------------
 // 🚀 START – körs automatiskt när receptdetaljsidan laddas
 // ---------------------------------------------------------
 export async function startRecipeDetailsPage() {
+  if (!RecipeDetails) {
+    console.warn("⚠️ Missing recipe details container.");
+    return;
+  }
+
   // 1️⃣ Hämta receptets ID från URL:en (t.ex. ?recipeId=12345)
   const recipeId = new URLSearchParams(window.location.search).get("recipeId");
 
   // Om inget ID hittas – logga varning och avbryt
   if (!recipeId) {
     console.warn("⚠️ No recipe ID found in the URL.");
+    showFallback();
     return;
   }
 
@@ -36,6 +49,7 @@ export async function startRecipeDetailsPage() {
     // Om inget recept hittades – logga och avbryt
     if (!recipe) {
       console.warn("⚠️ Recipe data could not be loaded from the API.");
+      showFallback();
       console.groupEnd();
       return;
     }
@@ -51,6 +65,7 @@ export async function startRecipeDetailsPage() {
   } catch (error) {
     // Logga eventuella fel i konsolen (användaren ser inget fel)
     console.error("❌ Failed to load recipe details:", error);
+    showFallback("Could not load recipe details.");
   } finally {
     console.groupEnd?.();
   }
@@ -63,6 +78,60 @@ export async function startRecipeDetailsPage() {
 // Om något saknas används ett neutralt standardvärde (fallback).
 //
 function renderRecipe(recipe) {
+  if (!RecipeDetails) return;
+
+  RecipeDetails.innerHTML = `
+    <article id="recipe-details" class="card">
+      <div class="recipe-media">
+        <img
+          id="recipe-image"
+          src="https://via.placeholder.com/640x360?text=Loading..."
+          alt="Recipe image"
+        />
+      </div>
+
+      <div class="recipe-info">
+        <h1 id="recipe-title"></h1>
+        <p id="recipe-summary"></p>
+
+        <dl class="recipe-meta recipe-card__meta">
+          <div class="recipe-meta__item recipe-card__meta-item">
+            <dt class="sr-only">Time</dt>
+            <dd id="recipe-time">
+              <span class="recipe-card__icon">⏱️</span>
+              <span id="recipe-time-value"></span>
+            </dd>
+          </div>
+          <div class="recipe-meta__item recipe-card__meta-item">
+            <dt class="sr-only">Servings</dt>
+            <dd id="recipe-servings">
+              <span class="recipe-card__icon">👥</span>
+              <span id="recipe-servings-value"></span>
+            </dd>
+          </div>
+        </dl>
+
+        <p id="recipe-tags" class="recipe-tags"></p>
+
+        <button id="view-original-btn" class="btn-solid" type="button">
+          View Original Recipe
+        </button>
+      </div>
+    </article>
+
+    <section id="recipe-content" class="recipe-lists">
+      <div class="card">
+        <h2>Ingredients</h2>
+        <ul id="ingredients-list"></ul>
+      </div>
+
+      <div class="card">
+        <h2>Instructions</h2>
+        <ol id="instructions-list"></ol>
+      </div>
+    </section>
+  `;
+
   // Hämta referenser till HTML-element på sidan
   const image = document.querySelector("#recipe-image");
   const title = document.querySelector("#recipe-title");
