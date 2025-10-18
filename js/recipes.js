@@ -21,16 +21,10 @@ let selectedDifficulty = ""; // Användarens valda svårighetsnivå
 const recipesSection = document.querySelector("#recipes-section");
 const foodWidget = document.querySelector("#recipes-widget");
 
-const difficultyButtonIds = [
-  "difficulty-easy",
-  "difficulty-medium",
-  "difficulty-hard",
-];
-
 function getDifficultyButtons() {
-  return difficultyButtonIds
-    .map((id) => document.getElementById(id))
-    .filter(Boolean);
+  return Array.from(
+    document.querySelectorAll("#difficulty-buttons [data-difficulty]")
+  );
 }
 
 // ---------------------------------------------------------
