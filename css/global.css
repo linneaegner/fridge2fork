@@ -457,13 +457,11 @@ textarea:focus {
 
 .filter-buttons {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
 }
 
 .filter-button {
-  padding: 8px 18px;
   font-size: 0.9rem;
+  padding: 6px 16px;
 }
 
 .filter-button.active {
@@ -507,10 +505,10 @@ textarea:focus {
   color: rgba(111, 98, 88, 0.4);
 }
 
-#clear-filters.filter-button {
-  gap: 6px;
-  font-size: 0.85rem;
+.clear-filters-button {
   padding: 6px 16px;
+  font-size: 0.9rem;
+
 }
 
 /* --------------------------------------------------
