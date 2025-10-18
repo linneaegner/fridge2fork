@@ -141,7 +141,7 @@ header {
   backdrop-filter: blur(6px);
 }
 
-.header-content {
+.header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -153,7 +153,7 @@ header {
 
 }
 
-#logo {
+.header-logo {
   display: inline-flex;
   align-items: center;
   gap: 12px;
@@ -161,7 +161,7 @@ header {
   color: var(--color-text);
 }
 
-#logo img {
+.header-logo img {
   width: 42px;
   height: 42px;
   border-radius: 12px;
