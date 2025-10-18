@@ -2,7 +2,8 @@
    THEME TOKENS
 -------------------------------------------------- */
 :root {
-  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
   --color-bg: #f8f5f0;
   --color-surface: #ffffff;
   --color-surface-soft: #fbf3eb;
@@ -149,8 +150,6 @@ header {
   min-height: 72px;
   margin: 0 auto;
   width: min(var(--layout-max), 100%);
-
-
 }
 
 .header-logo {
@@ -167,7 +166,7 @@ header {
   border-radius: 12px;
 }
 
-#main-nav ul {
+#header-nav ul {
   display: flex;
   gap: 22px;
   margin: 0;
@@ -257,7 +256,9 @@ header {
   cursor: pointer;
   padding: 14px 24px;
   font-size: 1rem;
-  transition: background-color var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition), transform var(--transition);
+  transition: background-color var(--transition), border-color var(--transition),
+    color var(--transition), box-shadow var(--transition),
+    transform var(--transition);
 }
 
 .btn-primary {
@@ -440,7 +441,7 @@ textarea:focus {
    FILTER BAR (Compact)
 -------------------------------------------------- */
 
-#filter-recipes {
+.recipe-filters {
   display: flex;
   flex-direction: column;
   gap: clamp(12px, 3vw, 18px);
@@ -458,13 +459,14 @@ textarea:focus {
   color: var(--color-text);
 }
 
-.filter-buttons {
+.filter-buttons-container {
   display: flex;
 }
 
 .filter-button {
   font-size: 0.9rem;
   padding: 6px 16px;
+  margin-right: 12px;
 }
 
 .filter-button.active {
@@ -472,16 +474,6 @@ textarea:focus {
   background: var(--color-accent);
   color: #fff;
   box-shadow: var(--shadow-lifted);
-  transform: translateY(0);
-}
-
-.filter-button.active:hover,
-.filter-button.active:focus-visible {
-  background: var(--color-accent-dark);
-  border-color: var(--color-accent-dark);
-  color: #fff;
-  box-shadow: var(--shadow-lifted-hover);
-  transform: translateY(-2px);
 }
 
 .filter-summary-container {
@@ -511,7 +503,6 @@ textarea:focus {
 .clear-filters-button {
   padding: 6px 16px;
   font-size: 0.9rem;
-
 }
 
 /* --------------------------------------------------
@@ -525,24 +516,15 @@ textarea:focus {
   max-width: 960px;
 }
 
-#recipes-section > * + * {
-  margin-top: clamp(24px, 5vw, 36px);
-}
-
-#recipes-section > .based-on-ingredients {
-  margin-top: 12px;
-}
-
-#recipes-page .based-on-ingredients {
-  max-width: 48ch;
-}
-
-.recipe-title, .recipe-suggestions {
+.recipe-title,
+.recipe-suggestions {
   font-size: clamp(2.6rem, 5vw, 3.4rem);
   line-height: 1.1;
 }
 
 .based-on-ingredients {
+  margin-top: 24px;
+  margin-bottom: 24px;
   font-size: 1.05rem;
   color: var(--color-text-muted);
 }
@@ -598,7 +580,11 @@ textarea:focus {
   gap: clamp(18px, 3vw, 22px);
   padding: clamp(24px, 5vw, 32px);
   flex: 1;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 245, 235, 0.45) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 245, 235, 0.45) 100%
+  );
 }
 
 .recipe-card__title {
@@ -632,7 +618,6 @@ textarea:focus {
   gap: 10px;
   order: 3;
 }
-
 
 .recipe-card__meta {
   display: flex;
@@ -959,7 +944,8 @@ textarea:focus {
     gap: 10px;
   }
 
-  .recipe-title, .recipe-suggestions {
+  .recipe-title,
+  .recipe-suggestions {
     font-size: clamp(2.3rem, 7vw, 3rem);
   }
 
@@ -1069,15 +1055,6 @@ textarea:focus {
     padding: clamp(20px, 8vw, 26px);
   }
 
-  .filter-buttons {
-    gap: 6px;
-  }
-
-  .filter-button {
-    padding: 6px 12px;
-    font-size: 0.85rem;
-  }
-
   .back-link {
     margin-bottom: 18px;
   }
@@ -1086,10 +1063,5 @@ textarea:focus {
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
-  }
-
-  .recipe-tags,
-  .based-on-ingredients {
-    font-size: 0.96rem;
   }
 }

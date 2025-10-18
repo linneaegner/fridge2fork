@@ -24,7 +24,7 @@
           <span>Fridge2Fork</span>
         </a>
 
-        <nav id="main-nav">
+        <nav id="header-nav">
           <ul>
             <li><a href="../index.html" class="nav-link">Home</a></li>
             <li><a href="about.html" class="nav-link">About</a></li>
@@ -43,21 +43,28 @@
           <span id="selected-ingredients">no ingredients selected</span>
         </p>
 
-        <form id="filter-recipes">
+        <form class="recipe-filters">
           <h2 class="filter-heading">Difficulty</h2>
-          <div id="difficulty-buttons" class="filter-buttons">
-            <button id="difficulty-easy" class="btn-secondary filter-button" type="button" data-difficulty="Easy">
+          <div id="filter-difficulty-buttons" class="filter-buttons-container">
+            <button
+              class="btn-secondary filter-button"
+              type="button"
+              data-difficulty="Easy"
+            >
               Easy
             </button>
             <button
-              id="difficulty-medium"
               class="btn-secondary filter-button"
               type="button"
               data-difficulty="Medium"
             >
               Medium
             </button>
-            <button id="difficulty-hard" class="btn-secondary filter-button" type="button" data-difficulty="Hard">
+            <button
+              class="btn-secondary filter-button"
+              type="button"
+              data-difficulty="Hard"
+            >
               Hard
             </button>
           </div>
@@ -79,8 +86,7 @@
         </div>
 
         <div id="recipes-widget" class="recipes-grid">
-          <!-- Recipes shows here dynamically -->
-           
+          <!-- Dynamically generated recipes created in JavaScript -->
         </div>
       </section>
     </main>

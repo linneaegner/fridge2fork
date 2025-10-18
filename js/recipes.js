@@ -23,7 +23,7 @@ const foodWidget = document.querySelector("#recipes-widget");
 
 function getDifficultyButtons() {
   return Array.from(
-    document.querySelectorAll("#difficulty-buttons [data-difficulty]")
+    document.querySelectorAll("#filter-difficulty-buttons [data-difficulty]")
   );
 }
 
