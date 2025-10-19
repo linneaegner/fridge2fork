@@ -812,7 +812,8 @@ textarea:focus {
 .mission-section,
 .values-section,
 .how-it-works-section,
-.contact-section {
+.contact-section,
+.contact-table-section {
   display: flex;
   flex-direction: column;
   gap: clamp(20px, 4vw, 28px);
@@ -840,6 +841,39 @@ textarea:focus {
 .contact-form textarea {
   min-height: 140px;
   resize: vertical;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.availability-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 480px;
+  color: var(--color-text);
+}
+
+.availability-table th,
+.availability-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(231, 225, 216, 0.6);
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.availability-table th {
+  font-weight: 600;
+}
+
+.availability-table tbody tr:last-of-type th,
+.availability-table tbody tr:last-of-type td {
+  border-bottom: none;
+}
+
+.availability-table th[scope="row"] {
+  white-space: nowrap;
 }
 
 .project-note {
