@@ -521,7 +521,7 @@ textarea:focus {
 /* --------------------------------------------------
    RECIPES LIST PAGE
 -------------------------------------------------- */
-.recipes-container {
+.recipes-section {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -911,7 +911,7 @@ textarea:focus {
     --page-gutter: clamp(32px, 3vw, 72px);
   }
 
-  .recipes-container {
+  .recipes-section {
     max-width: 1100px;
   }
 }
@@ -937,7 +937,7 @@ textarea:focus {
     padding: clamp(26px, 5vw, 36px);
   }
 
-  .recipes-container {
+  .recipes-section {
     max-width: 920px;
   }
 
@@ -958,7 +958,7 @@ textarea:focus {
     gap: clamp(28px, 9vw, 52px);
   }
 
-  .recipes-container > * + * {
+  .recipes-section > * + * {
     margin-top: clamp(22px, 7vw, 40px);
   }
 
