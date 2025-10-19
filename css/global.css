@@ -82,6 +82,22 @@ h4 {
   font-weight: 700;
 }
 
+h1 {
+  font-size: clamp(2.8rem, 6vw, 4rem);
+  line-height: 1.1;
+}
+h2 {
+  font-size: clamp(2.4rem, 5vw, 3.2rem);
+  line-height: 1.1;
+}
+h3 {
+  font-size: clamp(1.2rem, 2vw, 1.4rem);
+  line-height: 1.1;
+}
+h4 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1.1;
+}
 p {
   margin: 0;
   color: var(--color-text-muted);
@@ -204,8 +220,6 @@ header {
 #home-hero h1,
 #about-hero h1,
 #contact-hero h1 {
-  font-size: clamp(2.8rem, 6vw, 4rem);
-  line-height: 1.08;
   letter-spacing: -0.01em;
 }
 
@@ -508,7 +522,7 @@ textarea:focus {
 /* --------------------------------------------------
    RECIPES LIST PAGE
 -------------------------------------------------- */
-#recipes-section {
+.recipes-container {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -516,11 +530,6 @@ textarea:focus {
   max-width: 960px;
 }
 
-.recipe-title,
-.recipe-suggestions {
-  font-size: clamp(2.6rem, 5vw, 3.4rem);
-  line-height: 1.1;
-}
 
 .based-on-ingredients {
   margin-top: 24px;
@@ -869,7 +878,7 @@ textarea:focus {
     --page-gutter: clamp(32px, 3vw, 72px);
   }
 
-  #recipes-section {
+  .recipes-container {
     max-width: 1100px;
   }
 }
@@ -895,7 +904,7 @@ textarea:focus {
     padding: clamp(26px, 5vw, 36px);
   }
 
-  #recipes-section {
+  .recipes-container {
     max-width: 920px;
   }
 
@@ -916,7 +925,7 @@ textarea:focus {
     gap: clamp(28px, 9vw, 52px);
   }
 
-  #recipes-section > * + * {
+  .recipes-container > * + * {
     margin-top: clamp(22px, 7vw, 40px);
   }
 
@@ -944,10 +953,7 @@ textarea:focus {
     gap: 10px;
   }
 
-  .recipe-title,
-  .recipe-suggestions {
-    font-size: clamp(2.3rem, 7vw, 3rem);
-  }
+
 
   .recipe-card__media img {
     height: 200px;
