@@ -140,9 +140,10 @@ function renderRecipe(recipe) {
   const servingsValue = document.querySelector("#recipe-servings-value");
   const tags = document.querySelector("#recipe-tags");
   const button = document.querySelector("#view-original-btn");
+  const recipeDetailsSection = document.querySelector("#recipe-details");
 
   // Kontrollera att alla nödvändiga element finns
-  if (!image || !title || !summary || !timeValue || !servingsValue || !tags) {
+  if (!image || !title || !summary || !timeValue || !servingsValue || !tags || !recipeDetailsSection) {
     console.warn("⚠️ Missing one or more DOM elements for recipe details.");
     return;
   }

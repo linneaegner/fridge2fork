@@ -215,6 +215,11 @@ main {
   gap: 18px;
 }
 
+.page-hero .back-link {
+  align-self: flex-start;
+  margin-bottom: 12px;
+}
+
 .page-hero h1 {
   letter-spacing: -0.01em;
 }
