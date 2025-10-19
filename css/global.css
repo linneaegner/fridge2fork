@@ -323,7 +323,7 @@ a.btn-primary:visited {
   color: var(--color-accent);
 }
 
-#find-recipes-btn {
+.find-recipes-btn {
   align-self: flex-start;
   padding: 16px 36px;
   font-weight: 700;
@@ -332,12 +332,12 @@ a.btn-primary:visited {
 /* --------------------------------------------------
    INGREDIENT FORM
 -------------------------------------------------- */
-#fridge-section {
+.fridge-section {
   display: flex;
   justify-content: center;
 }
 
-#fridge-section .card {
+.fridge-section .card {
   width: min(640px, 100%);
   display: flex;
   flex-direction: column;
@@ -345,17 +345,17 @@ a.btn-primary:visited {
   text-align: left;
 }
 
-#fridge-section h2 {
+.fridge-section h2 {
   font-size: clamp(2rem, 5vw, 2.6rem);
 }
 
-#ingredient-form {
+.ingredient-form {
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
-#ingredient-form label {
+.ingredient-form label {
   font-weight: 600;
   font-size: 1.05rem;
   color: var(--color-text);
@@ -929,11 +929,11 @@ textarea:focus {
     gap: 12px;
   }
 
-  #add-ingredient-btn {
+  .add-ingredient-btn {
     width: 100%;
   }
 
-  #find-recipes-btn {
+  .find-recipes-btn {
     align-self: stretch;
   }
 
