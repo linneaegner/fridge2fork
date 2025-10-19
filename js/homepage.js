@@ -24,7 +24,6 @@ const ingredientForm = document.querySelector("#ingredient-form");
 const ingredientInput = document.querySelector("#ingredient-input");
 const addIngredientBtn = document.querySelector("#add-ingredient-btn");
 const clearIngredientsBtn = document.querySelector("#clear-ingredients-btn");
-const findRecipesBtn = document.querySelector("#find-recipes-btn");
 const ingredientTags = document.querySelector("#ingredient-tags");
 
 // ---------------------------------------------------------
