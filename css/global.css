@@ -804,10 +804,10 @@ textarea:focus {
 /* --------------------------------------------------
    ABOUT & CONTACT PAGES
 -------------------------------------------------- */
-#mission-section,
-#values-section,
-#how-it-works-section,
-#contact-section {
+.mission-section,
+.values-section,
+.how-it-works-section,
+.contact-section {
   display: flex;
   flex-direction: column;
   gap: clamp(20px, 4vw, 28px);
@@ -826,13 +826,13 @@ textarea:focus {
   color: var(--color-text);
 }
 
-#contact-form {
+.contact-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-#contact-form textarea {
+.contact-form textarea {
   min-height: 140px;
   resize: vertical;
 }
