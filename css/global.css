@@ -207,9 +207,7 @@ header {
 /* --------------------------------------------------
    HERO / INTRO
 -------------------------------------------------- */
-#home-hero,
-#about-hero,
-#contact-hero {
+.page-hero {
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -217,15 +215,11 @@ header {
   gap: 18px;
 }
 
-#home-hero h1,
-#about-hero h1,
-#contact-hero h1 {
+.page-hero h1 {
   letter-spacing: -0.01em;
 }
 
-#home-hero p,
-#about-hero p,
-#contact-hero p {
+.page-hero p {
   max-width: 640px;
   font-size: 1.05rem;
 }
@@ -1043,17 +1037,17 @@ textarea:focus {
     --page-gutter: clamp(22px, 9vw, 28px);
   }
 
-  #home-hero {
+  #home-page .page-hero {
     text-align: left;
     align-items: flex-start;
     gap: 14px;
   }
 
-  #home-hero h1 {
+  #home-page .page-hero h1 {
     font-size: clamp(2.2rem, 10vw, 2.6rem);
   }
 
-  #home-hero p {
+  #home-page .page-hero p {
     font-size: 1.02rem;
   }
 
