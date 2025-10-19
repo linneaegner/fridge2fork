@@ -846,7 +846,7 @@ textarea:focus {
 /* --------------------------------------------------
    FOOTER
 -------------------------------------------------- */
-#footer {
+.site-footer {
   background: var(--color-surface);
   border-top: 1px solid var(--color-border);
   padding: 44px 0;
@@ -855,11 +855,11 @@ textarea:focus {
   text-align: center;
 }
 
-#footer p {
+.site-footer p {
   margin: 0 0 6px;
 }
 
-#footer a:hover {
+.site-footer a:hover {
   color: var(--color-accent);
 }
 
@@ -965,7 +965,7 @@ textarea:focus {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 
-  #footer {
+  .site-footer {
     padding: 36px 0;
   }
 }
