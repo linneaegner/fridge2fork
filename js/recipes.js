@@ -19,7 +19,7 @@ let selectedDifficulty = ""; // Användarens valda svårighetsnivå
 
 // Huvudbehållaren där allt innehåll ska placeras
 const recipesSection = document.querySelector("#recipes-section");
-const widgetContainer = document.querySelector("#recipes-widget");
+const RecipesWidget = document.querySelector("#recipes-widget");
 let recipesGrid = null;
 let activeFiltersLabel = null;
 let matchedRecipesLabel = null;
@@ -78,9 +78,9 @@ function buildWidgetUI(container) {
 // 🚀 START – körs automatiskt när sidan laddas
 // ---------------------------------------------------------
 export async function startRecipesPage() {
-  if (!recipesSection || !widgetContainer) return; // Om element saknas, avbryt
+  if (!recipesSection || !RecipesWidget) return; // Om element saknas, avbryt
 
-  const ui = buildWidgetUI(widgetContainer);
+  const ui = buildWidgetUI(RecipesWidget);
   recipesGrid = ui.recipesGrid;
   activeFiltersLabel = ui.activeFilters;
   matchedRecipesLabel = ui.matchedRecipes;
