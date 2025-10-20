@@ -106,18 +106,18 @@ function renderRecipe(recipe) {
         <h1 id="recipe-title"></h1>
         <p id="recipe-summary"></p>
 
-        <dl class="recipe-meta recipe-card__meta">
-          <div class="recipe-meta__item recipe-card__meta-item">
+        <dl class="recipe-meta recipe-card-meta">
+          <div class="recipe-meta__item recipe-card-meta-item">
             <dt class="sr-only">Time</dt>
             <dd id="recipe-time">
-              <span class="recipe-card__icon">⏱️</span>
+              <span class="recipe-card-meta-icon">⏱️</span>
               <span id="recipe-time-value"></span>
             </dd>
           </div>
-          <div class="recipe-meta__item recipe-card__meta-item">
+          <div class="recipe-meta__item recipe-card-meta-item">
             <dt class="sr-only">Servings</dt>
             <dd id="recipe-servings">
-              <span class="recipe-card__icon">👥</span>
+              <span class="recipe-card-meta-icon">👥</span>
               <span id="recipe-servings-value"></span>
             </dd>
           </div>

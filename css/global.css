@@ -565,24 +565,24 @@ textarea:focus {
   box-shadow: 0 32px 60px rgba(41, 30, 20, 0.18);
 }
 
-.recipe-card__media {
+.recipe-card-media {
   position: relative;
   overflow: hidden;
   background: var(--color-surface-soft);
 }
 
-.recipe-card__media img {
+.recipe-card-media img {
   width: 100%;
   height: 220px;
   object-fit: cover;
   transition: transform var(--transition);
 }
 
-.recipe-card:hover .recipe-card__media img {
+.recipe-card:hover .recipe-card-media img {
   transform: scale(1.03);
 }
 
-.recipe-card__content {
+.recipe-card-info {
   display: flex;
   flex-direction: column;
   gap: clamp(18px, 3vw, 22px);
@@ -595,7 +595,7 @@ textarea:focus {
   );
 }
 
-.recipe-card__title {
+.recipe-card-title {
   font-size: clamp(1.5rem, 4vw, 1.75rem);
   line-height: 1.25;
   display: -webkit-box;
@@ -606,7 +606,7 @@ textarea:focus {
   min-height: calc(1.25em * 2);
 }
 
-.recipe-card__summary {
+.recipe-card-summary {
   color: var(--color-text-muted);
   font-size: 0.95rem;
   display: -webkit-box;
@@ -619,7 +619,7 @@ textarea:focus {
   min-height: calc(1.6em * 3);
 }
 
-.recipe-card__diets {
+.recipe-card-tags {
   margin: 12px 0 0;
   display: flex;
   flex-wrap: wrap;
@@ -627,7 +627,7 @@ textarea:focus {
   order: 3;
 }
 
-.recipe-card__meta {
+.recipe-card-meta {
   display: flex;
   gap: 22px;
   flex-wrap: wrap;
@@ -636,14 +636,14 @@ textarea:focus {
   order: 2;
 }
 
-.recipe-card__meta-item {
+.recipe-card-meta-item {
   display: flex;
   align-items: center;
   gap: 10px;
   color: var(--color-text-muted);
 }
 
-.recipe-card__meta-item dd {
+.recipe-card-meta-item dd {
   margin: 0;
   display: inline-flex;
   align-items: center;
@@ -653,22 +653,12 @@ textarea:focus {
   font-size: 0.98rem;
 }
 
-.recipe-card__icon {
+.recipe-card-meta-icon {
   font-size: 1.2rem;
   color: var(--color-accent);
 }
 
-.recipe-card__difficulty {
-  margin: 10px 0 0;
-  color: var(--color-text-muted);
-  font-weight: 600;
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  order: 4;
-}
-
-.recipe-card__footer {
+.recipe-card-footer {
   margin-top: auto;
   padding: clamp(20px, 5vw, 28px);
   display: flex;
@@ -678,18 +668,18 @@ textarea:focus {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-.recipe-card__footer .btn-primary {
+.recipe-card-footer .btn-primary {
   width: 100%;
   max-width: 240px;
   padding: 16px 28px;
   font-size: 1.02rem;
 }
 
-.recipe-card__diets:empty {
+.recipe-card-tags:empty {
   display: none;
 }
 
-.recipe-card__diet-tag {
+.recipe-card-tag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -994,7 +984,7 @@ textarea:focus {
 
 
 
-  .recipe-card__media img {
+  .recipe-card-media img {
     height: 200px;
   }
 
@@ -1040,7 +1030,7 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
-  .recipe-card__media img {
+  .recipe-card-media img {
     height: 210px;
   }
 

@@ -162,35 +162,37 @@ function renderRecipes(recipes) {
       const dietsMarkup = formatDiets(recipe.diets);
 
       return `
-        <article class="recipe-card card">
-          <div class="recipe-card__media">
+        <article class="recipe-card">
+          <header class="recipe-card-media">
             <img
-              src="${recipe.image}"
+              src="${recipe.image || "https://via.placeholder.com/640x360"}"
               alt="${recipe.title}"
             />
-          </div>
-          <div class="recipe-card__content">
-            <h3 class="recipe-card__title">${recipe.title}</h3>
-            ${summary ? `<p class="recipe-card__summary">${truncateText(summary)}</p>` : ""}
-            <p class="recipe-card__diets">${dietsMarkup}</p>
-            <dl class="recipe-card__meta">
-              <div class="recipe-card__meta-item">
+          </header>
+
+          <div class="recipe-card-info">
+            <h3 class="recipe-card-title">${recipe.title}</h3>
+            ${summary ? `<p class="recipe-card-summary">${truncateText(summary)}</p>` : ""} 
+            <p class="recipe-card-tags">${dietsMarkup}</p>
+            <dl class="recipe-card-meta">
+              <div class="recipe-card-meta-item">
                 <dt class="sr-only">Time</dt>
                 <dd>
-                  <span class="recipe-card__icon">⏱️</span>
+                  <span class="recipe-card-meta-icon">⏱️</span>
                   ${formatMinutes(recipe.readyInMinutes)}
                 </dd>
               </div>
-              <div class="recipe-card__meta-item">
+              <div class="recipe-card-meta-item">
                 <dt class="sr-only">Servings</dt>
                 <dd>
-                  <span class="recipe-card__icon">👥</span>
+                  <span class="recipe-card-meta-icon">👥</span>
                   ${formatServings(recipe.servings)}
                 </dd>
               </div>
             </dl>
           </div>
-          <footer class="recipe-card__footer">
+
+          <footer class="recipe-card-footer">
             <a href="recipe-details.html?recipeId=${recipe.id}" class="btn-primary">View Recipe</a>
           </footer>
         </article>
@@ -258,7 +260,7 @@ function formatDiets(diets = []) {
   if (!Array.isArray(diets) || !diets.length) return "";
   return diets
     .slice(0, 3)
-    .map((diet) => `<span class="recipe-card__diet-tag">${capitalizeWords(diet)}</span>`)
+    .map((diet) => `<span class="recipe-card-tag">${capitalizeWords(diet)}</span>`)
     .join("");
 }
 
