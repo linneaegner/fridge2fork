@@ -691,7 +691,7 @@ textarea:focus {
   white-space: nowrap;
 }
 
-#recipe-details-page #recipe-details,
+#recipe-details-page .recipe-details,
 #recipe-details-page #recipe-content {
   margin: 0 auto;
   max-width: 960px;
@@ -700,7 +700,7 @@ textarea:focus {
 /* --------------------------------------------------
    RECIPE DETAILS
 -------------------------------------------------- */
-#recipe-details {
+.recipe-details {
   display: grid;
   gap: clamp(28px, 6vw, 40px);
 }
@@ -1050,11 +1050,11 @@ textarea:focus {
     width: 100%;
   }
 
-  #recipe-details {
+  .recipe-details {
     gap: clamp(20px, 9vw, 32px);
   }
 
-  #recipe-details-page #recipe-details,
+  #recipe-details-page .recipe-details,
   #recipe-details-page #recipe-content {
     max-width: 100%;
   }

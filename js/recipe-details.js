@@ -73,8 +73,10 @@ function renderRecipe(recipe) {
   if (!recipeDetailsWidget) return;
 
   recipeDetailsWidget.innerHTML = `
-    <article id="recipe-details" class="card">
-      <div class="recipe-media">
+    <article class="recipe-details">
+       <h1 id="recipe-title"></h1>
+       
+       <div class="recipe-media">
         <img
           id="recipe-image"
           src="https://via.placeholder.com/640x360?text=Loading..."
@@ -83,10 +85,9 @@ function renderRecipe(recipe) {
       </div>
 
       <div class="recipe-info">
-        <h1 id="recipe-title"></h1>
         <p id="recipe-summary"></p>
 
-        <dl class="recipe-meta recipe-card-meta">
+        <dl class="recipe-card-meta">
           <div class="recipe-card-meta-item">
             <dd id="recipe-time">⏱️ <span id="recipe-time-value"></span></dd>
           </div>
@@ -94,6 +95,7 @@ function renderRecipe(recipe) {
             <dd id="recipe-servings">👥 <span id="recipe-servings-value"></span></dd>
           </div>
         </dl>
+        
 
         <p id="recipe-tags" class="recipe-tags"></p>
 
