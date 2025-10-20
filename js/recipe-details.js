@@ -15,18 +15,18 @@
 
 import { getRecipeDetails } from "./fetchdata.js";
 
-const RecipeDetails = document.querySelector("#recipe-details-widget");
+const RecipeDetailsWidget = document.querySelector("#recipe-details-widget");
 
 function showFallback(message = "Could not find recipe.") {
-  if (!RecipeDetails) return;
-  RecipeDetails.innerHTML = `<p class="empty-state">${message}</p>`;
+  if (!RecipeDetailsWidget) return;
+  RecipeDetailsWidget.innerHTML = `<p class="empty-state">${message}</p>`;
 }
 
 // ---------------------------------------------------------
 // 🚀 START – körs automatiskt när receptdetaljsidan laddas
 // ---------------------------------------------------------
 export async function startRecipeDetailsPage() {
-  if (!RecipeDetails) {
+  if (!RecipeDetailsWidget) {
     console.warn("⚠️ Missing recipe details container.");
     return;
   }
@@ -78,9 +78,9 @@ export async function startRecipeDetailsPage() {
 // Om något saknas används ett neutralt standardvärde (fallback).
 //
 function renderRecipe(recipe) {
-  if (!RecipeDetails) return;
+  if (!RecipeDetailsWidget) return;
 
-  RecipeDetails.innerHTML = `
+  RecipeDetailsWidget.innerHTML = `
     <article id="recipe-details" class="card">
       <div class="recipe-media">
         <img
@@ -140,10 +140,10 @@ function renderRecipe(recipe) {
   const servingsValue = document.querySelector("#recipe-servings-value");
   const tags = document.querySelector("#recipe-tags");
   const button = document.querySelector("#view-original-btn");
-  const recipeDetailsSection = document.querySelector("#recipe-details");
+  const recipeDetails = document.querySelector("#recipe-details");
 
   // Kontrollera att alla nödvändiga element finns
-  if (!image || !title || !summary || !timeValue || !servingsValue || !tags || !recipeDetailsSection) {
+  if (!image || !title || !summary || !timeValue || !servingsValue || !tags || !recipeDetails) {
     console.warn("⚠️ Missing one or more DOM elements for recipe details.");
     return;
   }
