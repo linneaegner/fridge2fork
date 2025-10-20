@@ -1,56 +1,55 @@
 // ---------------------------------------------------------
-// recipes.js – Visar sökresultat och filter på receptsidan
-// ---------------------------------------------------------
-//
-// Den här filen ansvarar för logiken på sidan som visar recepten.
-// Den hämtar data från API:et, hanterar svårighetsfiltret och visar receptkort på sidan.
-//
-// Den pratar med fetchdata.js för att hämta data från API:et.
+// recipes.js – visar recept och ett enkelt svårighetsfilter
 // ---------------------------------------------------------
 
 import { getRecipes } from "./fetchdata.js";
 
-// ---------------------------------------------------------
-// 🔹 GLOBALA VARIABLER – används för att hålla koll på filtren
-// ---------------------------------------------------------
-let allRecipes = [];         // Alla recept vi fått från API:et
-let filteredRecipes = [];    // De recept som just nu visas (efter filter)
-let selectedDifficulty = ""; // Användarens valda svårighetsnivå
+// === Globala variabler ===================================
+const widgetContainer = document.querySelector("#recipes-widget");
 
-// Huvudbehållaren där allt innehåll ska placeras
-const recipesWidget = document.querySelector("#recipes-widget");
-let recipesGrid = null;
-let activeFiltersLabel = null;
-let matchedRecipesLabel = null;
-let clearFiltersButton = null;
+let allRecipes = [];         // Alla recept vi fått från API:t
+let shownRecipes = [];       // Recept som just nu visas efter filter
+let selectedDifficulty = ""; // Vald svårighetsnivå (Easy / Medium / Hard)
+
+let gridEl = null;
+let activeFiltersEl = null;
+let matchedRecipesEl = null;
+let clearFiltersBtn = null;
 let difficultyButtons = [];
-let recipesStatusLabel = null;
 
-function getDifficultyButtons() {
-  return difficultyButtons;
+// === Startpunkt (körs från main.js) ======================
+export async function startRecipesPage() {
+  if (!widgetContainer) return; // Avbryt om sidan saknar widget
+
+  buildWidgetHTML();
+  cacheWidgetElements();
+  connectEvents();
+
+  const ingredients = loadIngredients();
+  resetWidget(ingredients);
+
+  const loaded = await fetchRecipes(ingredients);
+  if (!loaded) return;
+
+  applyDifficultyFilter();
 }
 
-function buildWidgetUI(container) {
-  container.innerHTML = `
-    <form class="recipe-filters" aria-label="Filter recipes by difficulty">
+// === Bygg upp widgeten ===================================
+function buildWidgetHTML() {
+  widgetContainer.innerHTML = `
+    <form class="recipe-filters">
       <h2 class="filter-heading">Difficulty</h2>
       <div id="filter-difficulty-buttons" class="filter-buttons-container">
-        <button class="btn-secondary filter-button" type="button" data-difficulty="Easy">
-          Easy
-        </button>
-        <button class="btn-secondary filter-button" type="button" data-difficulty="Medium">
-          Medium
-        </button>
-        <button class="btn-secondary filter-button" type="button" data-difficulty="Hard">
-          Hard
-        </button>
+        <button class="btn-secondary filter-button" type="button" data-difficulty="Easy">Easy</button>
+        <button class="btn-secondary filter-button" type="button" data-difficulty="Medium">Medium</button>
+        <button class="btn-secondary filter-button" type="button" data-difficulty="Hard">Hard</button>
       </div>
     </form>
 
     <div class="filter-summary-container">
-      <div class="filter-summary-details" aria-live="polite">
+      <div class="filter-summary-details">
         <span id="active-filters">No active filters</span>
-        <span aria-hidden="true">•</span>
+        <span>•</span>
         <span id="matched-recipes">Matched Recipes: 0</span>
       </div>
       <button id="clear-filters" class="btn-secondary clear-filters-button" type="button">
@@ -62,148 +61,58 @@ function buildWidgetUI(container) {
       <p class="empty-state">Loading recipes...</p>
     </div>
   `;
-
-  return {
-    recipesGrid: container.querySelector("#recipes-grid"),
-    activeFilters: container.querySelector("#active-filters"),
-    matchedRecipes: container.querySelector("#matched-recipes"),
-    clearButton: container.querySelector("#clear-filters"),
-    difficultyButtons: Array.from(
-      container.querySelectorAll("#filter-difficulty-buttons [data-difficulty]")
-    ),
-  };
 }
 
-// ---------------------------------------------------------
-// 🚀 START – körs automatiskt när sidan laddas
-// ---------------------------------------------------------
-export async function startRecipesPage() {
-  if (!recipesWidget) return; // Om element saknas, avbryt
-
-  const ui = buildWidgetUI(recipesWidget);
-  recipesGrid = ui.recipesGrid;
-  activeFiltersLabel = ui.activeFilters;
-  matchedRecipesLabel = ui.matchedRecipes;
-  clearFiltersButton = ui.clearButton;
-  difficultyButtons = ui.difficultyButtons;
-  recipesStatusLabel = document.querySelector("#recipes-status");
-
-  // 1️⃣ Läs in ingredienser som användaren valt på startsidan
-  const ingredients = loadIngredients();
-  console.info("[Recipes] Startar sidan med ingredienser", ingredients);
-
-  // 2️⃣ Bygg upp layouten för sidan (rubrik, filter och tomt receptgrid)
-  renderLayout(ingredients);
-
-  // 3️⃣ Skapa alla filterknappar och koppla deras händelser
-  setupFilters();
-
-  // 4️⃣ Hämta recept från API:et baserat på ingredienserna
-  const success = await loadRecipes(ingredients);
-
-  if (!success) {
-    return;
-  }
-
-  // 5️⃣ Visa resultaten på sidan
-  renderRecipes(filteredRecipes);
-  displayActiveFilters();
-  updateMatchedRecipes(filteredRecipes);
+function cacheWidgetElements() {
+  gridEl = widgetContainer.querySelector("#recipes-grid");
+  activeFiltersEl = widgetContainer.querySelector("#active-filters");
+  matchedRecipesEl = widgetContainer.querySelector("#matched-recipes");
+  clearFiltersBtn = widgetContainer.querySelector("#clear-filters");
+  difficultyButtons = Array.from(
+    widgetContainer.querySelectorAll("#filter-difficulty-buttons [data-difficulty]")
+  );
 }
 
-// ---------------------------------------------------------
-// 🔹 HÄMTA RECEPT FRÅN API:ET
-// ---------------------------------------------------------
-// Denna funktion anropar getRecipes() från fetchdata.js
-// och skickar med ingredienserna som användaren valt.
-async function loadRecipes(ingredients) {
-  console.groupCollapsed("📋 UI:loadRecipes");
-  console.info("Aktuella filter innan anrop", {
-    ingredients,
-    difficulty: selectedDifficulty,
+function connectEvents() {
+  difficultyButtons.forEach((button) => {
+    button.addEventListener("click", () => handleDifficultyClick(button.dataset.difficulty));
   });
 
+  clearFiltersBtn?.addEventListener("click", async () => {
+    selectedDifficulty = "";
+    updateDifficultyButtons();
+
+    const loaded = await fetchRecipes(loadIngredients());
+    if (loaded) {
+      applyDifficultyFilter();
+    }
+  });
+}
+
+// === Datahantering ======================================
+async function fetchRecipes(ingredients) {
   try {
     allRecipes = await getRecipes({ ingredients });
+    shownRecipes = allRecipes.slice();
 
-    filteredRecipes = allRecipes; // Vi sparar kopian som vi filtrerar lokalt
+    updateMatchedRecipes(shownRecipes.length);
+    updateActiveFilterLabel();
 
-    console.info(`[Recipes] Mottog ${allRecipes.length} recept från API:t`);
-    if (allRecipes.length) {
-      console.table(
-        allRecipes.map(({ id, title, readyInMinutes }) => ({ id, title, readyInMinutes }))
-      );
+    if (!allRecipes.length) {
+      renderMessage("Inga recept hittades för de valda ingredienserna.");
+      return false;
     }
-
-    // Uppdatera visuell information (filterstatus och antal träffar)
-    displayActiveFilters();
-    updateMatchedRecipes(filteredRecipes);
-
-    announceStatus(
-      filteredRecipes.length
-        ? `${filteredRecipes.length} recipes loaded.`
-        : "No recipes were returned for the selected ingredients."
-    );
 
     return true;
   } catch (error) {
-    // Om något går fel – visa ett meddelande på sidan
-    console.error("[Recipes] Kunde inte ladda recept", error);
+    console.error("[Recipes] Kunde inte hämta recept", error);
     allRecipes = [];
-    filteredRecipes = [];
-    renderMessage("Unable to fetch recipes right now.");
-    announceStatus("Unable to fetch recipes right now.");
+    shownRecipes = [];
+    renderMessage("Kunde inte hämta recept just nu.");
     return false;
-  } finally {
-    console.groupEnd();
   }
 }
 
-// ---------------------------------------------------------
-// 🧱 FÖRBERED SIDANS LAYOUT (uppdaterar statiska sektioner)
-// ---------------------------------------------------------
-function renderLayout(ingredients) {
-  const formattedIngredients = formatIngredientsList(ingredients);
-
-  selectedDifficulty = "";
-
-  const ingredientsLabel = document.querySelector("#selected-ingredients");
-  if (ingredientsLabel) {
-    ingredientsLabel.textContent = formattedIngredients;
-  }
-
-  if (activeFiltersLabel) {
-    activeFiltersLabel.textContent = "No active filters";
-  }
-
-  if (matchedRecipesLabel) {
-    matchedRecipesLabel.textContent = "Matched Recipes: 0";
-  }
-
-  getDifficultyButtons().forEach((button) => button.classList.remove("active"));
-
-  renderMessage("Loading recipes...");
-}
-
-function formatIngredientsList(ingredients) {
-  if (!ingredients.length) {
-    return "no ingredients selected";
-  }
-
-  if (ingredients.length === 1) {
-    return ingredients[0];
-  }
-
-  const lastIngredient = ingredients[ingredients.length - 1];
-  const initial = ingredients.slice(0, -1).join(", ");
-  return `${initial} and ${lastIngredient}`;
-}
-
-// ---------------------------------------------------------
-// 🥕 HÄMTA INGREDIENSER FRÅN LOCALSTORAGE
-// ---------------------------------------------------------
-// När användaren väljer ingredienser på startsidan sparas de lokalt.
-// Här hämtar vi tillbaka dem som en lista.
 function loadIngredients() {
   try {
     return JSON.parse(localStorage.getItem("ingredients")) || [];
@@ -212,220 +121,163 @@ function loadIngredients() {
   }
 }
 
-// ---------------------------------------------------------
-// ⚙️ SKAPA FILTERKNAPPAR OCH KOPPLA FUNKTIONER
-// ---------------------------------------------------------
-function setupFilters() {
-  // Hämtar svårighetsknappar och återställningsknapp
-  const buttons = getDifficultyButtons();
-
-  // Kopplar deras funktionalitet
-  setupDifficultyButtons(buttons);
-  setupClearButton(clearFiltersButton);
+// === Filtrering =========================================
+function handleDifficultyClick(value) {
+  selectedDifficulty = selectedDifficulty === value ? "" : value;
+  updateDifficultyButtons();
+  applyDifficultyFilter();
 }
 
-// 🏋️‍♀️ SVÅRIGHETSFILTER – hanteras lokalt
-// ---------------------------------------------------------
-function setupDifficultyButtons(buttons) {
-  if (!buttons?.length) return;
-
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      // Om man klickar på samma knapp igen → ta bort markering
-      selectedDifficulty =
-        button.dataset.difficulty === selectedDifficulty ? "" : button.dataset.difficulty;
-
-      console.info("[Filters] Vald svårighetsgrad", selectedDifficulty || "Alla");
-
-      // Markera endast den valda knappen
-      buttons.forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.difficulty === selectedDifficulty);
-      });
-
-      // Uppdatera filtrering och visning
-      applyFilters();
-      displayActiveFilters();
-      updateMatchedRecipes(filteredRecipes);
-    });
-  });
-}
-
-// ---------------------------------------------------------
-// 🧼 RENSAR ALLA FILTER (återställer allt till standardläge)
-// ---------------------------------------------------------
-function setupClearButton(clearButton) {
-  if (!clearButton) return;
-
-  clearButton.addEventListener("click", async () => {
-    // Töm alla val
-    selectedDifficulty = "";
-
-    console.info("[Filters] Rensade alla filter");
-
-    // Ta bort visuell markering på alla knappar
-    getDifficultyButtons().forEach((btn) => btn.classList.remove("active"));
-
-    // Ladda om recepten utan filter
-    const success = await loadRecipes(loadIngredients());
-
-    if (!success) {
-      return;
-    }
-
-    // Uppdatera visningen
-    applyFilters();
-    displayActiveFilters();
-    updateMatchedRecipes(allRecipes);
-  });
-}
-
-// ---------------------------------------------------------
-// 🔍 FILTRERAR RECEPTEN LOKALT EFTER SVÅRIGHET
-// ---------------------------------------------------------
-// Svårighetsgrad beräknas här baserat på tillagningstid.
-function applyFilters() {
-  filteredRecipes = allRecipes.filter((recipe) => {
-    const matchDifficulty =
-      !selectedDifficulty || getDifficulty(recipe.readyInMinutes) === selectedDifficulty;
-    return matchDifficulty;
+function applyDifficultyFilter() {
+  shownRecipes = allRecipes.filter((recipe) => {
+    if (!selectedDifficulty) return true;
+    return getDifficulty(recipe.readyInMinutes) === selectedDifficulty;
   });
 
-  console.info("[Filters] Resultat efter lokal filtrering", {
-    difficulty: selectedDifficulty || "Alla",
-    matchCount: filteredRecipes.length,
-    total: allRecipes.length,
-  });
-
-  // Visa resultaten och uppdatera informationen
-  renderRecipes(filteredRecipes);
-  displayActiveFilters();
-  updateMatchedRecipes(filteredRecipes);
-}
-
-// ---------------------------------------------------------
-// 🧾 VISAR VILKA FILTER SOM ÄR AKTIVA
-// ---------------------------------------------------------
-function displayActiveFilters() {
-  if (!activeFiltersLabel) return;
-
-  const activeText = selectedDifficulty ? `Active Filters: ${selectedDifficulty}` : "No active filters";
-
-  activeFiltersLabel.textContent = activeText;
-}
-
-// ---------------------------------------------------------
-// 📊 VISAR HUR MÅNGA RECEPT SOM MATCHAR FILTREN
-// ---------------------------------------------------------
-function updateMatchedRecipes(recipes) {
-  if (!matchedRecipesLabel) return;
-
-  matchedRecipesLabel.textContent = `Matched Recipes: ${recipes.length}`;
-}
-
-// ---------------------------------------------------------
-// 🖼️ VISAR ALLA RECEPT SOM KORT I SIDANS GRID
-// ---------------------------------------------------------
-function renderRecipes(recipes) {
-  if (!recipesGrid) return;
-
-  // Om inga recept hittas
-  if (!recipes.length) {
+  if (!shownRecipes.length) {
     renderMessage("No recipes found for these filters.");
+    updateMatchedRecipes(0);
+    updateActiveFilterLabel();
     return;
   }
 
-  // Skapa HTML för varje receptkort
-  recipesGrid.innerHTML = recipes
-    .map(
-      (recipe) => {
-        const summary = recipe.summary ? truncateText(recipe.summary) : "";
-        const dietsMarkup = formatDiets(recipe.diets);
+  renderRecipes(shownRecipes);
+  updateMatchedRecipes(shownRecipes.length);
+  updateActiveFilterLabel();
+}
 
-        return `
+function updateDifficultyButtons() {
+  difficultyButtons.forEach((button) => {
+    button.classList.toggle("active", button.dataset.difficulty === selectedDifficulty);
+  });
+}
+
+// === Rendering ==========================================
+function renderRecipes(recipes) {
+  if (!gridEl) return;
+
+  gridEl.innerHTML = recipes
+    .map((recipe) => {
+      const summary = recipe.summary ? stripHtml(recipe.summary) : "";
+      const dietsMarkup = formatDiets(recipe.diets);
+
+      return `
         <article class="recipe-card card">
           <div class="recipe-card__media">
-            <img 
-              src="${recipe.image || "https://via.placeholder.com/640x360"}" 
-              alt="${recipe.title}" 
+            <img
+              src="${recipe.image || "https://via.placeholder.com/640x360"}"
+              alt="${recipe.title}"
             />
           </div>
           <div class="recipe-card__content">
             <h3 class="recipe-card__title">${recipe.title}</h3>
-            ${summary ? `<p class="recipe-card__summary">${summary}</p>` : ""}
+            ${summary ? `<p class="recipe-card__summary">${truncateText(summary)}</p>` : ""}
             <p class="recipe-card__diets">${dietsMarkup}</p>
             <dl class="recipe-card__meta">
               <div class="recipe-card__meta-item">
                 <dt class="sr-only">Time</dt>
                 <dd>
-                  <span aria-hidden="true" class="recipe-card__icon">⏱️</span>
+                  <span class="recipe-card__icon">⏱️</span>
                   ${formatMinutes(recipe.readyInMinutes)}
                 </dd>
               </div>
               <div class="recipe-card__meta-item">
                 <dt class="sr-only">Servings</dt>
                 <dd>
-                  <span aria-hidden="true" class="recipe-card__icon">👥</span>
+                  <span class="recipe-card__icon">👥</span>
                   ${formatServings(recipe.servings)}
                 </dd>
               </div>
             </dl>
-            
           </div>
           <footer class="recipe-card__footer">
             <a href="recipe-details.html?recipeId=${recipe.id}" class="btn-primary">View Recipe</a>
           </footer>
         </article>
-        `;
-      }
-    )
+      `;
+    })
     .join("");
 
   announceStatus(`${recipes.length} recipes available.`);
 }
 
 function renderMessage(message) {
-  if (!recipesGrid) return;
-  recipesGrid.innerHTML = `<p class="empty-state">${message}</p>`;
+  if (!gridEl) return;
+  gridEl.innerHTML = `<p class="empty-state">${message}</p>`;
   announceStatus(message);
 }
 
-function announceStatus(message) {
-  if (!recipesStatusLabel) return;
-  recipesStatusLabel.textContent = message;
+function resetWidget(ingredients) {
+  selectedDifficulty = "";
+  updateDifficultyButtons();
+  updateSelectedIngredientsLabel(ingredients);
+  updateActiveFilterLabel();
+  updateMatchedRecipes(0);
+  renderMessage("Loading recipes...");
 }
 
-function truncateText(text, maxLength = 120) {
-  const plainText = text.replace(/<[^>]+>/g, "");
-  if (plainText.length <= maxLength) return plainText;
-  return `${plainText.slice(0, maxLength).trim()}...`;
+// === Uppdatera etiketter ================================
+function updateSelectedIngredientsLabel(ingredients) {
+  const ingredientsEl = document.querySelector("#selected-ingredients");
+  if (!ingredientsEl) return;
+  ingredientsEl.textContent = formatIngredientsList(ingredients);
+}
+
+function updateActiveFilterLabel() {
+  if (!activeFiltersEl) return;
+  activeFiltersEl.textContent = selectedDifficulty
+    ? `Active Filters: ${selectedDifficulty}`
+    : "No active filters";
+}
+
+function updateMatchedRecipes(count) {
+  if (!matchedRecipesEl) return;
+  matchedRecipesEl.textContent = `Matched Recipes: ${count}`;
+}
+
+// === Små hjälpfunktioner ================================
+function getDifficulty(minutes) {
+  if (!minutes) return "Easy";
+  if (minutes <= 30) return "Easy";
+  if (minutes <= 45) return "Medium";
+  return "Hard";
 }
 
 function formatMinutes(minutes) {
-  if (!minutes || Number.isNaN(Number(minutes))) {
-    return "N/A";
-  }
-
+  if (!minutes || Number.isNaN(Number(minutes))) return "N/A";
   return `${minutes} mins`;
 }
 
 function formatServings(servings) {
-  if (!servings || Number.isNaN(Number(servings))) {
-    return "N/A servings";
-  }
-
+  if (!servings || Number.isNaN(Number(servings))) return "N/A servings";
   const value = Number(servings);
   return `${value} ${value === 1 ? "serving" : "servings"}`;
 }
 
 function formatDiets(diets = []) {
-  if (!Array.isArray(diets) || diets.length === 0) {
-    return "";
-  }
-
+  if (!Array.isArray(diets) || !diets.length) return "";
   return diets
     .slice(0, 3)
     .map((diet) => `<span class="recipe-card__diet-tag">${capitalizeWords(diet)}</span>`)
     .join("");
+}
+
+function formatIngredientsList(list) {
+  if (!list.length) return "no ingredients selected";
+  if (list.length === 1) return list[0];
+  const last = list[list.length - 1];
+  return `${list.slice(0, -1).join(", ")} and ${last}`;
+}
+
+function truncateText(text, maxLength = 120) {
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength).trim()}...`;
+}
+
+function stripHtml(html = "") {
+  const temp = document.createElement("div");
+  temp.innerHTML = html;
+  return temp.textContent || temp.innerText || "";
 }
 
 function capitalizeWords(text = "") {
@@ -435,13 +287,6 @@ function capitalizeWords(text = "") {
     .join(" ");
 }
 
-// ---------------------------------------------------------
-// ⏱️ RÄKNAR UT SVÅRIGHETSNIVÅ BASERAT PÅ TID
-// ---------------------------------------------------------
-function getDifficulty(minutes) {
-  // Om ingen tid anges – anta "Easy"
-  if (!minutes) return "Easy";
-  if (minutes <= 30) return "Easy";
-  if (minutes <= 45) return "Medium";
-  return "Hard";
+function announceStatus(message) {
+  console.log(message);
 }
