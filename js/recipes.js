@@ -173,7 +173,7 @@ function renderRecipes(recipes) {
           <div class="recipe-card-info">
             <h3 class="recipe-card-title">${recipe.title}</h3>
             ${summary ? `<p class="recipe-card-summary">${truncateText(summary)}</p>` : ""} 
-            <p class="recipe-card-tags">${dietsMarkup}</p>
+
             <dl class="recipe-card-meta">
               <div class="recipe-card-meta-item">
                 <dt class="sr-only">Time</dt>
@@ -190,6 +190,7 @@ function renderRecipes(recipes) {
                 </dd>
               </div>
             </dl>
+            <p class="recipe-card-tags">${dietsMarkup}</p>
           </div>
 
           <footer class="recipe-card-footer">

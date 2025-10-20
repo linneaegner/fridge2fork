@@ -615,7 +615,6 @@ textarea:focus {
   -webkit-box-orient: vertical;
   overflow: hidden;
   line-height: 1.6;
-  order: 1;
   min-height: calc(1.6em * 3);
 }
 
@@ -624,7 +623,6 @@ textarea:focus {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  order: 3;
 }
 
 .recipe-card-meta {
@@ -633,7 +631,6 @@ textarea:focus {
   flex-wrap: wrap;
   margin: 8px 0 0;
   padding: 0;
-  order: 2;
 }
 
 .recipe-card-meta-item {
