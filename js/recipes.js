@@ -1,40 +1,51 @@
 // ---------------------------------------------------------
-// recipes.js – show recipes and filter by difficulty
+// recipes.js – Show recipes and filter by difficulty
 // ---------------------------------------------------------
 
 import { getRecipes } from "./fetchdata.js";
 
+// === Global variables ===================================
 const recipesWidget = document.querySelector("#recipes-widget");
 
-let allRecipes = [];
-let visibleRecipes = [];
-let currentDifficulty = "";
+// Här sparar vi recepten
+let allRecipes = [];          // Alla recept från API
+let visibleRecipes = [];      // De som visas just nu (efter filter)
+let currentDifficulty = "";   // "Easy", "Medium", "Hard" eller tomt
 
-// Cached elements
-let recipeGrid, activeFilterText, matchedRecipesText, clearFilterButton, difficultyButtons;
+// HTML-element som vi använder ofta
+let recipeGrid;
+let activeFilterText;
+let matchedRecipesText;
+let clearFilterButton;
+let difficultyButtons;
 
+// === Startpunkt =========================================
 export async function startRecipesPage() {
-  if (!recipesWidget) return;
+  if (!recipesWidget) return; // Avsluta om elementet inte finns
 
-  buildWidgetHTML();
-  cacheElements();
-  setupEvents();
+  buildWidgetHTML();   // Skapa själva layouten (filter, grid osv)
+  cacheElements();     // Hitta viktiga element i DOM:en
+  setupEvents();       // Lägg till klickhändelser
 
-  const ingredients = loadSavedIngredients();
-  resetWidget(ingredients);
+  const ingredients = loadSavedIngredients(); // Ingredienser från localStorage
+  resetWidget(ingredients);                   // Nollställ UI:t
 
-  if (await fetchAndDisplayRecipes(ingredients)) filterRecipes();
+  // Hämta recept och visa dem om allt gick bra
+  const success = await fetchAndDisplayRecipes(ingredients);
+  if (success) {
+    filterRecipes();
+  }
 }
 
-// === DOM setup ==========================================
+// === Skapa layout ========================================
 function buildWidgetHTML() {
   recipesWidget.innerHTML = `
     <form class="recipe-filters">
       <h2 class="filter-heading">Difficulty</h2>
       <div id="filter-difficulty-buttons" class="filter-buttons-container">
-        ${["Easy", "Medium", "Hard"].map(
-    (level) => `<button class="btn-secondary filter-button" type="button" data-difficulty="${level}">${level}</button>`
-  ).join("")}
+        <button class="btn-secondary filter-button" type="button" data-difficulty="Easy">Easy</button>
+        <button class="btn-secondary filter-button" type="button" data-difficulty="Medium">Medium</button>
+        <button class="btn-secondary filter-button" type="button" data-difficulty="Hard">Hard</button>
       </div>
     </form>
 
@@ -55,6 +66,7 @@ function buildWidgetHTML() {
   `;
 }
 
+// === Hämta element från DOM ==============================
 function cacheElements() {
   activeFilterText = recipesWidget.querySelector("#active-filters");
   matchedRecipesText = recipesWidget.querySelector("#matched-recipes");
@@ -63,87 +75,133 @@ function cacheElements() {
   recipeGrid = recipesWidget.querySelector("#recipes-grid");
 }
 
+// === Händelser (Event listeners) =========================
 function setupEvents() {
-  difficultyButtons.forEach((btn) =>
-    btn.addEventListener("click", () => toggleDifficulty(btn.dataset.difficulty))
-  );
+  // Klick på en "difficulty"-knapp
+  difficultyButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      toggleDifficulty(button.dataset.difficulty);
+    });
+  });
 
-  clearFilterButton.addEventListener("click", async () => {
-    currentDifficulty = "";
-    updateActiveButton();
-    if (await fetchAndDisplayRecipes(loadSavedIngredients())) filterRecipes();
+  // Klick på "Clear Filters"
+  clearFilterButton.addEventListener("click", async function () {
+    currentDifficulty = "";        // Rensa vald svårighet
+    updateActiveButton();          // Uppdatera knappstilar
+    const success = await fetchAndDisplayRecipes(loadSavedIngredients());
+    if (success) {
+      filterRecipes();
+    }
   });
 }
 
-// === Data fetching ======================================
+// === Hämta recept från API ===============================
 async function fetchAndDisplayRecipes(ingredients) {
   try {
     allRecipes = await getRecipes({ ingredients });
     visibleRecipes = [...allRecipes];
 
-    if (!allRecipes.length) return showMessage("No recipes found."), false;
+    if (allRecipes.length === 0) {
+      showMessage("No recipes found.");
+      return false;
+    }
 
     updateRecipeStatus();
     return true;
-  } catch {
-    showMessage("Could not load recipes.");
+  } catch (error) {
+    showMessage("Could not load recipes right now.");
     return false;
   }
 }
 
-const loadSavedIngredients = () =>
-  JSON.parse(localStorage.getItem("ingredients") || "[]");
+// === Hämta ingredienser från localStorage ================
+function loadSavedIngredients() {
+  const saved = localStorage.getItem("ingredients");
+  if (!saved) {
+    return [];
+  }
 
-// === Filtering logic ====================================
+  try {
+    return JSON.parse(saved);
+  } catch {
+    return [];
+  }
+}
+
+// === Hantera svårighetsfilter ============================
 function toggleDifficulty(level) {
-  currentDifficulty = currentDifficulty === level ? "" : level;
+  // Om man klickar på samma nivå igen, ta bort filtret
+  if (currentDifficulty === level) {
+    currentDifficulty = "";
+  } else {
+    currentDifficulty = level;
+  }
+
   updateActiveButton();
   filterRecipes();
 }
 
 function filterRecipes() {
-  visibleRecipes = allRecipes.filter(
-    (r) => !currentDifficulty || getDifficulty(r.readyInMinutes) === currentDifficulty
-  );
+  // Filtrera recepten baserat på svårighetsnivå
+  visibleRecipes = allRecipes.filter(function (recipe) {
+    if (currentDifficulty === "") {
+      return true; // Visa alla om inget filter är valt
+    }
 
-  if (!visibleRecipes.length) return showMessage("No recipes found for this filter."), updateRecipeStatus(0);
+    const difficulty = getDifficulty(recipe.readyInMinutes);
+    return difficulty === currentDifficulty;
+  });
+
+  if (visibleRecipes.length === 0) {
+    showMessage("No recipes found for this filter.");
+    updateRecipeStatus(0);
+    return;
+  }
 
   renderRecipes(visibleRecipes);
   updateRecipeStatus(visibleRecipes.length);
 }
 
 function updateActiveButton() {
-  difficultyButtons.forEach((btn) =>
-    btn.classList.toggle("active", btn.dataset.difficulty === currentDifficulty)
-  );
+  difficultyButtons.forEach(function (button) {
+    const isActive = button.dataset.difficulty === currentDifficulty;
+    button.classList.toggle("active", isActive);
+  });
 }
 
-// === Rendering ==========================================
+// === Visa recept på sidan ================================
 function renderRecipes(recipes) {
-  recipeGrid.innerHTML = recipes.map((r) => `
-    <article class="recipe-card">
-      <header class="recipe-card-media">
-        <img src="${r.image || "https://via.placeholder.com/640x360"}" alt="${r.title}" />
-      </header>
-      <div class="recipe-card-info">
-        <h3 class="recipe-card-title">${r.title}</h3>
-        ${r.summary ? `<p class="recipe-card-summary">${truncate(stripHTML(r.summary))}</p>` : ""}
-        <dl class="recipe-card-meta">
-          <div class="recipe-card-meta-item"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
-          <div class="recipe-card-meta-item"><dd>👥 ${formatServings(r.servings)}</dd></div>
-        </dl>
-        <p class="recipe-card-tags">${formatDiets(r.diets)}</p>
-      </div>
-      <footer class="recipe-card-footer">
-        <a href="recipe-details.html?recipeId=${r.id}" class="btn-primary">View Recipe</a>
-      </footer>
-    </article>
-  `).join("");
+  const recipeHTML = recipes.map(function (r) {
+    const summary = r.summary ? truncate(stripHTML(r.summary)) : "";
+    const dietTags = formatDiets(r.diets);
+
+    return `
+      <article class="recipe-card">
+        <header class="recipe-card-media">
+          <img src="${r.image || "https://via.placeholder.com/640x360"}" alt="${r.title}" />
+        </header>
+        <div class="recipe-card-info">
+          <h3 class="recipe-card-title">${r.title}</h3>
+          ${summary ? `<p class="recipe-card-summary">${summary}</p>` : ""}
+          <dl class="recipe-card-meta">
+            <div class="recipe-card-meta-item"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
+            <div class="recipe-card-meta-item"><dd>👥 ${formatServings(r.servings)}</dd></div>
+          </dl>
+          <p class="recipe-card-tags">${dietTags}</p>
+        </div>
+        <footer class="recipe-card-footer">
+          <a href="recipe-details.html?recipeId=${r.id}" class="btn-primary">View Recipe</a>
+        </footer>
+      </article>
+    `;
+  });
+
+  recipeGrid.innerHTML = recipeHTML.join("");
 }
 
-// === UI helpers =========================================
-function showMessage(msg) {
-  recipeGrid.innerHTML = `<p class="empty-state">${msg}</p>`;
+// === UI-hjälpfunktioner =================================
+function showMessage(message) {
+  recipeGrid.innerHTML = `<p class="empty-state">${message}</p>`;
 }
 
 function resetWidget(ingredients) {
@@ -156,34 +214,74 @@ function resetWidget(ingredients) {
 
 function showIngredients(ingredients) {
   const label = document.querySelector("#selected-ingredients");
-  if (label) label.textContent = formatIngredientList(ingredients);
+  if (label) {
+    label.textContent = formatIngredientList(ingredients);
+  }
 }
 
 function updateRecipeStatus(count = visibleRecipes.length) {
-  activeFilterText.textContent = currentDifficulty
-    ? `Active Filters: ${currentDifficulty}`
-    : "No active filters";
-  matchedRecipesText.textContent = `Matched Recipes: ${count}`;
+  if (currentDifficulty) {
+    activeFilterText.textContent = "Active Filters: " + currentDifficulty;
+  } else {
+    activeFilterText.textContent = "No active filters";
+  }
+
+  matchedRecipesText.textContent = "Matched Recipes: " + count;
 }
 
-// === Small helpers ======================================
-const getDifficulty = (min) =>
-  min <= 30 ? "Easy" : min <= 45 ? "Medium" : "Hard";
+// === Små hjälpfunktioner ================================
+function getDifficulty(minutes) {
+  if (minutes <= 30) return "Easy";
+  if (minutes <= 45) return "Medium";
+  return "Hard";
+}
 
-const formatTime = (min) => (min ? `${min} mins` : "N/A");
+function formatTime(minutes) {
+  if (!minutes) return "N/A";
+  return minutes + " mins";
+}
 
-const formatServings = (s) => (s ? `${s} ${s === 1 ? "serving" : "servings"}` : "N/A");
+function formatServings(servings) {
+  if (!servings) return "N/A";
+  if (servings === 1) return "1 serving";
+  return servings + " servings";
+}
 
-const formatDiets = (d = []) =>
-  d.slice(0, 3).map((t) => `<span class="recipe-card-tag">${capitalize(t)}</span>`).join("");
+function formatDiets(diets = []) {
+  const firstThree = diets.slice(0, 3);
+  const tags = firstThree.map(function (diet) {
+    return `<span class="recipe-card-tag">${capitalize(diet)}</span>`;
+  });
+  return tags.join("");
+}
 
-const formatIngredientList = (arr) =>
-  !arr.length ? "no ingredients selected" :
-    arr.length === 1 ? arr[0] : `${arr.slice(0, -1).join(", ")} and ${arr.at(-1)}`;
+function formatIngredientList(list) {
+  if (list.length === 0) return "no ingredients selected";
+  if (list.length === 1) return list[0];
 
-const truncate = (t) => t.length > 140 ? `${t.slice(0, 140).trim()}...` : t;
+  const allButLast = list.slice(0, -1).join(", ");
+  const last = list[list.length - 1];
+  return allButLast + " and " + last;
+}
 
-const stripHTML = (h = "") => new DOMParser().parseFromString(h, "text/html").body.textContent || "";
+function truncate(text) {
+  if (text.length > 140) {
+    return text.slice(0, 140).trim() + "...";
+  }
+  return text;
+}
 
-const capitalize = (txt = "") =>
-  txt.split(" ").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ");
+function stripHTML(html = "") {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+}
+
+function capitalize(text = "") {
+  return text
+    .split(" ")
+    .map(function (word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+}
