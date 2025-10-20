@@ -15,21 +15,30 @@
 
 import { getRecipeDetails } from "./fetchdata.js";
 
-const RecipeDetailsWidget = document.querySelector("#recipe-details-widget");
+const recipeDetailsWidget = document.querySelector("#recipe-details-widget");
+const recipeDetailsStatus = document.querySelector("#recipe-details-status");
 
 function showFallback(message = "Could not find recipe.") {
-  if (!RecipeDetailsWidget) return;
-  RecipeDetailsWidget.innerHTML = `<p class="empty-state">${message}</p>`;
+  if (!recipeDetailsWidget) return;
+  recipeDetailsWidget.innerHTML = `<p class="empty-state">${message}</p>`;
+  announceStatus(message);
+}
+
+function announceStatus(message) {
+  if (!recipeDetailsStatus) return;
+  recipeDetailsStatus.textContent = message;
 }
 
 // ---------------------------------------------------------
 // 🚀 START – körs automatiskt när receptdetaljsidan laddas
 // ---------------------------------------------------------
 export async function startRecipeDetailsPage() {
-  if (!RecipeDetailsWidget) {
+  if (!recipeDetailsWidget) {
     console.warn("⚠️ Missing recipe details container.");
     return;
   }
+
+  announceStatus("Loading recipe…");
 
   // 1️⃣ Hämta receptets ID från URL:en (t.ex. ?recipeId=12345)
   const recipeId = new URLSearchParams(window.location.search).get("recipeId");
@@ -37,7 +46,7 @@ export async function startRecipeDetailsPage() {
   // Om inget ID hittas – logga varning och avbryt
   if (!recipeId) {
     console.warn("⚠️ No recipe ID found in the URL.");
-    showFallback();
+    showFallback("No recipe selected.");
     return;
   }
 
@@ -62,6 +71,7 @@ export async function startRecipeDetailsPage() {
 
     // 3️⃣ Visa receptets innehåll på sidan
     renderRecipe(recipe);
+    announceStatus(`${recipe.title || "Recipe"} loaded.`);
   } catch (error) {
     // Logga eventuella fel i konsolen (användaren ser inget fel)
     console.error("❌ Failed to load recipe details:", error);
@@ -78,11 +88,13 @@ export async function startRecipeDetailsPage() {
 // Om något saknas används ett neutralt standardvärde (fallback).
 //
 function renderRecipe(recipe) {
-  if (!RecipeDetailsWidget) return;
+  if (!recipeDetailsWidget) return;
 
-  RecipeDetailsWidget.innerHTML = `
+  recipeDetailsWidget.innerHTML = `
     <article id="recipe-details" class="card">
-      <div class="recipe-media">
+      
+    
+    <div class="recipe-media">
         <img
           id="recipe-image"
           src="https://via.placeholder.com/640x360?text=Loading..."
@@ -145,6 +157,7 @@ function renderRecipe(recipe) {
   // Kontrollera att alla nödvändiga element finns
   if (!image || !title || !summary || !timeValue || !servingsValue || !tags || !recipeDetails) {
     console.warn("⚠️ Missing one or more DOM elements for recipe details.");
+    announceStatus("Recipe data loaded, but some details could not be displayed.");
     return;
   }
 
@@ -232,6 +245,7 @@ function setupSourceButton(button, url) {
   } else {
     button.disabled = true;
     button.textContent = "Original recipe not available";
+    announceStatus("Original recipe link not available.");
   }
 }
 

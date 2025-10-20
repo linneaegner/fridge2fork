@@ -843,6 +843,12 @@ textarea:focus {
   resize: vertical;
 }
 
+.recipe-details-section {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 5vw, 40px);
+}
+
 .table-responsive {
   width: 100%;
   overflow-x: auto;

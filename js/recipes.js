@@ -18,13 +18,13 @@ let filteredRecipes = [];    // De recept som just nu visas (efter filter)
 let selectedDifficulty = ""; // Användarens valda svårighetsnivå
 
 // Huvudbehållaren där allt innehåll ska placeras
-const recipesSection = document.querySelector("#recipes-section");
-const RecipesWidget = document.querySelector("#recipes-widget");
+const recipesWidget = document.querySelector("#recipes-widget");
 let recipesGrid = null;
 let activeFiltersLabel = null;
 let matchedRecipesLabel = null;
 let clearFiltersButton = null;
 let difficultyButtons = [];
+let recipesStatusLabel = null;
 
 function getDifficultyButtons() {
   return difficultyButtons;
@@ -78,14 +78,15 @@ function buildWidgetUI(container) {
 // 🚀 START – körs automatiskt när sidan laddas
 // ---------------------------------------------------------
 export async function startRecipesPage() {
-  if (!recipesSection || !RecipesWidget) return; // Om element saknas, avbryt
+  if (!recipesWidget) return; // Om element saknas, avbryt
 
-  const ui = buildWidgetUI(RecipesWidget);
+  const ui = buildWidgetUI(recipesWidget);
   recipesGrid = ui.recipesGrid;
   activeFiltersLabel = ui.activeFilters;
   matchedRecipesLabel = ui.matchedRecipes;
   clearFiltersButton = ui.clearButton;
   difficultyButtons = ui.difficultyButtons;
+  recipesStatusLabel = document.querySelector("#recipes-status");
 
   // 1️⃣ Läs in ingredienser som användaren valt på startsidan
   const ingredients = loadIngredients();
@@ -138,6 +139,12 @@ async function loadRecipes(ingredients) {
     displayActiveFilters();
     updateMatchedRecipes(filteredRecipes);
 
+    announceStatus(
+      filteredRecipes.length
+        ? `${filteredRecipes.length} recipes loaded.`
+        : "No recipes were returned for the selected ingredients."
+    );
+
     return true;
   } catch (error) {
     // Om något går fel – visa ett meddelande på sidan
@@ -145,6 +152,7 @@ async function loadRecipes(ingredients) {
     allRecipes = [];
     filteredRecipes = [];
     renderMessage("Unable to fetch recipes right now.");
+    announceStatus("Unable to fetch recipes right now.");
     return false;
   } finally {
     console.groupEnd();
@@ -371,11 +379,19 @@ function renderRecipes(recipes) {
       }
     )
     .join("");
+
+  announceStatus(`${recipes.length} recipes available.`);
 }
 
 function renderMessage(message) {
   if (!recipesGrid) return;
   recipesGrid.innerHTML = `<p class="empty-state">${message}</p>`;
+  announceStatus(message);
+}
+
+function announceStatus(message) {
+  if (!recipesStatusLabel) return;
+  recipesStatusLabel.textContent = message;
 }
 
 function truncateText(text, maxLength = 120) {
