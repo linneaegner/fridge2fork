@@ -165,7 +165,7 @@ function renderRecipes(recipes) {
         <article class="recipe-card card">
           <div class="recipe-card__media">
             <img
-              src="${recipe.image || "https://via.placeholder.com/640x360"}"
+              src="${recipe.image}"
               alt="${recipe.title}"
             />
           </div>
