@@ -104,7 +104,7 @@ function renderRecipe(recipe) {
 
 // === Visa lista eller fallback =============================
 function renderList(id, items = [], emptyMessage) {
-  const list = document.getElementById(id);
+  const list = document.querySelector(`#${id}`);
   if (!list) return;
   list.innerHTML = items.length
     ? items.map(item => `<li>${item}</li>`).join("")
