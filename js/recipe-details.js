@@ -88,12 +88,8 @@ function renderRecipe(recipe) {
         <p id="recipe-summary"></p>
 
         <dl class="recipe-card-meta">
-          <div class="recipe-card-meta-item">
-            <dd id="recipe-time">⏱️ <span id="recipe-time-value"></span></dd>
-          </div>
-          <div class="recipe-card-meta-item">
-            <dd id="recipe-servings">👥 <span id="recipe-servings-value"></span></dd>
-          </div>
+          <div class="recipe-card-meta-item"><dd>⏱️ ${formatMinutes(recipe.readyInMinutes)}</dd></div>
+          <div class="recipe-card-meta-item"><dd>👥 ${formatServings(recipe.servings)}</dd></div>
         </dl>
         
 
@@ -122,13 +118,11 @@ function renderRecipe(recipe) {
   const image = document.querySelector("#recipe-image");
   const title = document.querySelector("#recipe-title");
   const summary = document.querySelector("#recipe-summary");
-  const timeValue = document.querySelector("#recipe-time-value");
-  const servingsValue = document.querySelector("#recipe-servings-value");
   const tags = document.querySelector("#recipe-tags");
   const button = document.querySelector("#view-original-btn");
 
   // Om något viktigt saknas, visa fallback
-  if (!image || !title || !summary || !timeValue || !servingsValue || !tags || !button) {
+  if (!image || !title || !summary || !tags || !button) {
     showFallback("Some recipe details could not be displayed.");
     return;
   }
@@ -138,10 +132,6 @@ function renderRecipe(recipe) {
   image.alt = recipe.title || "Recipe image";
   title.textContent = recipe.title || "Untitled recipe";
   summary.textContent = plainText(recipe.summary) || "No description available.";
-
-  // === Tillagningstid och portioner ======================
-  timeValue.textContent = formatMinutes(recipe.readyInMinutes);
-  servingsValue.textContent = formatServings(recipe.servings);
 
   // === Kost- och diet-taggar =============================
   tags.innerHTML = formatDietTags(recipe.diets);
