@@ -700,6 +700,12 @@ textarea:focus {
 /* --------------------------------------------------
    RECIPE DETAILS
 -------------------------------------------------- */
+
+.recipe-details-widget {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 7vw, 48px);
+}
 .recipe-details {
   display: grid;
   gap: clamp(28px, 6vw, 40px);
