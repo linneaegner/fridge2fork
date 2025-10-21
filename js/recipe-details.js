@@ -73,10 +73,10 @@ function renderRecipe(recipe) {
   if (!recipeDetailsWidget) return;
 
   recipeDetailsWidget.innerHTML = `
-    <article class="recipe-details">
-       <h1 id="recipe-title"></h1>
-       
-       <div class="recipe-media">
+    <article class="recipe">
+      <h1 id="recipe-title"></h1>
+
+      <div class="recipe-media">
         <img
           id="recipe-image"
           src="https://via.placeholder.com/640x360?text=Loading..."
@@ -84,20 +84,19 @@ function renderRecipe(recipe) {
         />
       </div>
 
-      <div class="recipe-info">
+      <div class="recipe-body">
         <p id="recipe-summary"></p>
 
-        <dl class="recipe-meta">
-          <div class="recipe-meta-item"><dd>⏱️ ${formatMinutes(recipe.readyInMinutes)}</dd></div>
-          <div class="recipe-meta-item"><dd>👥 ${formatServings(recipe.servings)}</dd></div>
+        <dl class="recipe-stats">
+          <div class="recipe-stat"><dd>⏱️ ${formatMinutes(recipe.readyInMinutes)}</dd></div>
+          <div class="recipe-stat"><dd>👥 ${formatServings(recipe.servings)}</dd></div>
         </dl>
-        
 
         <p id="recipe-tags" class="recipe-tags"></p>
 
-        <Button id="view-original-btn" class="btn-primary" type="button">
+        <button id="view-original-btn" class="btn-primary" type="button">
           View Original Recipe
-        </Button>
+        </button>
       </div>
     </article>
 

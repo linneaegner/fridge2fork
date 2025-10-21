@@ -691,7 +691,7 @@ textarea:focus {
   white-space: nowrap;
 }
 
-#recipe-details-page .recipe-details,
+#recipe-details-page .recipe,
 #recipe-details-page .recipe-content {
   margin: 0 auto;
   max-width: 960px;
@@ -706,7 +706,7 @@ textarea:focus {
   flex-direction: column;
   gap: clamp(32px, 7vw, 48px);
 }
-.recipe-details {
+.recipe {
   display: grid;
   gap: clamp(28px, 6vw, 40px);
 }
@@ -722,25 +722,25 @@ textarea:focus {
   object-fit: cover;
 }
 
-.recipe-info {
+.recipe-body {
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
-.recipe-meta {
+.recipe-stats {
   display: flex;
   flex-wrap: wrap;
   gap: 22px;
   margin: 12px 0 0;
 }
 
-.recipe-meta-item {
+.recipe-stat {
   display: flex;
   align-items: center;
 }
 
-.recipe-meta-item dd {
+.recipe-stat dd {
   margin: 0;
   display: inline-flex;
   align-items: center;
@@ -991,7 +991,7 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
-  .recipe-meta {
+  .recipe-stats {
     gap: 18px;
   }
 
@@ -1043,20 +1043,20 @@ textarea:focus {
     justify-content: center;
   }
 
-  .recipe-meta {
+  .recipe-stats {
     flex-direction: column;
     gap: 14px;
   }
 
-  .recipe-meta div {
+  .recipe-stat {
     width: 100%;
   }
 
-  .recipe-details {
+  .recipe {
     gap: clamp(20px, 9vw, 32px);
   }
 
-  #recipe-details-page .recipe-details,
+  #recipe-details-page .recipe,
   #recipe-details-page .recipe-content {
     max-width: 100%;
   }
