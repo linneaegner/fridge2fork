@@ -75,11 +75,10 @@ function setupEvents() {
     btn.addEventListener("click", () => toggleDifficulty(btn.dataset.difficulty))
   );
 
-  clearFilterButton.addEventListener("click", async () => {
+  clearFilterButton.addEventListener("click", () => {
     currentDifficulty = "";
     updateActiveButton();
-    const success = await loadRecipes(getSavedIngredients());
-    if (success) filterRecipes();
+    filterRecipes();
   });
 }
 
@@ -225,8 +224,9 @@ function formatDiets(diets = []) {
 function formatIngredientList(list) {
   if (list.length === 0) return "no ingredients selected";
   if (list.length === 1) return list[0];
-  const last = list.pop();
-  return `${list.join(", ")} and ${last}`;
+  const items = [...list];
+  const last = items.pop();
+  return `${items.join(", ")} and ${last}`;
 }
 
 function capitalize(text = "") {
