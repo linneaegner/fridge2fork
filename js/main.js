@@ -5,6 +5,7 @@
 import { startHomepage } from "./homepage.js";
 import { startRecipesPage } from "./recipes.js";
 import { startRecipeDetailsPage } from "./recipe-details.js";
+import { startContactPage } from "./contact.js";
 
 // === Start app when DOM is ready =========================
 document.addEventListener("DOMContentLoaded", () => {
@@ -20,6 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
       break;
     case "recipe-details-page":
       startRecipeDetailsPage();
+      break;
+    case "contact-page":
+      startContactPage();
       break;
   }
 });
