@@ -54,7 +54,7 @@ function buildWidgetHTML() {
       </button>
     </div>
 
-    <div id="recipes-grid" class="recipes-grid" role="list">
+    <div id="recipes-grid" class="recipes-grid">
       <p class="empty-state">Loading recipes...</p>
     </div>
   `;
