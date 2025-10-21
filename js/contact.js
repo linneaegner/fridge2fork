@@ -14,6 +14,18 @@ function handleSubmit(e) {
 
   const form = e.currentTarget;
 
-  alert(`Thanks! Your message has been sent.`);
+  showMessage("Thanks! Your message has been sent.");
   form.reset();
+}
+
+function showMessage(text) {
+  const msg = document.createElement("p");
+  msg.textContent = text;
+  msg.className = "temp-message";
+
+  const target = document.querySelector("#contact-form");
+  target.appendChild(msg);
+
+  // Auto-remove the message after a short delay so the UI stays clean
+  setTimeout(() => msg.remove(), 2000);
 }
