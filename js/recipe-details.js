@@ -87,21 +87,21 @@ function renderRecipe(recipe) {
       <div class="recipe-info">
         <p id="recipe-summary"></p>
 
-        <dl class="recipe-card-meta">
-          <div class="recipe-card-meta-item"><dd>⏱️ ${formatMinutes(recipe.readyInMinutes)}</dd></div>
-          <div class="recipe-card-meta-item"><dd>👥 ${formatServings(recipe.servings)}</dd></div>
+        <dl class="recipe-meta">
+          <div class="recipe-meta-item"><dd>⏱️ ${formatMinutes(recipe.readyInMinutes)}</dd></div>
+          <div class="recipe-meta-item"><dd>👥 ${formatServings(recipe.servings)}</dd></div>
         </dl>
         
 
         <p id="recipe-tags" class="recipe-tags"></p>
 
-        <button id="view-original-btn" class="btn-primary" type="button">
+        <Button id="view-original-btn" class="btn-primary" type="button">
           View Original Recipe
-        </button>
+        </Button>
       </div>
     </article>
 
-    <section id="recipe-content" class="recipe-lists">
+    <section class="recipe-lists recipe-content">
       <div class="card">
         <h2>Ingredients</h2>
         <ul id="ingredients-list"></ul>
@@ -119,10 +119,10 @@ function renderRecipe(recipe) {
   const title = document.querySelector("#recipe-title");
   const summary = document.querySelector("#recipe-summary");
   const tags = document.querySelector("#recipe-tags");
-  const button = document.querySelector("#view-original-btn");
+  const ViewOriginalBtn = document.querySelector("#view-original-btn");
 
   // Om något viktigt saknas, visa fallback
-  if (!image || !title || !summary || !tags || !button) {
+  if (!image || !title || !summary || !tags || !ViewOriginalBtn) {
     showFallback("Some recipe details could not be displayed.");
     return;
   }
@@ -151,7 +151,7 @@ function renderRecipe(recipe) {
   );
 
   // === Länk till originalrecept ==========================
-  setupSourceButton(button, recipe.sourceUrl);
+  setupSourceButton(ViewOriginalBtn, recipe.sourceUrl);
 }
 
 // === Visa lista eller fallbacktext =======================
@@ -169,18 +169,18 @@ function renderList(id, items, emptyMessage) {
 }
 
 // === Hantera "View Original Recipe"-knapp ================
-function setupSourceButton(button, url) {
-  if (!button) return;
+function setupSourceButton(ViewOriginalBtn, url) {
+  if (!ViewOriginalBtn) return;
 
   if (url) {
-    button.disabled = false;
-    button.textContent = "View Original Recipe";
-    button.addEventListener("click", function () {
+    ViewOriginalBtn.disabled = false;
+    ViewOriginalBtn.textContent = "View Original Recipe";
+    ViewOriginalBtn.addEventListener("click", function () {
       window.open(url, "_blank", "noopener");
     });
   } else {
-    button.disabled = true;
-    button.textContent = "Original recipe not available";
+    ViewOriginalBtn.disabled = true;
+    ViewOriginalBtn.textContent = "Original recipe not available";
     announceStatus("Original recipe link not available.");
   }
 }

@@ -692,7 +692,7 @@ textarea:focus {
 }
 
 #recipe-details-page .recipe-details,
-#recipe-details-page #recipe-content {
+#recipe-details-page .recipe-content {
   margin: 0 auto;
   max-width: 960px;
 }
@@ -727,16 +727,14 @@ textarea:focus {
   flex-wrap: wrap;
   gap: 22px;
   margin: 12px 0 0;
-  padding: 0;
-  order: initial;
 }
 
-.recipe-meta__item {
+.recipe-meta-item {
   display: flex;
   align-items: center;
 }
 
-.recipe-meta__item dd {
+.recipe-meta-item dd {
   margin: 0;
   display: inline-flex;
   align-items: center;
@@ -746,11 +744,9 @@ textarea:focus {
 }
 
 .recipe-tags {
-  margin: 18px 0 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
+  gap: 16px;
 }
 
 .recipe-tag {
@@ -1055,7 +1051,7 @@ textarea:focus {
   }
 
   #recipe-details-page .recipe-details,
-  #recipe-details-page #recipe-content {
+  #recipe-details-page .recipe-content {
     max-width: 100%;
   }
 
