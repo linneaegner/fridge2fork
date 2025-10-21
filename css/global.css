@@ -774,14 +774,14 @@ textarea:focus {
   color: var(--color-text-muted);
 }
 
-.recipe-lists {
+.recipe-content {
   display: grid;
   gap: clamp(24px, 5vw, 36px);
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
-.recipe-lists ul,
-.recipe-lists ol {
+.recipe-content ul,
+.recipe-content ol {
   margin: 0;
   padding-left: 20px;
   display: grid;
@@ -981,7 +981,7 @@ textarea:focus {
     height: 200px;
   }
 
-  .recipe-lists {
+  .recipe-content {
     grid-template-columns: 1fr;
   }
 

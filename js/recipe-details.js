@@ -101,7 +101,7 @@ function renderRecipe(recipe) {
       </div>
     </article>
 
-    <section class="recipe-lists recipe-content">
+    <section class="recipe-content">
       <div class="card">
         <h2>Ingredients</h2>
         <ul id="ingredients-list"></ul>
