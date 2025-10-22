@@ -68,7 +68,7 @@ function renderRecipe(recipe) {
 
         <p class="recipe-tags">${formatDietTags(recipe.diets)}</p>
 
-        <button id="view-original-btn" class="btn-primary" type="button">
+        <button id="view-original-btn" class="btn btn--primary" type="button">
           View Original Recipe
         </button>
       </div>

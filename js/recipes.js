@@ -37,9 +37,9 @@ function buildWidgetHTML() {
     <form class="recipe-filters">
       <h2 class="filter-heading">Difficulty</h2>
       <div id="filter-difficulty-buttons" class="filter-buttons-container">
-        <button class="btn-secondary filter-button" type="button" data-difficulty="Easy">Easy</button>
-        <button class="btn-secondary filter-button" type="button" data-difficulty="Medium">Medium</button>
-        <button class="btn-secondary filter-button" type="button" data-difficulty="Hard">Hard</button>
+        <button class="btn btn--secondary filter-button" type="button" data-difficulty="Easy">Easy</button>
+        <button class="btn btn--secondary filter-button" type="button" data-difficulty="Medium">Medium</button>
+        <button class="btn btn--secondary filter-button" type="button" data-difficulty="Hard">Hard</button>
       </div>
     </form>
 
@@ -49,7 +49,7 @@ function buildWidgetHTML() {
         <span>•</span>
         <span id="matched-recipes">Matched Recipes: 0</span>
       </div>
-      <button id="clear-filters" class="btn-secondary clear-filters-button" type="button">
+      <button id="clear-filters" class="btn btn--clear clear-filters-button" type="button">
         Clear Filters
       </button>
     </div>

@@ -1,66 +1,83 @@
-/* --------------------------------------------------
-   THEME TOKENS
--------------------------------------------------- */
+/* ==================================================
+   THEME TOKENS (ljus & varm)
+   - Allt som kan återanvändas: färger, skuggor, radier,
+     transitioner och layoutmått.
+================================================== */
 :root {
+  /* Typsnitt */
   --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-  --color-bg: #f8f5f0;
-  --color-surface: #ffffff;
-  --color-surface-soft: #fbf3eb;
+
+  /* Färger (varm palett) */
+  --color-bg: #f8f5f0; /* sidans bakgrund */
+  --color-surface: #ffffff; /* kort/ytor */
+  --color-surface-soft: #fbf3eb; /* subtle bakgrund i hero/kort */
   --color-border: rgba(231, 225, 216, 0.9);
+  --color-border-weak: rgba(231, 225, 216, 0.6);
   --color-border-strong: #e0d6c9;
-  --color-text: #2f241d;
-  --color-text-muted: #6f6258;
-  --color-accent: #f36a22;
-  --color-accent-dark: #dc5913;
+
+  --color-text: #2f241d; /* primär text */
+  --color-text-muted: #6f6258; /* sekundär text */
+
+  --color-accent: #f36a22; /* action / highlight */
+  --color-accent-weak: rgba(243, 106, 34, 0.14);
+  --color-accent-weak2: rgba(243, 106, 34, 0.12);
+  --color-accent-dark: #dc5913; /* hover */
+
+  /* Skuggor */
   --shadow-soft: 0 14px 32px rgba(41, 30, 20, 0.12);
   --shadow-lifted: 0 18px 42px rgba(243, 106, 34, 0.18);
   --shadow-lifted-hover: 0 22px 50px rgba(243, 106, 34, 0.24);
-  --radius-md: 16px;
-  --radius-lg: 22px;
+
+  /* Radier */
+  --radius-md: 1rem; /* ~16px */
+  --radius-lg: 1.375rem; /* ~22px */
+  --radius-xl: 1.625rem; /* ~26px */
+
+  /* Övrigt */
   --transition: 180ms ease;
+
+  /* Layout */
   --layout-max: 1100px;
-  --page-gutter: clamp(28px, 4vw, 48px); /* Standardized value */
+  --page-gutter: clamp(1.75rem, 4vw, 3rem); /* konsekvent sidomarginal */
 }
 
-/* --------------------------------------------------
-   RESET BASICS
--------------------------------------------------- */
-* {
-  box-sizing: border-box;
-}
+/* ==================================================
+   BASE (bygg ovanpå din reset.css)
+   - Reset finns redan: här sätter vi tema, bas-typografi,
+     länkar, listor och hjälpare.
+================================================== */
 
-html,
-body {
-  margin: 0;
-  min-height: 100%;
-}
-
+/* html/body: bas-typografi och färger (ärvs nedåt) */
+html {
+  font-size: 100%;
+} /* 1rem ≈ 16px, gör rem lätt att räkna */
 body {
   font-family: var(--font-sans);
   background: var(--color-bg);
   color: var(--color-text);
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
+  line-height: 1.65; /* läsbar brödtext */
 }
 
+/* bilder är block och runda hörn kan ärvas från föräldern */
 img {
   max-width: 100%;
   display: block;
   border-radius: inherit;
 }
 
+/* Länkar ärvs i färg – accent på hover/focus */
 a {
   color: inherit;
   text-decoration: none;
   transition: color var(--transition);
 }
-
 a:hover,
 a:focus {
   color: var(--color-accent);
 }
 
+/* Rubriker – tajtare line-height för rubriker, färg ärvd/primär */
 h1,
 h2,
 h3,
@@ -68,75 +85,80 @@ h4 {
   margin: 0;
   color: var(--color-text);
   font-weight: 700;
+  line-height: 1.1;
 }
 
+/* Skalning med clamp (rem-baserat) */
 h1 {
-  font-size: clamp(2.8rem, 6vw, 4rem);
-  line-height: 1.1;
+  font-size: clamp(2.6rem, 6vw, 4rem);
 }
 h2 {
-  font-size: clamp(2.4rem, 5vw, 3.2rem);
-  line-height: 1.1;
+  font-size: clamp(2rem, 5vw, 3.2rem);
 }
 h3 {
-  font-size: clamp(1.2rem, 2vw, 1.4rem);
-  line-height: 1.1;
+  font-size: clamp(1.1rem, 2.3vw, 1.4rem);
 }
 h4 {
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  line-height: 1.1;
-}
-p {
-  margin: 0;
-  color: var(--color-text-muted);
+  font-size: clamp(1.25rem, 2.5vw, 1.8rem);
 }
 
+p {
+  margin: 0;
+  color: var(
+    --color-text-muted
+  ); /* arv-exempel: p ärver font, vi sätter bara färg */
+}
+
+/* Listor */
 ul,
 ol {
   padding-left: 1.2rem;
 }
 
+/* Kontejner som håller sidans maxbredd + konsekvent sidogutter */
 .container {
   width: min(var(--layout-max), 100%);
-  margin: 0 auto;
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
 }
 
+/* Huvudinnehåll – vertikal rytm */
 main {
-  padding-top: clamp(48px, 8vw, 96px);
-  padding-bottom: clamp(92px, 12vw, 136px);
+  padding-top: clamp(3rem, 8vw, 6rem);
+  padding-bottom: clamp(5.75rem, 12vw, 8.5rem);
   display: flex;
   flex-direction: column;
-  gap: clamp(44px, 8vw, 80px);
+  gap: clamp(2.75rem, 8vw, 5rem);
 }
 
+/* Sidor med mindre intro */
 #recipes-page main,
 #recipe-details-page main {
-  padding-top: clamp(32px, 6vw, 64px);
-  gap: clamp(32px, 6vw, 56px);
+  padding-top: clamp(2rem, 6vw, 4rem);
+  gap: clamp(2rem, 6vw, 3.5rem);
 }
 
+/* Back-länk (återanvändbar liten komponent) */
 .back-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   font-weight: 600;
   color: var(--color-text-muted);
-  margin-bottom: clamp(20px, 5vw, 32px);
+  margin-bottom: clamp(1.25rem, 5vw, 2rem);
   transition: transform var(--transition), color var(--transition);
 }
-
 .back-link::before {
   content: "←";
 }
-
 .back-link:hover {
   color: var(--color-accent);
-  transform: translateX(-4px);
+  transform: translateX(-0.25rem);
 }
 
-/* --------------------------------------------------
-   SITE HEADER / NAVIGATION
--------------------------------------------------- */
+/* ==================================================
+   HEADER / NAV
+================================================== */
 .site-header {
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
@@ -145,199 +167,186 @@ main {
   z-index: 10;
   backdrop-filter: blur(6px);
 }
-
 .site-header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  min-height: 72px;
-  margin: 0 auto;
+  gap: 1.25rem;
+  min-height: 4.5rem;
+  margin-inline: auto;
   width: min(var(--layout-max), 100%);
+  padding-inline: var(--page-gutter);
 }
-
 .site-header-logo {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
   font-weight: 700;
   color: var(--color-text);
 }
-
 .site-header-logo img {
   width: 42px;
   height: 42px;
   border-radius: 12px;
 }
 
+/* Navigation */
 .site-header-nav ul {
   display: flex;
-  gap: 22px;
+  gap: 1.375rem;
   margin: 0;
   padding: 0;
   list-style: none;
   font-weight: 500;
   color: var(--color-text-muted);
 }
-
 .nav-link {
-  padding: 10px 18px;
+  padding: 0.625rem 1.125rem;
   border-radius: 999px;
   transition: background var(--transition), color var(--transition);
 }
-
 .nav-link:hover,
 .nav-link.active {
   color: var(--color-text);
-  background: rgba(243, 106, 34, 0.14);
+  background: var(--color-accent-weak);
 }
 
-/* --------------------------------------------------
+/* ==================================================
    HERO / INTRO
--------------------------------------------------- */
+================================================== */
 .page-hero {
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 1.125rem;
 }
-
 .page-hero .back-link {
   align-self: flex-start;
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
 }
-
 .page-hero h1 {
   letter-spacing: -0.01em;
 }
-
 .page-hero p {
-  max-width: 640px;
+  max-width: 40rem;
   font-size: 1.05rem;
 }
 
-/* --------------------------------------------------
-   CARDS & SURFACES
--------------------------------------------------- */
+/* ==================================================
+   SURFACES / CARDS
+   - Återanvändbara ytor.
+================================================== */
 .card {
   background: var(--color-surface);
-  border: 1px solid rgba(231, 225, 216, 0.6);
+  border: 1px solid var(--color-border-weak);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
-  padding: clamp(28px, 5vw, 40px);
+  padding: clamp(1.75rem, 5vw, 2.5rem);
 }
-
 .card--tight {
-  padding: clamp(22px, 4vw, 32px);
+  padding: clamp(1.375rem, 4vw, 2rem);
 }
 
 .empty-state {
   margin: 0;
-  padding: clamp(44px, 7vw, 60px);
+  padding: clamp(2.75rem, 7vw, 3.75rem);
   border-radius: var(--radius-lg);
-  border: 1px dashed rgba(231, 225, 216, 0.75);
+  border: 1px dashed var(--color-border);
   text-align: center;
   color: var(--color-text-muted);
   font-weight: 600;
 }
 
-/* --------------------------------------------------
+/* ==================================================
    BUTTONS
--------------------------------------------------- */
-.btn-primary,
-.btn-secondary {
+   - Bas .btn + varianter: .btn--primary, .btn--secondary, .btn--clear
+   - Arv: länkar som ser ut som knappar ärver bas-stilen.
+================================================== */
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0.5rem;
   border-radius: 999px;
   border: 1px solid transparent;
   font-weight: 600;
   cursor: pointer;
-  padding: 14px 24px;
+  padding: 0.875rem 1.5rem;
   font-size: 1rem;
   transition: background-color var(--transition), border-color var(--transition),
     color var(--transition), box-shadow var(--transition),
     transform var(--transition);
 }
-
-.btn-primary {
+.btn--primary {
   background: var(--color-accent);
   color: #fff;
   box-shadow: var(--shadow-lifted);
 }
-
-a.btn-primary:link,
-a.btn-primary:visited {
-  color: #fff;
-}
-
-.btn-primary:hover {
+.btn--primary:hover {
   background: var(--color-accent-dark);
   transform: translateY(-2px);
   box-shadow: var(--shadow-lifted-hover);
   color: #fff;
 }
-
-.btn-primary:focus-visible {
+.btn--primary:focus-visible {
   color: #fff;
 }
-
-.btn-primary:disabled {
+.btn--primary:disabled {
   background: rgba(231, 225, 216, 0.7);
   color: var(--color-text-muted);
   cursor: not-allowed;
   box-shadow: none;
 }
-
-.btn-secondary {
+.btn--secondary {
   background: transparent;
   border-color: var(--color-border);
   color: var(--color-text);
 }
-
-.btn-secondary:hover {
+.btn--secondary:hover {
   color: var(--color-accent);
   border-color: var(--color-accent);
 }
-
-.btn-clear {
+.btn--clear {
   background: none;
   border: none;
   color: var(--color-text-muted);
   font-weight: 600;
   cursor: pointer;
-  padding: 6px 0;
+  padding: 0.375rem 0;
   transition: color var(--transition);
 }
-
-.btn-clear:hover {
+.btn--clear:hover {
   color: var(--color-accent);
 }
 
+/* Gör att <a class="btn ..."> får korrekt textfärg */
+a.btn--primary:link,
+a.btn--primary:visited {
+  color: #fff;
+}
+
+/* Särskild CTA */
 .find-recipes-btn {
   align-self: flex-start;
-  padding: 16px 36px;
+  padding: 1rem 2.25rem;
   font-weight: 700;
 }
 
-/* --------------------------------------------------
-   INGREDIENT FORM
--------------------------------------------------- */
+/* ==================================================
+   FORMULÄR (Ingrediensformulär mm.)
+================================================== */
 .fridge-section {
   display: flex;
   justify-content: center;
 }
-
 .fridge-section .card {
-  width: min(640px, 100%);
+  width: min(40rem, 100%);
   display: flex;
   flex-direction: column;
-  gap: clamp(24px, 5vw, 32px);
+  gap: clamp(1.5rem, 5vw, 2rem);
   text-align: left;
 }
-
 .fridge-section h2 {
   font-size: clamp(2rem, 5vw, 2.6rem);
 }
@@ -345,9 +354,8 @@ a.btn-primary:visited {
 .ingredient-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 1.125rem;
 }
-
 .ingredient-form label {
   font-weight: 600;
   font-size: 1.05rem;
@@ -356,59 +364,54 @@ a.btn-primary:visited {
 
 .input-row {
   display: flex;
-  gap: 14px;
+  gap: 0.875rem;
   align-items: center;
 }
-
 #ingredient-input {
   flex: 1;
 }
 
+/* Inputs – ärver font via reset, vi sätter bara utseende */
 input,
 textarea {
-  font: inherit;
   color: var(--color-text);
 }
-
 input[type="text"],
 input[type="email"],
 textarea {
-  padding: 14px 18px;
+  padding: 0.875rem 1.125rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
   background: #fff;
   transition: border-color var(--transition), box-shadow var(--transition);
 }
-
 input[type="text"]::placeholder {
   color: rgba(111, 98, 88, 0.55);
 }
-
 input:focus,
 textarea:focus {
   border-color: var(--color-accent);
   outline: none;
-  box-shadow: 0 0 0 4px rgba(243, 106, 34, 0.18);
+  box-shadow: 0 0 0 0.25rem rgba(243, 106, 34, 0.18);
 }
 
 .ingredient-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 0.75rem;
   align-items: center;
 }
 
 .ingredient-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
   border-radius: 999px;
-  background: rgba(243, 106, 34, 0.12);
+  background: var(--color-accent-weak2);
   color: var(--color-accent);
   font-weight: 600;
 }
-
 .ingredient-badge button {
   border: none;
   background: transparent;
@@ -417,7 +420,6 @@ textarea:focus {
   cursor: pointer;
   padding: 0;
 }
-
 .ingredient-empty {
   font-size: 0.95rem;
   color: var(--color-text-muted);
@@ -431,27 +433,25 @@ textarea:focus {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 12px 20px;
+  padding: 0.75rem 1.25rem;
   box-shadow: var(--shadow-soft);
   font-weight: 600;
   color: var(--color-text);
   z-index: 30;
 }
 
-/* --------------------------------------------------
-   FILTER BAR (Compact)
--------------------------------------------------- */
-
+/* ==================================================
+   FILTERBAR (kompakt)
+================================================== */
 .recipe-filters {
   display: flex;
   flex-direction: column;
-  gap: clamp(12px, 3vw, 18px);
-  padding: clamp(16px, 3vw, 22px);
+  gap: clamp(0.75rem, 3vw, 1.125rem);
+  padding: clamp(1rem, 3vw, 1.375rem);
   background: #fff;
   border: 0;
   border-radius: 18px;
 }
-
 .filter-heading {
   margin: 0;
   font-size: 1.02rem;
@@ -459,17 +459,24 @@ textarea:focus {
   letter-spacing: -0.005em;
   color: var(--color-text);
 }
-
 .filter-buttons-container {
   display: flex;
 }
 
 .filter-button {
   font-size: 0.9rem;
-  padding: 6px 16px;
-  margin-right: 12px;
+  padding: 0.375rem 1rem;
+  margin-right: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-text);
+  transition: all var(--transition);
 }
-
+.filter-button:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
 .filter-button.active {
   border-color: var(--color-accent);
   background: var(--color-accent);
@@ -482,48 +489,43 @@ textarea:focus {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 0.75rem;
   font-weight: 600;
-  padding: 6px 0;
-  margin: clamp(8px, 2vw, 16px) 0;
+  padding: 0.375rem 0;
+  margin: clamp(0.5rem, 2vw, 1rem) 0;
   font-size: 0.92rem;
   color: var(--color-text-muted);
 }
-
 .filter-summary-details {
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 0.625rem;
 }
-
 .filter-summary-container span:nth-of-type(2) {
   color: rgba(111, 98, 88, 0.4);
 }
-
 .clear-filters-button {
-  padding: 6px 16px;
+  padding: 0.375rem 1rem;
   font-size: 0.9rem;
 }
 
-/* --------------------------------------------------
-   RECIPES LIST PAGE
--------------------------------------------------- */
+/* ==================================================
+   RECEPTLISTA (grid + kort)
+================================================== */
 .recipes-section {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   width: 100%;
-  max-width: 960px;
+  max-width: 60rem;
+  padding-inline: var(--page-gutter);
 }
-
 .based-on-ingredients {
-  margin-top: 24px;
-  margin-bottom: 24px;
+  margin: 1.5rem 0;
   font-size: 1.05rem;
   color: var(--color-text-muted);
 }
-
 .based-on-ingredients span {
   color: var(--color-text);
   font-weight: 600;
@@ -532,21 +534,21 @@ textarea:focus {
 .recipes-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(20px, 4vw, 32px);
+  gap: clamp(1.25rem, 4vw, 2rem);
 }
 
+/* Receptkort */
 .recipe-card {
   display: flex;
   flex-direction: column;
   background: linear-gradient(180deg, #ffffff 0%, #fdf6ed 100%);
   border: none;
-  border-radius: 26px;
+  border-radius: var(--radius-xl);
   box-shadow: 0 24px 48px rgba(41, 30, 20, 0.14);
   padding: 0;
   overflow: hidden;
   transition: transform var(--transition), box-shadow var(--transition);
 }
-
 .recipe-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 32px 60px rgba(41, 30, 20, 0.18);
@@ -557,14 +559,12 @@ textarea:focus {
   overflow: hidden;
   background: var(--color-surface-soft);
 }
-
 .recipe-card-head img {
   width: 100%;
   height: 220px;
   object-fit: cover;
   transition: transform var(--transition);
 }
-
 .recipe-card:hover .recipe-card-head img {
   transform: scale(1.03);
 }
@@ -572,8 +572,8 @@ textarea:focus {
 .recipe-card-body {
   display: flex;
   flex-direction: column;
-  gap: clamp(18px, 3vw, 22px);
-  padding: clamp(24px, 5vw, 32px);
+  gap: clamp(1.125rem, 3vw, 1.375rem);
+  padding: clamp(1.5rem, 5vw, 2rem);
   flex: 1;
   background: linear-gradient(
     180deg,
@@ -581,7 +581,6 @@ textarea:focus {
     rgba(255, 245, 235, 0.45) 100%
   );
 }
-
 .recipe-card-title {
   font-size: clamp(1.5rem, 4vw, 1.75rem);
   line-height: 1.25;
@@ -592,7 +591,6 @@ textarea:focus {
   overflow: hidden;
   min-height: calc(1.25em * 2);
 }
-
 .recipe-card-summary {
   color: var(--color-text-muted);
   font-size: 0.95rem;
@@ -604,61 +602,12 @@ textarea:focus {
   line-height: 1.6;
   min-height: calc(1.6em * 3);
 }
-
 .recipe-card-badges {
-  margin: 12px 0 0;
+  margin-top: 0.75rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 0.625rem;
 }
-
-.recipe-card-stats {
-  display: flex;
-  gap: 22px;
-  flex-wrap: wrap;
-  margin: 8px 0 0;
-  padding: 0;
-}
-
-.recipe-card-stat {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--color-text-muted);
-}
-
-.recipe-card-stat dd {
-  margin: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-  color: var(--color-text);
-  font-size: 0.98rem;
-}
-
-.recipe-card-icon {
-  font-size: 1.2rem;
-  color: var(--color-accent);
-}
-
-.recipe-card-footer {
-  margin-top: auto;
-  padding: clamp(20px, 5vw, 28px);
-  display: flex;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.9);
-  border-top: 1px solid rgba(231, 225, 216, 0.7);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-
-.recipe-card-footer .btn-primary {
-  width: 100%;
-  max-width: 240px;
-  padding: 16px 28px;
-  font-size: 1.02rem;
-}
-
 .recipe-card-badges:empty {
   display: none;
 }
@@ -667,9 +616,9 @@ textarea:focus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 14px;
+  padding: 0.375rem 0.875rem;
   border-radius: 999px;
-  background: rgba(243, 106, 34, 0.14);
+  background: var(--color-accent-weak);
   color: var(--color-accent);
   font-weight: 600;
   font-size: 0.85rem;
@@ -677,32 +626,73 @@ textarea:focus {
   line-height: 1;
   white-space: nowrap;
 }
+.recipe-card-stats {
+  display: flex;
+  gap: 1.375rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  padding: 0;
+}
+.recipe-card-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--color-text-muted);
+}
+.recipe-card-stat dd {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.98rem;
+}
+.recipe-card-icon {
+  font-size: 1.2rem;
+  color: var(--color-accent);
+}
 
+.recipe-card-footer {
+  margin-top: auto;
+  padding: clamp(1.25rem, 5vw, 1.75rem);
+  display: flex;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  border-top: 1px solid var(--color-border-weak);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.recipe-card-footer .btn--primary {
+  width: 100%;
+  max-width: 15rem;
+  padding: 1rem 1.75rem;
+  font-size: 1.02rem;
+}
+
+/* ==================================================
+   RECEPTDETALJER
+================================================== */
 #recipe-details-page .recipe,
 #recipe-details-page .recipe-content {
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 60rem;
+  padding-inline: var(--page-gutter);
 }
-
-/* --------------------------------------------------
-   RECIPE DETAILS
--------------------------------------------------- */
 
 .recipe-details-widget {
   display: flex;
   flex-direction: column;
-  gap: clamp(32px, 7vw, 48px);
+  gap: clamp(2rem, 7vw, 3rem);
 }
 .recipe {
   display: grid;
-  gap: clamp(28px, 6vw, 40px);
+  gap: clamp(1.75rem, 6vw, 2.5rem);
 }
 
 .recipe-media {
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
-
 .recipe-media img {
   width: 100%;
   height: auto;
@@ -712,26 +702,23 @@ textarea:focus {
 .recipe-body {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 1.125rem;
 }
-
 .recipe-stats {
   display: flex;
   flex-wrap: wrap;
-  gap: 22px;
-  margin: 12px 0 0;
+  gap: 1.375rem;
+  margin-top: 0.75rem;
 }
-
 .recipe-stat {
   display: flex;
   align-items: center;
 }
-
 .recipe-stat dd {
   margin: 0;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   font-weight: 600;
   color: var(--color-text);
 }
@@ -739,14 +726,13 @@ textarea:focus {
 .recipe-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 1rem;
 }
-
 .recipe-tag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 16px;
+  padding: 0.375rem 1rem;
   border-radius: 999px;
   background: rgba(231, 225, 216, 0.55);
   color: var(--color-text);
@@ -756,12 +742,10 @@ textarea:focus {
   line-height: 1;
   white-space: nowrap;
 }
-
 .recipe-tag--diet {
-  background: rgba(243, 106, 34, 0.12);
+  background: var(--color-accent-weak2);
   color: var(--color-accent);
 }
-
 .recipe-tag--none {
   background: rgba(231, 225, 216, 0.4);
   color: var(--color-text-muted);
@@ -769,22 +753,21 @@ textarea:focus {
 
 .recipe-content {
   display: grid;
-  gap: clamp(24px, 5vw, 36px);
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(1.5rem, 5vw, 2.25rem);
+  grid-template-columns: repeat(auto-fit, minmax(16.25rem, 1fr));
 }
-
 .recipe-content ul,
 .recipe-content ol {
   margin: 0;
-  padding-left: 20px;
+  padding-left: 1.25rem;
   display: grid;
-  gap: 10px;
+  gap: 0.625rem;
   color: var(--color-text);
 }
 
-/* --------------------------------------------------
-   ABOUT & CONTACT PAGES
--------------------------------------------------- */
+/* ==================================================
+   ÖVRIGA SEKTIONER (about, kontakt, tabell)
+================================================== */
 .mission-section,
 .values-section,
 .how-it-works-section,
@@ -792,37 +775,36 @@ textarea:focus {
 .contact-table-section {
   display: flex;
   flex-direction: column;
-  gap: clamp(20px, 4vw, 28px);
+  gap: clamp(1.25rem, 4vw, 1.75rem);
 }
 
 .values-grid {
   display: grid;
-  gap: clamp(20px, 5vw, 32px);
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(1.25rem, 5vw, 2rem);
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
 }
 
 .steps-list {
   display: grid;
-  gap: 16px;
-  padding-left: 22px;
+  gap: 1rem;
+  padding-left: 1.375rem;
   color: var(--color-text);
 }
 
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 }
-
 .contact-form textarea {
-  min-height: 140px;
+  min-height: 8.75rem;
   resize: vertical;
 }
 
 .recipe-details-section {
   display: flex;
   flex-direction: column;
-  gap: clamp(24px, 5vw, 40px);
+  gap: clamp(1.5rem, 5vw, 2.5rem);
 }
 
 .table-responsive {
@@ -833,27 +815,23 @@ textarea:focus {
 .availability-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 480px;
+  min-width: 30rem;
   color: var(--color-text);
 }
-
 .availability-table th,
 .availability-table td {
-  padding: 14px 16px;
-  border-bottom: 1px solid rgba(231, 225, 216, 0.6);
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--color-border-weak);
   text-align: left;
   font-size: 0.95rem;
 }
-
 .availability-table th {
   font-weight: 600;
 }
-
 .availability-table tbody tr:last-of-type th,
 .availability-table tbody tr:last-of-type td {
   border-bottom: none;
 }
-
 .availability-table th[scope="row"] {
   white-space: nowrap;
 }
@@ -864,108 +842,103 @@ textarea:focus {
   color: var(--color-text-muted);
 }
 
-/* --------------------------------------------------
+/* ==================================================
    FOOTER
--------------------------------------------------- */
+================================================== */
 .site-footer {
   background: var(--color-surface);
   border-top: 1px solid var(--color-border);
-  padding: 44px 0;
+  padding: 2.75rem 0;
   color: var(--color-text-muted);
   font-size: 0.95rem;
   text-align: center;
 }
-
 .site-footer p {
-  margin: 0 0 6px;
+  margin: 0 0 0.375rem;
 }
-
 .site-footer a:hover {
   color: var(--color-accent);
 }
 
-/* --------------------------------------------------
-   RESPONSIVE
--------------------------------------------------- */
+/* ==================================================
+   RESPONSIVE (MOBILE-FIRST)
+   - Anpassade brytpunkter för bättre läsbarhet/grids.
+================================================== */
 @media (min-width: 1440px) {
   :root {
     --layout-max: 1240px;
-    --page-gutter: clamp(32px, 3vw, 72px);
+    --page-gutter: clamp(2rem, 3vw, 4.5rem);
   }
-
   .recipes-section {
-    max-width: 1100px;
-  }
+    max-width: 68.75rem;
+  } /* 1100px */
 }
 
 @media (max-width: 1024px) {
   :root {
-    --page-gutter: clamp(28px, 6vw, 40px);
+    --page-gutter: clamp(1.75rem, 6vw, 2.5rem);
   }
 
   main {
-    padding-top: clamp(42px, 8vw, 70px);
-    padding-bottom: clamp(68px, 10vw, 108px);
-    gap: clamp(36px, 8vw, 64px);
+    padding-top: clamp(2.625rem, 8vw, 4.375rem);
+    padding-bottom: clamp(4.25rem, 10vw, 6.75rem);
+    gap: clamp(2.25rem, 8vw, 4rem);
   }
-
   #recipes-page main,
   #recipe-details-page main {
-    padding-top: clamp(30px, 7vw, 56px);
-    gap: clamp(28px, 7vw, 50px);
+    padding-top: clamp(1.875rem, 7vw, 3.5rem);
+    gap: clamp(1.75rem, 7vw, 3.125rem);
   }
 
   .card {
-    padding: clamp(26px, 5vw, 36px);
+    padding: clamp(1.625rem, 5vw, 2.25rem);
   }
 
   .recipes-section {
-    max-width: 920px;
-  }
+    max-width: 57.5rem;
+  } /* 920px */
 
   .recipes-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(24px, 5vw, 36px);
+    gap: clamp(1.5rem, 5vw, 2.25rem);
   }
 }
 
 @media (max-width: 768px) {
   :root {
-    --page-gutter: clamp(26px, 7vw, 34px);
+    --page-gutter: clamp(1.625rem, 7vw, 2.125rem);
   }
 
   main {
-    padding-top: clamp(34px, 10vw, 56px);
-    padding-bottom: clamp(52px, 11vw, 76px);
-    gap: clamp(28px, 9vw, 52px);
+    padding-top: clamp(2.125rem, 10vw, 3.5rem);
+    padding-bottom: clamp(3.25rem, 11vw, 4.75rem);
+    gap: clamp(1.75rem, 9vw, 3.25rem);
   }
 
   .recipes-section > * + * {
-    margin-top: clamp(22px, 7vw, 40px);
+    margin-top: clamp(1.375rem, 7vw, 2.5rem);
   }
 
   .input-row {
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
+    gap: 0.75rem;
   }
-
   .add-ingredient-btn {
     width: 100%;
   }
-
   .find-recipes-btn {
     align-self: stretch;
   }
 
   .ingredient-list {
     justify-content: flex-start;
-    gap: 10px;
+    gap: 0.625rem;
   }
 
   .filter-summary-container {
     align-items: flex-start;
-    gap: 10px;
+    gap: 0.625rem;
   }
 
   .recipe-card-head img {
@@ -975,45 +948,44 @@ textarea:focus {
   .recipe-content {
     grid-template-columns: 1fr;
   }
-
   .recipe-stats {
-    gap: 18px;
+    gap: 1.125rem;
   }
 
   .values-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(13.75rem, 1fr));
   }
 
   .site-footer {
-    padding: 36px 0;
+    padding: 2.25rem 0;
   }
 }
 
 @media (max-width: 600px) {
   :root {
-    --page-gutter: clamp(24px, 8vw, 32px);
+    --page-gutter: clamp(1.5rem, 8vw, 2rem);
   }
 
   main {
-    padding-top: clamp(28px, 11vw, 48px);
-    padding-bottom: clamp(44px, 13vw, 68px);
-    gap: clamp(24px, 9vw, 44px);
+    padding-top: clamp(1.75rem, 11vw, 3rem);
+    padding-bottom: clamp(2.75rem, 13vw, 4.25rem);
+    gap: clamp(1.5rem, 9vw, 2.75rem);
   }
 
   #recipes-page main,
   #recipe-details-page main {
-    gap: clamp(24px, 9vw, 38px);
+    gap: clamp(1.5rem, 9vw, 2.375rem);
   }
 
-  .btn-primary,
-  .btn-secondary {
+  .btn,
+  .btn--primary,
+  .btn--secondary {
     width: 100%;
   }
 
   .recipes-grid {
     grid-template-columns: 1fr;
   }
-
   .recipe-card-head img {
     height: 210px;
   }
@@ -1022,7 +994,6 @@ textarea:focus {
     flex-direction: column;
     align-items: stretch;
   }
-
   #clear-filters.filter-button {
     width: 100%;
     justify-content: center;
@@ -1030,15 +1001,14 @@ textarea:focus {
 
   .recipe-stats {
     flex-direction: column;
-    gap: 14px;
+    gap: 0.875rem;
   }
-
   .recipe-stat {
     width: 100%;
   }
 
   .recipe {
-    gap: clamp(20px, 9vw, 32px);
+    gap: clamp(1.25rem, 9vw, 2rem);
   }
 
   #recipe-details-page .recipe,
@@ -1053,34 +1023,31 @@ textarea:focus {
 
 @media (max-width: 480px) {
   :root {
-    --page-gutter: clamp(22px, 9vw, 28px);
+    --page-gutter: clamp(1.375rem, 9vw, 1.75rem);
   }
 
   #home-page .page-hero {
     text-align: left;
     align-items: flex-start;
-    gap: 14px;
+    gap: 0.875rem;
   }
-
   #home-page .page-hero h1 {
     font-size: clamp(2.2rem, 10vw, 2.6rem);
   }
-
   #home-page .page-hero p {
     font-size: 1.02rem;
   }
 
   .card {
-    padding: clamp(20px, 8vw, 26px);
+    padding: clamp(1.25rem, 8vw, 1.625rem);
   }
-
   .back-link {
-    margin-bottom: 18px;
+    margin-bottom: 1.125rem;
   }
 
   .filter-summary-details {
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
+    gap: 0.375rem;
   }
 }
