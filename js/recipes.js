@@ -159,7 +159,7 @@ function renderRecipes(recipes) {
           <p class="recipe-card-badges">${diets}</p>
         </div>
         <footer class="recipe-card-footer">
-          <a href="recipe-details.html?recipeId=${r.id}" class="btn-primary">View Recipe</a>
+          <a href="recipe-details.html?recipeId=${r.id}" class="btn btn--primary">View Recipe</a>
         </footer>
       </article>
     `;
