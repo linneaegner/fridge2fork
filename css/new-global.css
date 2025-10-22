@@ -1,0 +1,70 @@
+/* Simple theme tokens used across the site */
+:root {
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --color-bg: #f8f5f0;
+  --color-surface: #ffffff;
+  --color-text: #2f241d;
+  --color-text-muted: #6f6258;
+  --color-accent: #f36a22;
+}
+
+/* Apply a predictable box model everywhere */
+* {
+  box-sizing: border-box;
+}
+
+/* Remove default margins and make the page fill the viewport */
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+/* Base body styles that most pages rely on */
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ensure images don’t overflow their containers */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Basic link styling with a simple hover color */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: var(--color-accent);
+}
+
+/* Headings keep zero margin so layouts stay tight */
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+/* Paragraphs use the muted text color for softer contrast */
+p {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+/* Give basic lists some breathing room on the left */
+ul,
+ol {
+  padding-left: 1.2rem;
+}
