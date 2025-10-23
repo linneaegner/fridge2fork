@@ -37,10 +37,10 @@ export function capitalize(text = "") {
 }
 
 export function formatDietTags(diets = [], options = {}) {
-  const { fallbackLabel = "Diet: None", maxTags = 4 } = options;
+  const { maxTags = 4 } = options;
 
   if (!Array.isArray(diets) || diets.length === 0) {
-    return `<span class="recipe-tag">${fallbackLabel}</span>`;
+    return "";
   }
 
   return diets
