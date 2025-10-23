@@ -49,29 +49,27 @@ function setStatus(text) {
 function renderRecipe(recipe) {
   widget.innerHTML = `
     <article class="recipe">
-      <h1>${recipe.title || "Untitled recipe"}</h1>
+      <h1 class="recipe-title">${recipe.title || "Untitled recipe"}</h1>
 
-      <div class="recipe-media">
-        <img
+      <div class="recipe-image-container">
+        <img class="recipe-image"
           src="${recipe.image || "https://via.placeholder.com/640x360?text=No+image"}"
           alt="${recipe.title || "Recipe image"}"
         />
       </div>
 
-      <div class="recipe-body">
-        <p>${cleanText(recipe.summary) || "No description available."}</p>
+        <p class="recipe-summary">${cleanText(recipe.summary) || "No description available."}</p>
 
         <dl class="recipe-stats">
           <div class="recipe-stat"><dd>⏱️ ${formatTime(recipe.readyInMinutes)}</dd></div>
           <div class="recipe-stat"><dd>👥 ${formatServings(recipe.servings)}</dd></div>
         </dl>
 
-        <p class="recipe-tags">${formatDietTags(recipe.diets)}</p>
+        <div class="recipe-tags">${formatDietTags(recipe.diets)}</div>
 
-        <button id="view-original-btn" class="btn btn--primary" type="button">
+        <button id="view-original-recipe" class="btn btn--primary btn--view-original" type="button">
           View Original Recipe
         </button>
-      </div>
     </article>
 
     <section class="recipe-content">
@@ -113,7 +111,7 @@ function renderList(id, items = [], emptyMessage) {
 
 // === "View Original Recipe"-knapp =========================
 function setupSourceButton(url) {
-  const button = document.querySelector("#view-original-btn");
+  const button = document.querySelector("#view-original-recipe");
   if (!button) return;
 
   if (url) {
@@ -148,7 +146,7 @@ function formatDietTags(diets = []) {
   if (!diets.length) return `<span class="recipe-tag">Diet: None</span>`;
   return diets
     .slice(0, 4)
-    .map(d => `<span class="recipe-tag recipe-tag--${slugify(d)}">${capitalize(d)}</span>`)
+    .map(d => `<span class="recipe-tag">${capitalize(d)}</span>`)
     .join("");
 }
 

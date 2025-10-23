@@ -145,25 +145,38 @@ function renderRecipes(recipes) {
     const diets = formatDiets(r.diets);
 
     return `
-      <article class="recipe-card">
-        <header class="recipe-card-head">
-          <img src="${r.image || "https://via.placeholder.com/640x360"}" alt="${r.title}" />
-        </header>
-        <div class="recipe-card-body">
-          <h3 class="recipe-card-title">${r.title}</h3>
-          ${summary ? `<p class="recipe-card-summary">${summary}</p>` : ""}
-          <dl class="recipe-card-stats">
-            <div class="recipe-card-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
-            <div class="recipe-card-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
-          </dl>
-          <p class="recipe-card-badges">${diets}</p>
+      <article class="card recipe-article">
+        <div class="recipe-image-container">
+          <img class="recipe-image"
+            src="${r.image || "https://via.placeholder.com/640x360"}"
+            alt="${r.title}"
+          />
         </div>
-        <footer class="recipe-card-footer">
-          <a href="recipe-details.html?recipeId=${r.id}" class="btn btn--primary">View Recipe</a>
-        </footer>
+        
+        <h3 class="recipe-title">${r.title}</h3>
+
+        <p class="recipe-summary">${summary}</p>
+
+        <dl class="recipe-stats">
+          <div class="recipe-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
+          <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
+        </dl>
+        
+        <div class="recipe-tags">${diets}</div>
+
+        <button class="btn btn--primary btn--view-recipe-details" type="button" data-recipe-id="${r.id}">
+          View Recipe
+        </button>
       </article>
     `;
   }).join("");
+
+  recipeGrid.querySelectorAll(".btn--view-recipe-details").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const recipeId = btn.dataset.recipeId;
+      if (recipeId) window.location.href = `recipe-details.html?recipeId=${recipeId}`;
+    });
+  });
 }
 
 // === UI-hjälp ============================================
@@ -216,8 +229,9 @@ function formatServings(servings) {
 }
 
 function formatDiets(diets = []) {
-  return diets.slice(0, 3)
-    .map(d => `<span class="recipe-card-badge">${capitalize(d)}</span>`)
+  return diets
+    .slice(0, 3)
+    .map(d => `<span class="recipe-tag">${capitalize(d)}</span>`)
     .join("");
 }
 
