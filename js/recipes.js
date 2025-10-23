@@ -3,6 +3,12 @@
 // ---------------------------------------------------------
 
 import { getRecipes } from "./fetchdata.js";
+import {
+  cleanText,
+  formatTime,
+  formatServings,
+  formatDietTags,
+} from "./recipe-utils.js";
 
 // === Globala variabler ==================================
 const recipesWidget = document.querySelector("#recipes-widget");
@@ -152,7 +158,7 @@ function renderRecipes(recipes) {
         
         <h3 class="recipe-title">${r.title}</h3>
 
-        <p class="recipe-summary">${cleanText(r.summary)}</p>
+        <p class="recipe-summary">${cleanText(r.summary, { maxLength: 140 })}</p>
 
         <dl class="recipe-stats">
           <div class="recipe-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
@@ -208,39 +214,10 @@ function getDifficulty(minutes) {
   return "Hard";
 }
 
-// Gör texten kort och tar bort HTML-taggar
-function cleanText(html = "") {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  const text = doc.body.textContent || "";
-  return text.length > 140 ? text.slice(0, 140).trim() + "..." : text;
-}
-
-function formatTime(min) {
-  return min ? `${min} mins` : "N/A";
-}
-
-function formatServings(servings) {
-  if (!servings) return "N/A";
-  return servings === 1 ? "1 serving" : `${servings} servings`;
-}
-
 function formatIngredientList(list) {
   if (list.length === 0) return "no ingredients selected";
   if (list.length === 1) return list[0];
   const items = [...list];
   const last = items.pop();
   return `${items.join(", ")} and ${last}`;
-}
-
-function capitalize(text = "") {
-  return text.split(" ").map(w => w[0].toUpperCase() + w.slice(1)).join(" ");
-}
-
-function formatDietTags(diets = []) {
-  if (!diets.length) return `<span class="recipe-tag">Diet: None</span>`;
-  return diets
-    .slice(0, 4)
-    .map(d => `<span class="recipe-tag">${capitalize(d)}</span>`)
-    .join("");
 }

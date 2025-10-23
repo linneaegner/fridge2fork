@@ -3,6 +3,12 @@
 // ---------------------------------------------------------
 
 import { getRecipeDetails } from "./fetchdata.js";
+import {
+  cleanText,
+  formatTime,
+  formatServings,
+  formatDietTags,
+} from "./recipe-utils.js";
 
 // === Globala element =====================================
 const widget = document.querySelector("#recipe-details-widget");
@@ -124,37 +130,4 @@ function setupSourceButton(url) {
     button.disabled = true;
     setStatus("Original recipe link not available.");
   }
-}
-
-// === Hjälpfunktioner ======================================
-function cleanText(html = "") {
-  const div = document.createElement("div");
-  div.innerHTML = html;
-  const text = div.textContent || "";
-  return text.trim();
-}
-
-function formatTime(min) {
-  return min ? `${min} ${min === 1 ? "min" : "mins"}` : "N/A";
-}
-
-
-function formatServings(s) {
-  if (!s) return "N/A";
-  return s === 1 ? "1 serving" : `${s} servings`;
-}
-
-function formatDietTags(diets = []) {
-  if (!diets.length) return `<span class="recipe-tag">Diet: None</span>`;
-  return diets
-    .slice(0, 4)
-    .map(d => `<span class="recipe-tag">${capitalize(d)}</span>`)
-    .join("");
-}
-
-function capitalize(text = "") {
-  return text
-    .split(" ")
-    .map(word => word[0].toUpperCase() + word.slice(1))
-    .join(" ");
 }
