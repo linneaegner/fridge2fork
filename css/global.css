@@ -664,7 +664,7 @@ textarea:focus {
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: 3rem;
+  min-height: calc(2 * 1.2em);
 }
 
 #recipes-page .recipe-summary {
