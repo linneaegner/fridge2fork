@@ -661,7 +661,7 @@ textarea:focus {
    RECEPTDETALJER
 ================================================== */
 #recipe-details-page .recipe,
-#recipe-details-page .recipe-content {
+#recipe-details-page .recipe-cooking {
   margin: 0 auto;
   max-width: 60rem;
   padding-inline: var(--page-gutter);
@@ -722,13 +722,13 @@ textarea:focus {
   color: var(--color-text-muted);
 }
 
-.recipe-content {
+.recipe-cooking {
   display: grid;
   gap: clamp(1.5rem, 5vw, 2.25rem);
   grid-template-columns: repeat(auto-fit, minmax(16.25rem, 1fr));
 }
-.recipe-content ul,
-.recipe-content ol {
+.recipe-cooking ul,
+.recipe-cooking ol {
   margin: 0;
   padding-left: 1.25rem;
   display: grid;
@@ -916,7 +916,7 @@ textarea:focus {
     height: 200px;
   }
 
-  .recipe-content {
+  .recipe-cooking {
     grid-template-columns: 1fr;
   }
   .recipe-stats {
@@ -983,7 +983,7 @@ textarea:focus {
   }
 
   #recipe-details-page .recipe,
-  #recipe-details-page .recipe-content {
+  #recipe-details-page .recipe-cooking {
     max-width: 100%;
   }
 

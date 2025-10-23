@@ -49,8 +49,8 @@ function setStatus(text) {
 function renderRecipe(r) {
 
   widget.innerHTML = `
-    <article class="recipe">
-      <h1 class="recipe-title">${r.title || "Untitled recipe"}</h1>
+    <section class="recipe">
+      <h1 class="recipe-title">${r.title}</h1>
 
       <div class="recipe-image-container">
         <img class="recipe-image"
@@ -68,12 +68,12 @@ function renderRecipe(r) {
 
       <div class="recipe-tags">${formatDietTags(r.diets)}</div>
 
-      <button id="view-original-btn" class="btn btn--primary btn--view-original" type="button">
+      <button id="view-original-recipe-btn" class="btn btn--primary btn--view-original-recipe" type="button">
         View Original Recipe
       </button>
-    </article>
+    </section>
 
-    <section class="recipe-content">
+    <section class="recipe-cooking">
       <div class="card">
         <h2>Ingredients</h2>
         <ul id="ingredients-list"></ul>
@@ -112,7 +112,7 @@ function renderList(id, items = [], emptyMessage) {
 
 // === "View Original Recipe"-knapp =========================
 function setupSourceButton(url) {
-  const button = document.querySelector("#view-original-btn");
+  const button = document.querySelector("#view-original-recipe-btn");
   if (!button) return;
 
   if (url) {
@@ -137,6 +137,7 @@ function cleanText(html = "") {
 function formatTime(min) {
   return min ? `${min} ${min === 1 ? "min" : "mins"}` : "N/A";
 }
+
 
 function formatServings(s) {
   if (!s) return "N/A";
