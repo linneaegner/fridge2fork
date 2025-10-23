@@ -550,8 +550,20 @@ textarea:focus {
 
 .recipes-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 2rem;
+}
+
+@media (min-width: 48rem) {
+  .recipes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .recipes-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .recipe-article {
