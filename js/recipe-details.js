@@ -156,7 +156,3 @@ function capitalize(text = "") {
     .map(word => word[0].toUpperCase() + word.slice(1))
     .join(" ");
 }
-
-function slugify(text = "") {
-  return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-}

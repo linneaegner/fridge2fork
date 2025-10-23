@@ -142,7 +142,7 @@ function updateActiveButton() {
 function renderRecipes(recipes) {
   recipeGrid.innerHTML = recipes.map(r => {
     const summary = r.summary ? cleanSummary(r.summary) : "";
-    const diets = formatDiets(r.diets);
+    const dietTags = formatDietTags(r.diets);
 
     return `
       <article class="card recipe-article">
@@ -162,7 +162,7 @@ function renderRecipes(recipes) {
           <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
         </dl>
         
-        <div class="recipe-tags">${diets}</div>
+        <div class="recipe-tags">${dietTags}</div>
 
         <button class="btn btn--primary btn--view-recipe-details" type="button" data-recipe-id="${r.id}">
           View Recipe
@@ -228,13 +228,6 @@ function formatServings(servings) {
   return servings === 1 ? "1 serving" : `${servings} servings`;
 }
 
-function formatDiets(diets = []) {
-  return diets
-    .slice(0, 3)
-    .map(d => `<span class="recipe-tag">${capitalize(d)}</span>`)
-    .join("");
-}
-
 function formatIngredientList(list) {
   if (list.length === 0) return "no ingredients selected";
   if (list.length === 1) return list[0];
@@ -245,4 +238,12 @@ function formatIngredientList(list) {
 
 function capitalize(text = "") {
   return text.split(" ").map(w => w[0].toUpperCase() + w.slice(1)).join(" ");
+}
+
+function formatDietTags(diets = []) {
+  if (!diets.length) return `<span class="recipe-tag">Diet: None</span>`;
+  return diets
+    .slice(0, 4)
+    .map(d => `<span class="recipe-tag">${capitalize(d)}</span>`)
+    .join("");
 }
