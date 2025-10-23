@@ -46,26 +46,26 @@ function setStatus(text) {
 }
 
 // === Visa receptet ========================================
-function renderRecipe(recipe) {
+function renderRecipe(r) {
   widget.innerHTML = `
     <article class="recipe">
-      <h1 class="recipe-title">${recipe.title || "Untitled recipe"}</h1>
+      <h1 class="recipe-title">${r.title || "Untitled recipe"}</h1>
 
       <div class="recipe-image-container">
         <img class="recipe-image"
-          src="${recipe.image || "https://via.placeholder.com/640x360?text=No+image"}"
-          alt="${recipe.title || "Recipe image"}"
+          src="${r.image || "https://via.placeholder.com/640x360?text=No+image"}"
+          alt="${r.title || "Recipe image"}"
         />
       </div>
 
-        <p class="recipe-summary">${cleanText(recipe.summary) || "No description available."}</p>
+        <p class="recipe-summary">${cleanText(r.summary) || "No description available."}</p>
 
         <dl class="recipe-stats">
-          <div class="recipe-stat"><dd>⏱️ ${formatTime(recipe.readyInMinutes)}</dd></div>
-          <div class="recipe-stat"><dd>👥 ${formatServings(recipe.servings)}</dd></div>
+          <div class="recipe-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
+          <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
         </dl>
 
-        <div class="recipe-tags">${formatDietTags(recipe.diets)}</div>
+        <div class="recipe-tags">${formatDietTags(r.diets)}</div>
 
         <button id="view-original-recipe" class="btn btn--primary btn--view-original" type="button">
           View Original Recipe
