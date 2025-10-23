@@ -38,7 +38,6 @@
   --transition: 180ms ease;
 
   /* Layout */
-  --layout-max: 1100px;
   --page-gutter: clamp(1.75rem, 4vw, 3rem); /* konsekvent sidomarginal */
 }
 
@@ -832,17 +831,19 @@ textarea:focus {
 }
 
 /* ==================================================
-   RESPONSIVE (MOBILE-FIRST)
+   RESPONSIVE
    - Anpassade brytpunkter för bättre läsbarhet/grids.
 ================================================== */
+
+
+/*
 @media (min-width: 1440px) {
   :root {
-    --layout-max: 1240px;
     --page-gutter: clamp(2rem, 3vw, 4.5rem);
   }
   .recipes-section {
     max-width: 68.75rem;
-  } /* 1100px */
+  } /* 1100px */ /*
 }
 
 @media (max-width: 1024px) {
@@ -867,7 +868,7 @@ textarea:focus {
 
   .recipes-section {
     max-width: 57.5rem;
-  } /* 920px */
+  } /* 920px *//*
 
   .recipes-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1021,4 +1022,4 @@ textarea:focus {
     align-items: flex-start;
     gap: 0.375rem;
   }
-}
+} */
