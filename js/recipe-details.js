@@ -47,6 +47,7 @@ function setStatus(text) {
 
 // === Visa receptet ========================================
 function renderRecipe(r) {
+
   widget.innerHTML = `
     <article class="recipe">
       <h1 class="recipe-title">${r.title || "Untitled recipe"}</h1>
@@ -58,18 +59,18 @@ function renderRecipe(r) {
         />
       </div>
 
-        <p class="recipe-summary">${cleanText(r.summary) || "No description available."}</p>
+      <p class="recipe-summary">${cleanText(r.summary)}</p>
 
-        <dl class="recipe-stats">
-          <div class="recipe-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
-          <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
-        </dl>
+      <dl class="recipe-stats">
+        <div class="recipe-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
+        <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
+      </dl>
 
-        <div class="recipe-tags">${formatDietTags(r.diets)}</div>
+      <div class="recipe-tags">${formatDietTags(r.diets)}</div>
 
-        <button id="view-original-recipe" class="btn btn--primary btn--view-original" type="button">
-          View Original Recipe
-        </button>
+      <button id="view-original-btn" class="btn btn--primary btn--view-original" type="button">
+        View Original Recipe
+      </button>
     </article>
 
     <section class="recipe-content">
@@ -87,17 +88,17 @@ function renderRecipe(r) {
 
   renderList(
     "ingredients-list",
-    recipe.extendedIngredients?.map(i => i.original),
+    r.extendedIngredients?.map(i => i.original),
     "No ingredients found."
   );
 
   renderList(
     "instructions-list",
-    recipe.analyzedInstructions?.[0]?.steps?.map(s => s.step),
+    r.analyzedInstructions?.[0]?.steps?.map(s => s.step),
     "No instructions found."
   );
 
-  setupSourceButton(recipe.sourceUrl);
+  setupSourceButton(r.sourceUrl);
 }
 
 // === Visa lista eller fallback =============================
@@ -111,7 +112,7 @@ function renderList(id, items = [], emptyMessage) {
 
 // === "View Original Recipe"-knapp =========================
 function setupSourceButton(url) {
-  const button = document.querySelector("#view-original-recipe");
+  const button = document.querySelector("#view-original-btn");
   if (!button) return;
 
   if (url) {

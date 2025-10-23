@@ -141,9 +141,6 @@ function updateActiveButton() {
 // === Visa recept =========================================
 function renderRecipes(recipes) {
   recipeGrid.innerHTML = recipes.map(r => {
-    const summary = r.summary ? cleanSummary(r.summary) : "";
-    const dietTags = formatDietTags(r.diets);
-
     return `
       <article class="card recipe-article">
         <div class="recipe-image-container">
@@ -155,14 +152,14 @@ function renderRecipes(recipes) {
         
         <h3 class="recipe-title">${r.title}</h3>
 
-        <p class="recipe-summary">${summary}</p>
+        <p class="recipe-summary">${cleanText(r.summary)}</p>
 
         <dl class="recipe-stats">
           <div class="recipe-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
           <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
         </dl>
         
-        <div class="recipe-tags">${dietTags}</div>
+        <div class="recipe-tags">${formatDietTags(r.diets)}</div>
 
         <button class="btn btn--primary btn--view-recipe-details" type="button" data-recipe-id="${r.id}">
           View Recipe
@@ -212,7 +209,7 @@ function getDifficulty(minutes) {
 }
 
 // Gör texten kort och tar bort HTML-taggar
-function cleanSummary(html = "") {
+function cleanText(html = "") {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
   const text = doc.body.textContent || "";
