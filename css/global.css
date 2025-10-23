@@ -546,7 +546,7 @@ textarea:focus {
 
 .recipes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2rem;
 }
 
@@ -688,9 +688,8 @@ textarea:focus {
 
 #recipes-page .recipe-article .btn--primary {
   margin-top: auto;
-  align-self: center;
+  align-self: stretch;
   width: 100%;
-  max-width: 15rem;
   padding: 1rem 1.75rem;
   font-size: 1.02rem;
 }
