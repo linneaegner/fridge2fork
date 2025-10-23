@@ -37,31 +37,22 @@
 
 /* ==================================================
    2. Grundinställningar
-   - Ger tydlig bas med rem för texter.
+   Sätter tydlig bas för text, bakgrund och arv.
 ================================================== */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 html {
   font-size: 100%; /* 1rem = 16px */
 }
 
 body {
-  margin: 0;
   font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.6;
   background-color: var(--color-bg);
   color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
 }
 
 img {
-  display: block;
-  max-width: 100%;
-  height: auto;
   border-radius: inherit;
 }
 
@@ -104,22 +95,12 @@ h4 {
 }
 
 p {
-  margin: 0;
   color: var(--color-text-muted);
 }
 
 ul,
 ol {
-  margin: 0;
   padding-left: 1.5rem;
-}
-
-button,
-input,
-textarea,
-select {
-  font: inherit;
-  color: inherit;
 }
 
 .container {
