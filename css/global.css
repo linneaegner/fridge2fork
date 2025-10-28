@@ -979,6 +979,7 @@ textarea:focus {
   .fridge-section .card {
     gap: var(--space-lg);
     padding: var(--space-lg) var(--space-md);
+    box-shadow: var(--shadow-soft);
   }
 
   .ingredient-form {
@@ -986,9 +987,9 @@ textarea:focus {
   }
 
   .input-row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--space-sm);
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: var(--space-xs);
   }
 
   #ingredient-input {
@@ -996,23 +997,34 @@ textarea:focus {
   }
 
   .add-ingredient-btn {
-    width: 100%;
+    flex: 0 0 auto;
+    padding-inline: var(--space-lg);
+    min-height: 2.75rem;
   }
 
   .ingredient-list {
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--space-sm);
+    align-items: center;
+    gap: var(--space-xs);
+    width: 100%;
   }
 
   .ingredient-tags {
+    flex: 1 1 auto;
     justify-content: flex-start;
     gap: var(--space-xs);
   }
 
   .ingredient-tags + .btn--clear {
-    align-self: flex-start;
-    padding-inline: 0;
+    margin-left: auto;
+  }
+
+  .ingredient-list .btn--clear {
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: 999px;
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
   }
 
   /* Stretch the dropdown across the header and tuck it under the divider */
@@ -1124,21 +1136,7 @@ textarea:focus {
 
 }
 
-@media (max-width: 320px) {
-  .fridge-section .card {
-    padding-inline: var(--space-sm);
-  }
 
-  .ingredient-badge {
-    font-size: var(--fs-xs);
-    padding: var(--space-2xs) var(--space-xs);
-  }
-
-  .find-recipes-btn {
-    font-size: var(--fs-sm);
-    padding: var(--space-sm) var(--space-lg);
-  }
-}
 
 @media (min-width: 768px) {
   .recipes-grid {
