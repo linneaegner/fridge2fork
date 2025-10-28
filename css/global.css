@@ -1078,12 +1078,7 @@ textarea:focus {
     margin-bottom: var(--space-2xs);
   }
 
-  .mission-section,
-  .values-section,
-  .how-it-works-section {
-    padding: 0 var(--space-lg);
-  }
-}
+
 
 @media (min-width: 768px) {
   .recipes-grid {
