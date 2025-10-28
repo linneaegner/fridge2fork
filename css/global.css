@@ -819,9 +819,12 @@ textarea:focus {
 .how-it-works-section {
   display: flex;
   flex-direction: column;
+  gap: var(--space-lg);
 }
 
-
+.mission-section p {
+  line-height: 1.75;
+}
 
 .values-grid {
   display: grid;
@@ -832,6 +835,9 @@ textarea:focus {
 
 .values-grid .card {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
 .steps-list {
@@ -841,10 +847,34 @@ textarea:focus {
   color: var(--color-text);
 }
 
+.contact-section .card,
+.contact-table-section .card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+}
+
+.contact-form label {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.contact-form label + :is(input, textarea) {
+  margin-top: var(--space-2xs);
+}
+
+.contact-form :is(input, textarea) + label {
+  margin-top: var(--space-lg);
+}
+
+.contact-form .btn {
+  margin-top: var(--space-xl);
+  align-self: flex-start;
 }
 
 .contact-form textarea {
