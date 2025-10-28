@@ -198,6 +198,12 @@ main.container {
   color: var(--color-text);
 }
 
+@media (max-width: 768px) {
+  .site-header-nav ul {
+    display: none;
+  }
+}
+
 /* ==================================================
    4. Sidhuvud / hero
 ================================================== */
@@ -556,13 +562,13 @@ textarea:focus {
   gap: 2rem;
 }
 
-@media (min-width: 48rem) {
+@media (min-width: 768px) {
   .recipes-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 64rem) {
+@media (min-width: 1024px) {
   .recipes-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -818,7 +824,7 @@ textarea:focus {
   height: 100%;
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 768px) {
   .values-grid {
     grid-template-columns: 1fr;
   }
