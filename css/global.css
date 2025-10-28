@@ -30,9 +30,26 @@
   --radius-xl: 1.6rem;
 
   --layout-max: 70rem;
-  --page-gutter: 2rem;
+  --page-gutter: clamp(1rem, 3vw, 2.5rem);
 
   --transition: 180ms ease;
+
+  /* Fluid typography scale */
+  --fs-xs: clamp(0.875rem, 0.8rem + 0.3vw, 0.95rem);
+  --fs-sm: clamp(1rem, 0.95rem + 0.4vw, 1.125rem);
+  --fs-md: clamp(1.125rem, 1rem + 0.6vw, 1.25rem);
+  --fs-lg: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  --fs-xl: clamp(2.25rem, 1.8rem + 2vw, 3rem);
+  --fs-xxl: clamp(3rem, 2.4rem + 3vw, 4rem);
+
+  /* Fluid spacing scale */
+  --space-2xs: clamp(0.25rem, 0.2rem + 0.2vw, 0.5rem);
+  --space-xs: clamp(0.5rem, 0.4rem + 0.3vw, 0.75rem);
+  --space-sm: clamp(0.75rem, 0.6rem + 0.4vw, 1rem);
+  --space-md: clamp(1rem, 0.8rem + 0.6vw, 1.5rem);
+  --space-lg: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  --space-xl: clamp(2rem, 1.6rem + 1.2vw, 3rem);
+  --space-2xl: clamp(3rem, 2.4rem + 2vw, 4rem);
 }
 
 /* ==================================================
@@ -45,7 +62,7 @@ html {
 
 body {
   font-family: var(--font-sans);
-  font-size: 1rem;
+  font-size: var(--fs-sm);
   background-color: var(--color-bg);
   color: var(--color-text);
   overflow-x: hidden; /* Prevent sideways scroll/zoom drift on mobile */
@@ -77,21 +94,26 @@ h4 {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: var(--fs-xxl);
   letter-spacing: -1px;
 }
 
 h2 {
-  font-size: 2.25rem;
+  font-size: var(--fs-xl);
 }
 
 h3 {
-  font-size: 1.5rem;
-  margin-block-end: 1.25rem;
+  font-size: var(--fs-lg);
+  margin-block-end: var(--space-sm);
 }
 
 h4 {
-  font-size: 1.25rem;
+  font-size: var(--fs-md);
+}
+
+p,
+li {
+  font-size: var(--fs-sm);
 }
 
 p {
@@ -100,7 +122,7 @@ p {
 
 ul,
 ol {
-  padding-left: 1.5rem;
+  padding-left: var(--space-lg);
 }
 
 .container {
@@ -110,22 +132,22 @@ ol {
 }
 
 main.container {
-  padding-block: 4rem;
+  padding-block: var(--space-2xl);
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: var(--space-2xl);
 }
 
 #recipes-page main.container,
 #recipe-details-page main.container {
-  padding-block: 3rem;
-  gap: 2.5rem;
+  padding-block: var(--space-xl);
+  gap: var(--space-xl);
 }
 
 .back-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-xs);
   font-weight: 600;
   color: var(--color-text-muted);
   transition: color var(--transition), transform var(--transition);
@@ -156,7 +178,7 @@ main.container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: var(--space-lg);
   min-height: 4.5rem;
   width: min(var(--layout-max), 100%);
   margin: 0 auto;
@@ -166,7 +188,7 @@ main.container {
 .site-header-logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-sm);
   font-weight: 700;
   color: var(--color-text);
   -webkit-tap-highlight-color: transparent; /* Avoid flash/zoom on tap */
@@ -181,7 +203,7 @@ main.container {
 
 .site-header-nav ul {
   display: flex;
-  gap: 1.5rem;
+  gap: var(--space-lg);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -190,7 +212,7 @@ main.container {
 }
 
 .nav-link {
-  padding: 0.625rem 1.125rem;
+  padding: var(--space-xs) var(--space-md);
   border-radius: 999px;
   transition: background var(--transition), color var(--transition);
 }
@@ -206,7 +228,7 @@ main.container {
   display: none;
   border: none;
   background: transparent;
-  padding: 0.25rem;
+  padding: var(--space-2xs);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: background var(--transition);
@@ -234,17 +256,17 @@ main.container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: var(--space-md);
 }
 
 .page-hero .back-link {
   align-self: flex-start;
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-md);
 }
 
 .page-hero p {
   max-width: 40rem;
-  font-size: 1.05rem;
+  font-size: var(--fs-sm);
 }
 
 /* ==================================================
@@ -255,16 +277,16 @@ main.container {
   border: 1px solid var(--color-border-weak);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
-  padding: 2.5rem;
+  padding: var(--space-xl);
 }
 
 .card--tight {
-  padding: 2rem;
+  padding: var(--space-lg);
 }
 
 .empty-state {
   margin: 0;
-  padding: 2.5rem;
+  padding: var(--space-xl);
   border-radius: var(--radius-lg);
   border: 1px dashed var(--color-border);
   text-align: center;
@@ -279,13 +301,13 @@ main.container {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: var(--space-xs);
   border-radius: 999px;
   border: 1px solid transparent;
   font-weight: 600;
   cursor: pointer;
-  padding: 0.875rem 1.5rem;
-  font-size: 1rem;
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--fs-sm);
   background: transparent;
   transition: background-color var(--transition), border-color var(--transition),
     color var(--transition), box-shadow var(--transition),
@@ -333,7 +355,7 @@ main.container {
   color: var(--color-text-muted);
   font-weight: 600;
   cursor: pointer;
-  padding: 0.375rem 0;
+  padding: var(--space-2xs) 0;
   transition: color var(--transition);
 }
 
@@ -349,7 +371,7 @@ a.btn--primary:visited {
 .find-recipes-btn {
   align-self: stretch;
   width: 100%;
-  padding: 1rem 2.25rem;
+  padding: var(--space-md) var(--space-xl);
   font-weight: 700;
 }
 
@@ -365,24 +387,24 @@ a.btn--primary:visited {
   width: min(40rem, 100%);
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--space-lg);
   text-align: left;
 }
 
 .fridge-section h2 {
-  font-size: 2.5rem;
+  font-size: var(--fs-xl);
   color: var(--color-text);
 }
 
 .ingredient-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--space-md);
 }
 
 .ingredient-form label {
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: var(--fs-sm);
   color: var(--color-text);
 }
 
@@ -390,7 +412,7 @@ a.btn--primary:visited {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-md);
 }
 
 #ingredient-input {
@@ -405,7 +427,7 @@ input[type="text"],
 input[type="email"],
 textarea {
   width: 100%;
-  padding: 0.875rem 1.125rem;
+  padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
   background: #fff;
@@ -426,22 +448,22 @@ textarea:focus {
 .ingredient-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: var(--space-sm);
   align-items: center;
 }
 
 .ingredient-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  padding: 0.25rem 0;
+  gap: var(--space-sm);
+  padding: var(--space-2xs) 0;
 }
 
 .ingredient-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.875rem;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
   border-radius: 999px;
   background: var(--color-accent-weak2);
   color: var(--color-accent);
@@ -452,25 +474,25 @@ textarea:focus {
   border: none;
   background: transparent;
   color: inherit;
-  font-size: 1.05rem;
+  font-size: var(--fs-sm);
   cursor: pointer;
   padding: 0;
 }
 
 .ingredient-empty {
-  font-size: 0.95rem;
+  font-size: var(--fs-xs);
   color: var(--color-text-muted);
 }
 
 .temp-message {
   position: fixed;
   left: 50%;
-  top: 1.25rem;
+  top: var(--space-md);
   transform: translateX(-50%);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 0.75rem 1.25rem;
+  padding: var(--space-sm) var(--space-md);
   box-shadow: var(--shadow-soft);
   font-weight: 600;
   color: var(--color-text);
@@ -483,8 +505,8 @@ textarea:focus {
 .recipe-filters {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 1.5rem;
+  gap: var(--space-md);
+  padding: var(--space-lg);
   background: var(--color-surface);
   border-radius: 1.125rem;
   border: 1px solid var(--color-border-weak);
@@ -493,7 +515,7 @@ textarea:focus {
 
 .filter-heading {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: var(--fs-md);
   font-weight: 600;
   color: var(--color-text);
 }
@@ -501,12 +523,12 @@ textarea:focus {
 .filter-buttons-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: var(--space-sm);
 }
 
 .filter-button {
-  font-size: 0.95rem;
-  padding: 0.5rem 1.25rem;
+  font-size: var(--fs-xs);
+  padding: var(--space-xs) var(--space-md);
   border: 1px solid var(--color-border);
   border-radius: 999px;
   background: #fff;
@@ -531,11 +553,11 @@ textarea:focus {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: var(--space-sm);
   font-weight: 600;
-  padding: 0.5rem 0;
-  margin: 0.75rem 0;
-  font-size: 0.95rem;
+  padding: var(--space-xs) 0;
+  margin: var(--space-sm) 0;
+  font-size: var(--fs-xs);
   color: var(--color-text-muted);
 }
 
@@ -543,7 +565,7 @@ textarea:focus {
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--space-xs);
 }
 
 .filter-summary-details span:nth-of-type(2) {
@@ -551,8 +573,8 @@ textarea:focus {
 }
 
 .clear-filters-button {
-  padding: 0.5rem 1.25rem;
-  font-size: 0.95rem;
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--fs-xs);
 }
 
 /* ==================================================
@@ -563,13 +585,13 @@ textarea:focus {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--space-lg);
   padding-inline: var(--page-gutter);
 }
 
 .based-on-ingredients {
-  margin: 1.5rem 0 0;
-  font-size: 1.05rem;
+  margin: var(--space-lg) 0 0;
+  font-size: var(--fs-sm);
   color: var(--color-text-muted);
 }
 
@@ -581,17 +603,17 @@ textarea:focus {
 .recipes-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: var(--space-lg);
 }
 
 .recipe-article {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--space-lg);
   background: linear-gradient(180deg, #ffffff 0%, #fdf6ed 100%);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-soft);
-  padding: 2rem;
+  padding: var(--space-lg);
   overflow: hidden;
   transition: transform var(--transition), box-shadow var(--transition);
 }
@@ -625,7 +647,7 @@ textarea:focus {
 }
 
 .recipe-summary {
-  font-size: 0.95rem;
+  font-size: var(--fs-xs);
   line-height: 1.6;
   color: var(--color-text-muted);
   display: -webkit-box;
@@ -638,7 +660,7 @@ textarea:focus {
 .recipe-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: var(--space-sm);
 }
 
 .recipe-tags:empty {
@@ -649,12 +671,12 @@ textarea:focus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.375rem 0.875rem;
+  padding: var(--space-2xs) var(--space-sm);
   border-radius: 999px;
   background: var(--color-accent-weak);
   color: var(--color-accent);
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: var(--fs-xs);
   letter-spacing: 0.01em;
 }
 
@@ -671,28 +693,28 @@ textarea:focus {
 .recipe-stats {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.25rem;
-  margin: 0.75rem 0 0;
+  gap: var(--space-md);
+  margin: var(--space-sm) 0 0;
   padding: 0;
 }
 
 .recipe-stat {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-xs);
 }
 
 .recipe-stat dd {
   margin: 0;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-xs);
   font-weight: 600;
   color: var(--color-text);
 }
 
 #recipes-page .recipe-title {
-  font-size: 1.75rem;
+  font-size: var(--fs-lg);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -706,26 +728,26 @@ textarea:focus {
 }
 
 #recipes-page .recipe-tags {
-  margin-top: 0.75rem;
+  margin-top: var(--space-sm);
 }
 
 #recipes-page .recipe-stats {
-  margin-top: 0.5rem;
-  gap: 1rem;
+  margin-top: var(--space-xs);
+  gap: var(--space-md);
   color: var(--color-text-muted);
 }
 
 #recipes-page .recipe-stat dd {
-  gap: 0.375rem;
-  font-size: 0.98rem;
+  gap: var(--space-2xs);
+  font-size: var(--fs-sm);
 }
 
 #recipes-page .recipe-article .btn--primary {
   margin-top: auto;
   align-self: stretch;
   width: 100%;
-  padding: 1rem 1.75rem;
-  font-size: 1.02rem;
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--fs-sm);
 }
 
 /* ==================================================
@@ -734,7 +756,7 @@ textarea:focus {
 .recipe-details-widget {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: var(--space-xl);
 }
 
 #recipe-details-page .recipe,
@@ -746,7 +768,7 @@ textarea:focus {
 
 #recipe-details-page .recipe {
   display: grid;
-  gap: 2rem;
+  gap: var(--space-lg);
 }
 
 #recipe-details-page .recipe-title {
@@ -778,17 +800,17 @@ textarea:focus {
 }
 
 #recipe-details-page .recipe-stats {
-  margin-top: 0.5rem;
+  margin-top: var(--space-xs);
 }
 
 #recipe-details-page .recipe-tags {
-  gap: 1rem;
-  margin-top: 0.5rem;
+  gap: var(--space-md);
+  margin-top: var(--space-xs);
 }
 
 #recipe-details-page .recipe-tag {
-  padding-inline: 1rem;
-  font-size: 0.9rem;
+  padding-inline: var(--space-md);
+  font-size: var(--fs-xs);
 }
 
 #recipe-details-page .btn-view--original {
@@ -797,16 +819,16 @@ textarea:focus {
 
 .recipe-cooking {
   display: grid;
-  gap: 1.5rem;
+  gap: var(--space-lg);
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 }
 
 .recipe-cooking ul,
 .recipe-cooking ol {
   margin: 0;
-  padding-left: 1.25rem;
+  padding-left: var(--space-md);
   display: grid;
-  gap: 0.75rem;
+  gap: var(--space-sm);
   color: var(--color-text);
 }
 
@@ -820,12 +842,12 @@ textarea:focus {
 .contact-table-section {
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
+  gap: var(--space-lg);
 }
 
 .values-grid {
   display: grid;
-  gap: 2rem;
+  gap: var(--space-lg);
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
 }
@@ -836,15 +858,15 @@ textarea:focus {
 
 .steps-list {
   display: grid;
-  gap: 1rem;
-  padding-left: 1.5rem;
+  gap: var(--space-md);
+  padding-left: var(--space-lg);
   color: var(--color-text);
 }
 
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-md);
 }
 
 .contact-form textarea {
@@ -855,7 +877,7 @@ textarea:focus {
 .recipe-details-section {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: var(--space-xl);
 }
 
 .table-responsive {
@@ -872,10 +894,10 @@ textarea:focus {
 
 .availability-table th,
 .availability-table td {
-  padding: 0.875rem 1rem;
+  padding: var(--space-sm) var(--space-md);
   border-bottom: 1px solid var(--color-border-weak);
   text-align: left;
-  font-size: 0.95rem;
+  font-size: var(--fs-xs);
 }
 
 .availability-table th {
@@ -903,14 +925,14 @@ textarea:focus {
 .site-footer {
   background: var(--color-surface);
   border-top: 1px solid var(--color-border);
-  padding: 2.75rem 0;
+  padding: var(--space-xl) 0;
   color: var(--color-text-muted);
-  font-size: 0.95rem;
+  font-size: var(--fs-xs);
   text-align: center;
 }
 
 .site-footer p {
-  margin: 0 0 0.375rem;
+  margin: 0 0 var(--space-2xs);
 }
 
 .site-footer a:hover {
@@ -922,7 +944,7 @@ textarea:focus {
 ================================================== */
 @media (max-width: 767px) {
   .site-header-container {
-    gap: 1rem;
+    gap: var(--space-md);
     position: relative;
   }
 
@@ -952,7 +974,7 @@ textarea:focus {
     border: 1px solid var(--color-border);
     border-top: none;
     border-radius: 0 0 var(--radius-md) var(--radius-md);
-    padding: 0.5rem 0;
+    padding: var(--space-xs) 0;
     box-shadow: var(--shadow-soft);
     min-width: 100%;
     z-index: 20;
@@ -976,7 +998,7 @@ textarea:focus {
     display: block;
     width: 100%;
     border-radius: 0;
-    padding: 0.75rem 1.25rem;
+    padding: var(--space-sm) var(--space-md);
     text-align: left;
   }
 
