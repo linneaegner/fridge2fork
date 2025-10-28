@@ -226,71 +226,6 @@ main.container {
   height: auto;
 }
 
-@media (max-width: 768px) {
-  .site-header-container {
-    gap: 1rem;
-    position: relative;
-  }
-
-  .site-header-nav {
-    margin-left: auto;
-    position: static;
-    display: flex;
-    align-items: center;
-  }
-
-  .nav-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Stretch the dropdown across the header and tuck it under the divider */
-  .site-header-nav ul {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-top: none;
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
-    padding: 0.5rem 0;
-    box-shadow: var(--shadow-soft);
-    min-width: 100%;
-    z-index: 20;
-  }
-
-  /* Hide the menu only after JS marks the nav as ready */
-  .site-header-nav.is-ready ul {
-    display: none;
-  }
-
-  .site-header-nav.is-ready.is-open ul {
-    display: flex;
-  }
-
-  .site-header-nav ul li {
-    width: 100%;
-    border-bottom: 1px solid var(--color-border-weak);
-  }
-
-  .site-header-nav ul li .nav-link {
-    display: block;
-    width: 100%;
-    border-radius: 0;
-    padding: 0.75rem 1.25rem;
-    text-align: left;
-  }
-
-  .site-header-nav ul li:last-child {
-    border-bottom: none;
-  }
-}
-
 /* ==================================================
    4. Sidhuvud / hero
 ================================================== */
@@ -649,18 +584,6 @@ textarea:focus {
   gap: 2rem;
 }
 
-@media (min-width: 768px) {
-  .recipes-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-  .recipes-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
 .recipe-article {
   display: flex;
   flex-direction: column;
@@ -911,12 +834,6 @@ textarea:focus {
   height: 100%;
 }
 
-@media (max-width: 768px) {
-  .values-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 .steps-list {
   display: grid;
   gap: 1rem;
@@ -998,4 +915,88 @@ textarea:focus {
 
 .site-footer a:hover {
   color: var(--color-accent);
+}
+
+/* ==================================================
+   13. Media queries
+================================================== */
+@media (max-width: 767px) {
+  .site-header-container {
+    gap: 1rem;
+    position: relative;
+  }
+
+  .site-header-nav {
+    margin-left: auto;
+    position: static;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Stretch the dropdown across the header and tuck it under the divider */
+  .site-header-nav ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    padding: 0.5rem 0;
+    box-shadow: var(--shadow-soft);
+    min-width: 100%;
+    z-index: 20;
+  }
+
+  /* Hide the menu only after JS marks the nav as ready */
+  .site-header-nav.is-ready ul {
+    display: none;
+  }
+
+  .site-header-nav.is-ready.is-open ul {
+    display: flex;
+  }
+
+  .site-header-nav ul li {
+    width: 100%;
+    border-bottom: 1px solid var(--color-border-weak);
+  }
+
+  .site-header-nav ul li .nav-link {
+    display: block;
+    width: 100%;
+    border-radius: 0;
+    padding: 0.75rem 1.25rem;
+    text-align: left;
+  }
+
+  .site-header-nav ul li:last-child {
+    border-bottom: none;
+  }
+
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .recipes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .recipes-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
