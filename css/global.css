@@ -818,7 +818,7 @@ textarea:focus {
 ================================================== */
 .mission-section,
 .values-section,
-.how-it-works-section {
+.how-it-works-section{
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
@@ -841,7 +841,6 @@ textarea:focus {
   padding-left: var(--space-lg);
   color: var(--color-text);
 }
-
 
 .contact-form {
   display: flex;
