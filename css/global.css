@@ -111,11 +111,6 @@ h4 {
   font-size: var(--fs-md);
 }
 
-p,
-li {
-  font-size: var(--fs-sm);
-}
-
 p {
   color: var(--color-text-muted);
 }
@@ -190,7 +185,6 @@ main.container {
   align-items: center;
   gap: var(--space-sm);
   font-weight: 700;
-  color: var(--color-text);
   -webkit-tap-highlight-color: transparent; /* Avoid flash/zoom on tap */
   touch-action: manipulation; /* Tell mobile browsers this is a simple tap */
 }
@@ -261,12 +255,10 @@ main.container {
 
 .page-hero .back-link {
   align-self: flex-start;
-  margin-bottom: var(--space-md);
 }
 
 .page-hero p {
   max-width: 40rem;
-  font-size: var(--fs-sm);
 }
 
 /* ==================================================
@@ -391,11 +383,6 @@ a.btn--primary:visited {
   text-align: left;
 }
 
-.fridge-section h2 {
-  font-size: var(--fs-xl);
-  color: var(--color-text);
-}
-
 .ingredient-form {
   display: flex;
   flex-direction: column;
@@ -404,7 +391,6 @@ a.btn--primary:visited {
 
 .ingredient-form label {
   font-weight: 600;
-  font-size: var(--fs-sm);
   color: var(--color-text);
 }
 
@@ -474,7 +460,6 @@ textarea:focus {
   border: none;
   background: transparent;
   color: inherit;
-  font-size: var(--fs-sm);
   cursor: pointer;
   padding: 0;
 }
@@ -591,7 +576,6 @@ textarea:focus {
 
 .based-on-ingredients {
   margin: var(--space-lg) 0 0;
-  font-size: var(--fs-sm);
   color: var(--color-text-muted);
 }
 
@@ -733,7 +717,6 @@ textarea:focus {
 
 #recipes-page .recipe-stats {
   margin-top: var(--space-xs);
-  gap: var(--space-md);
   color: var(--color-text-muted);
 }
 
@@ -747,7 +730,6 @@ textarea:focus {
   align-self: stretch;
   width: 100%;
   padding: var(--space-md) var(--space-lg);
-  font-size: var(--fs-sm);
 }
 
 /* ==================================================
@@ -810,7 +792,6 @@ textarea:focus {
 
 #recipe-details-page .recipe-tag {
   padding-inline: var(--space-md);
-  font-size: var(--fs-xs);
 }
 
 #recipe-details-page .btn-view--original {
