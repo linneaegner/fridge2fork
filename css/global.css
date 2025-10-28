@@ -224,11 +224,12 @@ main.container {
 @media (max-width: 768px) {
   .site-header-container {
     gap: 1rem;
+    position: relative;
   }
 
   .site-header-nav {
     margin-left: auto;
-    position: relative;
+    position: static;
     display: flex;
     align-items: center;
   }
@@ -239,19 +240,22 @@ main.container {
     justify-content: center;
   }
 
+  /* Stretch the dropdown across the header and tuck it under the divider */
   .site-header-nav ul {
     position: absolute;
-    top: calc(100% + 0.5rem);
+    top: 100%;
+    left: 0;
     right: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: 0.5rem;
+    border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    padding: 0.5rem 0;
     box-shadow: var(--shadow-soft);
-    min-width: 12rem;
+    min-width: 100%;
     z-index: 20;
   }
 
@@ -266,12 +270,19 @@ main.container {
 
   .site-header-nav ul li {
     width: 100%;
+    border-bottom: 1px solid var(--color-border-weak);
   }
 
   .site-header-nav ul li .nav-link {
     display: block;
     width: 100%;
-    border-radius: var(--radius-md);
+    border-radius: 0;
+    padding: 0.75rem 1.25rem;
+    text-align: left;
+  }
+
+  .site-header-nav ul li:last-child {
+    border-bottom: none;
   }
 }
 
