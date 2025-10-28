@@ -1082,7 +1082,7 @@ textarea:focus {
     margin-bottom: var(--space-2xs);
   }
 
-
+}
 
 @media (min-width: 768px) {
   .recipes-grid {
