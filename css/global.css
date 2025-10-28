@@ -87,7 +87,6 @@ h1,
 h2,
 h3,
 h4 {
-  margin-block: 0;
   color: var(--color-text);
   font-weight: 700;
   line-height: 1.2;
@@ -104,7 +103,6 @@ h2 {
 
 h3 {
   font-size: var(--fs-lg);
-  margin-block-end: var(--space-sm);
 }
 
 h4 {
@@ -818,11 +816,12 @@ textarea:focus {
 ================================================== */
 .mission-section,
 .values-section,
-.how-it-works-section{
+.how-it-works-section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
 }
+
+
 
 .values-grid {
   display: grid;
