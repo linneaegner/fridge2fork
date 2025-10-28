@@ -1017,6 +1017,64 @@ textarea:focus {
   .values-grid {
     grid-template-columns: 1fr;
   }
+
+  .contact-form .btn {
+    align-self: stretch;
+    width: 100%;
+    padding: var(--space-md) var(--space-xl);
+  }
+
+  .availability-table {
+    min-width: 0;
+  }
+
+  .availability-table thead {
+    display: none;
+  }
+
+  .availability-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .availability-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-md);
+    border: 1px solid var(--color-border-weak);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: none;
+  }
+
+  .availability-table th,
+  .availability-table td {
+    padding: 0;
+    border: none;
+    text-align: left;
+  }
+
+  .availability-table th[scope="row"] {
+    white-space: normal;
+    font-size: var(--fs-md);
+  }
+
+  .availability-table td {
+    font-size: var(--fs-sm);
+    color: var(--color-text);
+  }
+
+  .availability-table td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--space-2xs);
+  }
 }
 
 @media (min-width: 768px) {
