@@ -199,10 +199,8 @@ main.container {
 }
 
 @media (max-width: 768px) {
-  .site-header-nav ul {
-    display: none;
   }
-}
+
 
 /* ==================================================
    4. Sidhuvud / hero
