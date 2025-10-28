@@ -953,6 +953,10 @@ textarea:focus {
    13. Media queries
 ================================================== */
 @media (max-width: 767px) {
+  .container {
+    padding-inline: clamp(1.25rem, 5vw, 3rem);
+  }
+
   .site-header-container {
     gap: var(--space-md);
     position: relative;
