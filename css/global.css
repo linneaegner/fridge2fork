@@ -270,6 +270,8 @@ main.container {
   padding: var(--space-xl);
 }
 
+
+
 .card--tight {
   padding: var(--space-lg);
 }
@@ -1074,6 +1076,12 @@ textarea:focus {
     text-transform: uppercase;
     letter-spacing: 0.06em;
     margin-bottom: var(--space-2xs);
+  }
+
+  .mission-section,
+  .values-section,
+  .how-it-works-section {
+    padding: var(--space-xl) 0;
   }
 }
 
