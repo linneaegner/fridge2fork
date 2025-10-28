@@ -1081,7 +1081,7 @@ textarea:focus {
   .mission-section,
   .values-section,
   .how-it-works-section {
-    padding: var(--space-xl) 0;
+    padding: 0 var(--space-lg);
   }
 }
 
