@@ -270,8 +270,6 @@ main.container {
   padding: var(--space-xl);
 }
 
-
-
 .card--tight {
   padding: var(--space-lg);
 }
@@ -396,7 +394,7 @@ a.btn--primary:visited {
 
 .input-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: var(--space-md);
 }
@@ -977,19 +975,7 @@ textarea:focus {
 
   /* Ingredient form layout */
   .fridge-section .card {
-    gap: var(--space-lg);
-    padding: var(--space-lg) var(--space-md);
-    box-shadow: var(--shadow-soft);
-  }
-
-  .ingredient-form {
-    gap: var(--space-md);
-  }
-
-  .input-row {
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: var(--space-xs);
+    padding: var(--space-lg)
   }
 
   #ingredient-input {
@@ -997,9 +983,7 @@ textarea:focus {
   }
 
   .add-ingredient-btn {
-    flex: 0 0 auto;
-    padding-inline: var(--space-lg);
-    min-height: 2.75rem;
+    display: none;
   }
 
   .ingredient-list {
@@ -1133,10 +1117,7 @@ textarea:focus {
     letter-spacing: 0.06em;
     margin-bottom: var(--space-2xs);
   }
-
 }
-
-
 
 @media (min-width: 768px) {
   .recipes-grid {
