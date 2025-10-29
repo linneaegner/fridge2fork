@@ -415,7 +415,6 @@ textarea:focus {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
-  align-items: center;
 }
 
 .ingredient-tags {
@@ -427,7 +426,6 @@ textarea:focus {
 
 .ingredient-badge {
   display: inline-flex;
-  align-items: center;
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-sm);
   border-radius: 999px;
@@ -446,7 +444,6 @@ textarea:focus {
 
 .ingredient-empty {
   font-size: var(--fs-xs);
-  color: var(--color-text-muted);
 }
 
 .temp-message {
