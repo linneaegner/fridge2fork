@@ -340,13 +340,10 @@ main.container {
 }
 
 .btn--clear {
-  background: none;
-  border: none;
   color: var(--color-text-muted);
-  font-weight: 600;
   cursor: pointer;
-  padding: var(--space-2xs) 0;
   transition: color var(--transition);
+  margin-left: auto;
 }
 
 .btn--clear:hover {
@@ -378,7 +375,6 @@ a.btn--primary:visited {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
-  text-align: left;
 }
 
 .ingredient-form {
@@ -387,24 +383,10 @@ a.btn--primary:visited {
   gap: var(--space-md);
 }
 
-.ingredient-form label {
-  font-weight: 600;
-  color: var(--color-text);
-}
-
 .input-row {
   display: flex;
   flex-wrap: nowrap;
-  align-items: center;
   gap: var(--space-md);
-}
-
-#ingredient-input {
-  flex: 1 1 16rem;
-}
-
-.add-ingredient-btn {
-  flex: 0 0 auto;
 }
 
 input[type="text"],
@@ -975,7 +957,7 @@ textarea:focus {
 
   /* Ingredient form layout */
   .fridge-section .card {
-    padding: var(--space-lg)
+    padding: var(--space-lg);
   }
 
   #ingredient-input {
@@ -998,9 +980,6 @@ textarea:focus {
     gap: var(--space-xs);
   }
 
-  .ingredient-tags + .btn--clear {
-    margin-left: auto;
-  }
 
   .ingredient-list .btn--clear {
     padding: var(--space-2xs) var(--space-xs);
