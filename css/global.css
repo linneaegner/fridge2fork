@@ -328,13 +328,6 @@ main.container {
   box-shadow: var(--shadow-lifted);
 }
 
-.btn--primary:hover {
-  background: var(--color-accent-dark);
-  transform: translateY(-0.12rem);
-  box-shadow: var(--shadow-lifted-hover);
-  color: #fff;
-}
-
 .btn--primary:focus-visible {
   color: #fff;
 }
@@ -350,11 +343,6 @@ main.container {
   background: #fff;
   border-color: var(--color-border);
   color: var(--color-text);
-}
-
-.btn--secondary:hover {
-  color: var(--color-accent);
-  border-color: var(--color-accent);
 }
 
 .btn--clear {
@@ -516,16 +504,30 @@ textarea:focus {
   transition: all var(--transition);
 }
 
-.filter-button:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-}
-
 .filter-button.active {
   border-color: var(--color-accent);
   background: var(--color-accent);
   color: #fff;
   box-shadow: var(--shadow-lifted);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn--primary:hover {
+    background: var(--color-accent-dark);
+    transform: translateY(-0.12rem);
+    box-shadow: var(--shadow-lifted-hover);
+    color: #fff;
+  }
+
+  .btn--secondary:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .filter-button:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
 }
 
 .filter-summary-container {
