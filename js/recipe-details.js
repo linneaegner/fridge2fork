@@ -81,12 +81,12 @@ function renderRecipe(r) {
 
     <section class="recipe-cooking">
       <div class="card">
-        <h2>Ingredients</h2>
+        <h3>Ingredients</h3>
         <ul id="ingredients-list"></ul>
       </div>
 
       <div class="card">
-        <h2>Instructions</h2>
+        <h3>Instructions</h3>
         <ol id="instructions-list"></ol>
       </div>
     </section>

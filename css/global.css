@@ -565,10 +565,9 @@ textarea:focus {
 .recipe-article {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+  gap: var(--space-md);
   background: linear-gradient(180deg, #ffffff 0%, #fdf6ed 100%);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-soft);
   padding: var(--space-lg);
   overflow: hidden;
   transition: transform var(--transition), box-shadow var(--transition);
@@ -605,7 +604,6 @@ textarea:focus {
 .recipe-summary {
   font-size: var(--fs-xs);
   line-height: 1.6;
-  color: var(--color-text-muted);
   display: -webkit-box;
   -webkit-line-clamp: 3;
   line-clamp: 3;
@@ -774,6 +772,10 @@ textarea:focus {
   display: grid;
   gap: var(--space-lg);
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.recipe-cooking h3 {
+  margin-bottom: var(--space-sm);
 }
 
 .recipe-cooking ul,
