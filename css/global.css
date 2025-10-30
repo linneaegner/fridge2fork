@@ -87,7 +87,6 @@ h1,
 h2,
 h3,
 h4 {
-  color: var(--color-text);
   font-weight: 700;
   line-height: 1.2;
 }
@@ -109,13 +108,9 @@ h4 {
   font-size: var(--fs-md);
 }
 
-p {
+p,
+li {
   color: var(--color-text-muted);
-}
-
-ul,
-ol {
-  padding-left: var(--space-lg);
 }
 
 .container {
@@ -823,7 +818,6 @@ textarea:focus {
   display: grid;
   gap: var(--space-md);
   padding-left: var(--space-lg);
-  color: var(--color-text);
 }
 
 .contact-section .card,
@@ -836,29 +830,16 @@ textarea:focus {
 .contact-form {
   display: flex;
   flex-direction: column;
+  gap: var(--space-xs);
 }
 
 .contact-form label {
   font-weight: 600;
-  color: var(--color-text);
-}
-
-.contact-form label + :is(input, textarea) {
-  margin-top: var(--space-2xs);
-}
-
-.contact-form :is(input, textarea) + label {
   margin-top: var(--space-lg);
 }
 
 .contact-form .btn {
   margin-top: var(--space-xl);
-  align-self: flex-start;
-}
-
-.contact-form textarea {
-  min-height: 8.75rem;
-  resize: vertical;
 }
 
 .recipe-details-section {
@@ -976,7 +957,6 @@ textarea:focus {
     justify-content: flex-start;
     gap: var(--space-xs);
   }
-
 
   .ingredient-list .btn--clear {
     padding: var(--space-2xs) var(--space-xs);
