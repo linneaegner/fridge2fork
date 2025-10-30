@@ -1009,6 +1009,12 @@ textarea:focus {
     border-radius: 0;
     padding: var(--space-sm) var(--space-md);
     text-align: left;
+    background: none;
+  }
+
+  .site-header-nav ul li .nav-link:hover,
+  .site-header-nav ul li .nav-link.active {
+    background: none;
   }
 
   .site-header-nav ul li:last-child {
