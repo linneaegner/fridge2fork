@@ -69,7 +69,8 @@ body {
 }
 
 /* Ensure the body takes up the full height of the viewport */
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   display: flex;
@@ -610,7 +611,6 @@ textarea:focus {
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  
 }
 
 .recipe-tags {
@@ -923,6 +923,7 @@ textarea:focus {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    color: var(--color-text);
     border: none;
     background: transparent;
     padding: var(--space-2xs);
@@ -1078,7 +1079,6 @@ textarea:focus {
   .filter-summary-details span:nth-of-type(2) {
     display: none;
   }
- 
 }
 
 @media (min-width: 768px) {
