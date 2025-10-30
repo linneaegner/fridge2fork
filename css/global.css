@@ -233,29 +233,8 @@ main.container {
   color: var(--color-text);
 }
 
-/* Simple button that reveals the nav list on small screens */
 .nav-toggle {
   display: none;
-  border: none;
-  background: transparent;
-  padding: var(--space-2xs);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: background var(--transition);
-  -webkit-tap-highlight-color: transparent; /* Prevent accidental zoom on iOS */
-  touch-action: manipulation;
-}
-
-.nav-toggle:hover,
-.nav-toggle:focus-visible {
-  background: var(--color-accent-weak);
-  outline: none;
-}
-
-.nav-toggle img {
-  display: block;
-  width: 2rem;
-  height: auto;
 }
 
 /* ==================================================
@@ -944,6 +923,16 @@ textarea:focus {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    border: none;
+    background: transparent;
+    padding: var(--space-2xs);
+    border-radius: var(--radius-md);
+    transition: background var(--transition);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-toggle img {
+    width: 2rem;
   }
 
   /* Ingredient form layout */
