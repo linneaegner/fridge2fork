@@ -15,11 +15,24 @@ function setupMobileNavigation() {
   const menu = nav.querySelector("ul");
   if (!toggle || !menu) return;
 
+  const toggleIcon = toggle.querySelector("img");
+  const menuIconSrc = toggleIcon?.getAttribute("src") ?? null;
+  const closeIconSrc = menuIconSrc
+    ? menuIconSrc.replace(/[^/]+$/, "close.png")
+    : null;
+
+  const setToggleIcon = (isOpen) => {
+    if (!toggleIcon || !menuIconSrc || !closeIconSrc) return;
+    toggleIcon.setAttribute("src", isOpen ? menuIconSrc : closeIconSrc);
+  };
+
   nav.classList.add("is-ready");
+  setToggleIcon(false);
 
   toggle.addEventListener("click", () => {
     const isOpen = nav.classList.toggle("is-open");
     toggle.setAttribute("aria-expanded", String(isOpen));
+    setToggleIcon(isOpen);
   });
 
   menu.addEventListener("click", (event) => {
@@ -27,6 +40,7 @@ function setupMobileNavigation() {
     if (!event.target.closest("a")) return;
     nav.classList.remove("is-open");
     toggle.setAttribute("aria-expanded", "false");
+    setToggleIcon(false);
   });
 }
 
