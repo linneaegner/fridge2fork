@@ -23,7 +23,7 @@ function setupMobileNavigation() {
 
   const setToggleIcon = (isOpen) => {
     if (!toggleIcon || !menuIconSrc || !closeIconSrc) return;
-    toggleIcon.setAttribute("src", isOpen ? menuIconSrc : closeIconSrc);
+    toggleIcon.setAttribute("src", isOpen ? closeIconSrc : menuIconSrc);
   };
 
   nav.classList.add("is-ready");
