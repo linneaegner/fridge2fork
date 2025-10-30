@@ -509,7 +509,6 @@ textarea:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
   gap: var(--space-sm);
   font-weight: 600;
   padding: var(--space-xs) 0;
@@ -532,6 +531,7 @@ textarea:focus {
 .clear-filters-button {
   padding: var(--space-xs) var(--space-md);
   font-size: var(--fs-xs);
+  color: var(--color-accent);
 }
 
 /* ==================================================
@@ -1066,6 +1066,7 @@ textarea:focus {
     letter-spacing: 0.06em;
     margin-bottom: var(--space-2xs);
   }
+ 
 }
 
 @media (min-width: 768px) {
