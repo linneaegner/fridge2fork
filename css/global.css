@@ -929,6 +929,7 @@ textarea:focus {
     border-radius: var(--radius-md);
     transition: background var(--transition);
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   .nav-toggle img {
