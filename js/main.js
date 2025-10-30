@@ -20,21 +20,6 @@ function setupMobileNavigation() {
   toggle.addEventListener("click", () => {
     const isOpen = nav.classList.toggle("is-open");
     toggle.setAttribute("aria-expanded", String(isOpen));
-
-    // Change the content based on the menu state
-    const img = toggle.querySelector("img");
-    if (isOpen) {
-      if (img) img.remove();
-      toggle.textContent = "✖"; // Unicode for 'x'
-    } else {
-      if (!img) {
-        const newImg = document.createElement("img");
-        newImg.src = "images/menu.png";
-        newImg.alt = "Open menu";
-        toggle.textContent = "";
-        toggle.appendChild(newImg);
-      }
-    }
   });
 
   menu.addEventListener("click", (event) => {
@@ -42,16 +27,6 @@ function setupMobileNavigation() {
     if (!event.target.closest("a")) return;
     nav.classList.remove("is-open");
     toggle.setAttribute("aria-expanded", "false");
-
-    // Reset to menu icon when menu is closed
-    const img = toggle.querySelector("img");
-    if (!img) {
-      const newImg = document.createElement("img");
-      newImg.src = "images/menu.png";
-      newImg.alt = "Open menu";
-      toggle.textContent = "";
-      toggle.appendChild(newImg);
-    }
   });
 }
 

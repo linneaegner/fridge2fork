@@ -923,7 +923,6 @@ textarea:focus {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-text);
     border: none;
     background: transparent;
     padding: var(--space-2xs);
