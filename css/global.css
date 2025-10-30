@@ -842,6 +842,8 @@ textarea:focus {
 .contact-table-section .card {
   display: flex;
   flex-direction: column;
+}
+.contact-table-section .card {
   gap: var(--space-lg);
 }
 
