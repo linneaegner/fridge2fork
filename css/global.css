@@ -1015,6 +1015,7 @@ textarea:focus {
   .site-header-nav ul li .nav-link:hover,
   .site-header-nav ul li .nav-link.active {
     background: none;
+    font-weight: 700;
   }
 
   .site-header-nav ul li:last-child {
