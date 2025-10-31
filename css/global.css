@@ -73,15 +73,13 @@ main {
   flex: 1;
 }
 
-img {
+.project-photo img {
   margin-top: var(--space-lg);
   margin-bottom: var(--space-lg);
-  box-shadow: var(--shadow-soft);
   border-radius: var(--radius-lg);
-  border-width: 1px;
+  border-width: 4px;
   border-style: solid;
-  border-color: var(--color-border-strong); /* Stronger border for contrast */
-  background-color: var(--color-surface-soft); /* Subtle background to distinguish */
+  border-color: var(--color-border-strong); 
 }
 
 a {
