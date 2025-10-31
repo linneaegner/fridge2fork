@@ -570,12 +570,7 @@ textarea:focus {
 }
 
 .filter-summary-details span:nth-of-type(2) {
-  color: rgba(
-    111,
-    98,
-    88,
-    0.4
-  ); 
+  color: rgba(111, 98, 88, 0.4);
 }
 
 .clear-filters-button {
@@ -603,6 +598,8 @@ textarea:focus {
 .recipe-article {
   display: flex;
   flex-direction: column;
+  max-width: 24rem;
+  margin: 0 auto;
   gap: var(--space-md);
   background: linear-gradient(180deg, #ffffff 0%, #fdf6ed 100%);
   border-radius: var(--radius-xl);
@@ -655,6 +652,7 @@ textarea:focus {
 #recipe-details-page main.container {
   padding-block: var(--space-xl);
   gap: var(--space-xl);
+  max-width: 60rem;
 }
 
 .recipe-details-widget {
@@ -683,6 +681,8 @@ textarea:focus {
 #recipe-details-page .recipe-image {
   display: block;
   width: 100%;
+  max-width: 50rem;
+  margin: 0 auto;
   height: auto;
   object-fit: cover;
 }
