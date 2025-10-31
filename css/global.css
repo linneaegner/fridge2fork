@@ -12,16 +12,16 @@
   --color-border-strong: #e0d6c9;
 
   --color-text: #2f241d;
-  --color-text-muted: #6f6258;
+  --color-text-muted: #5a4b41;
 
-  --color-accent: #f36a22;
-  --color-accent-weak: rgba(243, 106, 34, 0.14);
-  --color-accent-weak2: rgba(243, 106, 34, 0.12);
-  --color-accent-dark: #dc5913;
+  --color-accent: #982b05;
+  --color-accent-weak: rgba(152, 43, 5, 0.06);
+  --color-accent-weak2: rgba(152, 43, 5, 0.04);
+  --color-accent-dark: #7a1f04;
 
   --shadow-soft: 0 1.5rem 2.25rem rgba(41, 30, 20, 0.12);
-  --shadow-lifted: 0 2rem 3rem rgba(243, 106, 34, 0.18);
-  --shadow-lifted-hover: 0 2.8rem 3.5rem rgba(243, 106, 34, 0.24);
+  --shadow-lifted: 0 2rem 3rem rgba(152, 43, 5, 0.18);
+  --shadow-lifted-hover: 0 2.8rem 3.5rem rgba(152, 43, 5, 0.24);
 
   --radius-md: 0.8rem;
   --radius-lg: 1.2rem;
@@ -338,7 +338,7 @@ input:focus,
 textarea:focus {
   border-color: var(--color-accent);
   outline: none;
-  box-shadow: 0 0 0 0.25rem rgba(243, 106, 34, 0.18);
+  box-shadow: 0 0 0 0.25rem rgba(152, 43, 5, 0.18);
 }
 
 /* --- Tillfälliga notiser --- */
