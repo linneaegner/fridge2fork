@@ -368,6 +368,7 @@ textarea:focus {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
+  
 }
 
 .ingredient-badge {
@@ -379,6 +380,7 @@ textarea:focus {
   background: var(--color-accent-weak2);
   color: var(--color-accent);
   font-weight: 600;
+  max-height: 2.5rem;
 }
 
 .ingredient-badge button {
