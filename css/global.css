@@ -624,7 +624,6 @@ textarea:focus {
   text-overflow: ellipsis;
 }
 
-
 #recipes-page .recipe-tags {
   margin-top: var(--space-sm);
 }
@@ -740,6 +739,10 @@ textarea:focus {
 
 .mission-section p {
   line-height: 1.75;
+}
+
+.values-section h3 {
+  font-size: var(--fs-md);
 }
 
 .values-grid {
