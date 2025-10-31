@@ -648,7 +648,8 @@ textarea:focus {
 }
 
 #recipe-details-page .recipe {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--space-lg);
 }
 
@@ -704,9 +705,11 @@ textarea:focus {
 .recipe-cooking ol {
   margin: 0;
   padding-left: var(--space-md);
-  display: grid;
-  gap: var(--space-sm);
   color: var(--color-text);
+}
+
+.recipe-cooking li + li {
+  margin-top: var(--space-sm);
 }
 
 /* ==================================================
@@ -739,9 +742,11 @@ textarea:focus {
 }
 
 .steps-list {
-  display: grid;
-  gap: var(--space-md);
   padding-left: var(--space-lg);
+}
+
+.steps-list li + li {
+  margin-top: var(--space-md);
 }
 
 .contact-section .card,
