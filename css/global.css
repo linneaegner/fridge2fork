@@ -1,7 +1,5 @@
 /* ==================================================
    1. Tema (återanvändbara variabler)
-   - Samla färger, avstånd och typsnitt här så att de
-     enkelt kan justeras på ett ställe.
 ================================================== */
 :root {
   --font-sans: "Inter", "Open Sans", sans-serif;
@@ -34,7 +32,7 @@
 
   --transition: 180ms ease;
 
-  /* Fluid typography scale */
+  /* Fluid typography */
   --fs-xs: clamp(0.85rem, 0.8rem + 0.15vw, 0.9rem);
   --fs-sm: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
   --fs-md: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
@@ -42,7 +40,7 @@
   --fs-xl: clamp(1.9rem, 1.6rem + 0.6vw, 2.3rem);
   --fs-xxl: clamp(2.4rem, 2rem + 0.8vw, 3rem);
 
-  /* Fluid spacing scale */
+  /* Fluid spacing */
   --space-2xs: clamp(0.25rem, 0.2rem + 0.2vw, 0.5rem);
   --space-xs: clamp(0.5rem, 0.4rem + 0.3vw, 0.75rem);
   --space-sm: clamp(0.75rem, 0.6rem + 0.4vw, 1rem);
@@ -54,10 +52,9 @@
 
 /* ==================================================
    2. Grundinställningar
-   Sätter tydlig bas för text, bakgrund och arv.
 ================================================== */
 html {
-  font-size: 100%; /* 1rem = 16px */
+  font-size: 100%;
 }
 
 body {
@@ -65,21 +62,15 @@ body {
   font-size: var(--fs-sm);
   background-color: var(--color-bg);
   color: var(--color-text);
-  overflow-x: hidden; /* Prevent sideways scroll/zoom drift on mobile */
-}
-
-/* Ensure the body takes up the full height of the viewport */
-html,
-body {
-  height: 100%;
-  margin: 0;
+  overflow-x: hidden;
+  line-height: 1.5;
   display: flex;
   flex-direction: column;
+  min-height: 100%;
 }
 
-/* Make the main content grow to fill available space */
 main {
-  flex: 1; /* Allows the main content to grow and push the footer down */
+  flex: 1;
 }
 
 img {
@@ -109,15 +100,12 @@ h1 {
   font-size: var(--fs-xxl);
   letter-spacing: -1px;
 }
-
 h2 {
   font-size: var(--fs-xl);
 }
-
 h3 {
   font-size: var(--fs-lg);
 }
-
 h4 {
   font-size: var(--fs-md);
 }
@@ -192,8 +180,8 @@ main.container {
   align-items: center;
   gap: var(--space-sm);
   font-weight: 700;
-  -webkit-tap-highlight-color: transparent; /* Avoid flash/zoom on tap */
-  touch-action: manipulation; /* Tell mobile browsers this is a simple tap */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .site-header-logo img {
@@ -206,7 +194,6 @@ main.container {
   display: flex;
   gap: var(--space-lg);
   list-style: none;
-  margin: 0;
   padding: 0;
   font-weight: 500;
   color: var(--color-text-muted);
@@ -259,7 +246,6 @@ main.container {
 }
 
 .empty-state {
-  margin: 0;
   padding: var(--space-xl);
   border-radius: var(--radius-lg);
   border: 1px dashed var(--color-border);
@@ -378,17 +364,11 @@ textarea:focus {
   box-shadow: 0 0 0 0.25rem rgba(243, 106, 34, 0.18);
 }
 
-.ingredient-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-}
-
+.ingredient-list,
 .ingredient-tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
-  padding: var(--space-2xs) 0;
 }
 
 .ingredient-badge {
