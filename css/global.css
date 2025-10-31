@@ -116,7 +116,7 @@ li {
 }
 
 .container {
-  width: min(var(--layout-max), 100%);
+  width: 90%;
   margin: 0 auto;
   padding-inline: var(--page-gutter);
 }
@@ -170,7 +170,6 @@ main.container {
   justify-content: space-between;
   gap: var(--space-lg);
   min-height: 4.5rem;
-  width: min(var(--layout-max), 100%);
   margin: 0 auto;
   padding-inline: var(--page-gutter);
 }
@@ -646,13 +645,6 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
-}
-
-#recipe-details-page .recipe,
-#recipe-details-page .recipe-cooking {
-  margin: 0 auto;
-  width: min(var(--layout-max), 100%);
-  padding-inline: var(--page-gutter);
 }
 
 #recipe-details-page .recipe {
