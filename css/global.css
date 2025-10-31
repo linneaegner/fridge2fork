@@ -1,5 +1,5 @@
 /* ==================================================
-   1. Tema (återanvändbara variabler)
+   GLOBALT: Tema & basinställningar
 ================================================== */
 :root {
   --font-sans: "Inter", "Open Sans", sans-serif;
@@ -50,9 +50,9 @@
   --space-2xl: clamp(3rem, 2.4rem + 2vw, 4rem);
 }
 
-/* ==================================================
-   2. Grundinställningar
-================================================== */
+/* --------------------------------------------------
+   Grundelement & typografi
+-------------------------------------------------- */
 html {
   font-size: 100%;
 }
@@ -100,12 +100,15 @@ h1 {
   font-size: var(--fs-xxl);
   letter-spacing: -1px;
 }
+
 h2 {
   font-size: var(--fs-xl);
 }
+
 h3 {
   font-size: var(--fs-lg);
 }
+
 h4 {
   font-size: var(--fs-md);
 }
@@ -115,8 +118,12 @@ li {
   color: var(--color-text-muted);
 }
 
+/* --------------------------------------------------
+   Layout & gemensamma hjälpare
+-------------------------------------------------- */
 .container {
   width: 90%;
+  max-width: var(--layout-max);
   margin: 0 auto;
   padding-inline: var(--page-gutter);
 }
@@ -126,12 +133,6 @@ main.container {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xl);
-}
-
-#recipes-page main.container,
-#recipe-details-page main.container {
-  padding-block: var(--space-xl);
-  gap: var(--space-xl);
 }
 
 .back-link {
@@ -153,8 +154,10 @@ main.container {
 }
 
 /* ==================================================
-   3. Header och navigation
+   GLOBALA KOMPONENTER
 ================================================== */
+
+/* --- Header & navigation --- */
 .site-header {
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
@@ -211,12 +214,10 @@ main.container {
 }
 
 .nav-toggle {
-  display: none;
+  display: none; /* Visas i mobilläge via media query */
 }
 
-/* ==================================================
-   4. Sidhuvud / hero
-================================================== */
+/* --- Sidhuvud / hero --- */
 .page-hero {
   text-align: center;
   display: flex;
@@ -233,9 +234,7 @@ main.container {
   max-width: 40rem;
 }
 
-/* ==================================================
-   5. Ytor och kort
-================================================== */
+/* --- Kort & ytor --- */
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border-weak);
@@ -253,9 +252,7 @@ main.container {
   color: var(--color-text-muted);
 }
 
-/* ==================================================
-   6. Knappar
-================================================== */
+/* --- Knappar --- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -307,40 +304,21 @@ a.btn--primary:visited {
   color: #fff;
 }
 
-.find-recipes-btn {
-  align-self: stretch;
-  width: 100%;
-  padding: var(--space-md) var(--space-xl);
-  font-weight: 700;
+@media (hover: hover) and (pointer: fine) {
+  .btn--primary:hover {
+    background: var(--color-accent-dark);
+    transform: translateY(-0.12rem);
+    box-shadow: var(--shadow-lifted-hover);
+    color: #fff;
+  }
+
+  .btn--secondary:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
 }
 
-/* ==================================================
-   7. Ingrediensformulär
-================================================== */
-.fridge-section {
-  display: flex;
-  justify-content: center;
-}
-
-.fridge-section .card {
-  width: min(40rem, 100%);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.ingredient-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.input-row {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: var(--space-md);
-}
-
+/* --- Formelement (delas mellan sidor) --- */
 input[type="text"],
 input[type="email"],
 textarea {
@@ -363,38 +341,7 @@ textarea:focus {
   box-shadow: 0 0 0 0.25rem rgba(243, 106, 34, 0.18);
 }
 
-.ingredient-list,
-.ingredient-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-  
-}
-
-.ingredient-badge {
-  display: inline-flex;
-  gap: var(--space-xs);
-  align-items: center;
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: 999px;
-  background: var(--color-accent-weak2);
-  color: var(--color-accent);
-  font-weight: 600;
-  max-height: 2.5rem;
-}
-
-.ingredient-badge button {
-  border: none;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  padding: 0;
-}
-
-.ingredient-empty {
-  font-size: var(--fs-xs);
-}
-
+/* --- Tillfälliga notifieringar --- */
 .temp-message {
   position: fixed;
   left: 50%;
@@ -410,133 +357,7 @@ textarea:focus {
   z-index: 30;
 }
 
-/* ==================================================
-   8. Filterbaren på receptsidan
-================================================== */
-.recipe-filters {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  padding: var(--space-lg);
-  background: var(--color-surface);
-  border-radius: 1.125rem;
-  border: 1px solid var(--color-border-weak);
-  box-shadow: var(--shadow-soft);
-}
-
-.filter-heading {
-  margin: 0;
-  font-size: var(--fs-md);
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-.filter-buttons-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-}
-
-.filter-button {
-  font-size: var(--fs-xs);
-  padding: var(--space-xs) var(--space-md);
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  background: #fff;
-  color: var(--color-text);
-  transition: all var(--transition);
-}
-
-.filter-button.active {
-  border-color: var(--color-accent);
-  background: var(--color-accent);
-  color: #fff;
-  box-shadow: var(--shadow-lifted);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .btn--primary:hover {
-    background: var(--color-accent-dark);
-    transform: translateY(-0.12rem);
-    box-shadow: var(--shadow-lifted-hover);
-    color: #fff;
-  }
-
-  .btn--secondary:hover {
-    color: var(--color-accent);
-    border-color: var(--color-accent);
-  }
-
-  .filter-button:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-  }
-}
-
-.filter-summary-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  font-weight: 600;
-  padding: var(--space-xs) 0;
-  margin: var(--space-sm) 0;
-  font-size: var(--fs-xs);
-  color: var(--color-text-muted);
-}
-
-.filter-summary-details {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
-}
-
-.filter-summary-details span:nth-of-type(2) {
-  color: rgba(111, 98, 88, 0.4);
-}
-
-.clear-filters-button {
-  padding: var(--space-xs) var(--space-md);
-  font-size: var(--fs-xs);
-  color: var(--color-accent);
-}
-
-/* ==================================================
-   9. Receptlista på receptsidan
-================================================== */
-.based-on-ingredients {
-  margin: var(--space-lg) 0 0;
-  color: var(--color-text-muted);
-}
-
-.based-on-ingredients span {
-  color: var(--color-text);
-  font-weight: 600;
-}
-
-.recipes-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-lg);
-}
-
-.recipe-article {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  background: linear-gradient(180deg, #ffffff 0%, #fdf6ed 100%);
-  border-radius: var(--radius-xl);
-  padding: var(--space-lg);
-  overflow: hidden;
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.recipe-article:hover {
-  transform: translateY(-0.25rem);
-  box-shadow: var(--shadow-lifted-hover);
-}
-
+/* --- Receptkomponenter (grundstil) --- */
 .recipe-image-container {
   position: relative;
   overflow: hidden;
@@ -552,15 +373,11 @@ textarea:focus {
   transition: transform var(--transition);
 }
 
-.recipe-article:hover .recipe-image {
-  transform: scale(1.03);
-}
-
 .recipe-summary {
   font-size: var(--fs-xs);
   line-height: 1.6;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 3; /* Begränsa sammanfattningar till tre rader */
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -612,6 +429,197 @@ textarea:focus {
   color: var(--color-text);
 }
 
+/* ==================================================
+   SIDOR: Startsida (home-page)
+================================================== */
+.fridge-section {
+  display: flex;
+  justify-content: center;
+}
+
+.fridge-section .card {
+  width: min(40rem, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.ingredient-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.input-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--space-md);
+}
+
+.ingredient-list,
+.ingredient-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.ingredient-badge {
+  display: inline-flex;
+  gap: var(--space-xs);
+  align-items: center;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 999px;
+  background: var(--color-accent-weak2);
+  color: var(--color-accent);
+  font-weight: 600;
+  max-height: 2.5rem;
+}
+
+.ingredient-badge button {
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.ingredient-empty {
+  font-size: var(--fs-xs);
+}
+
+.find-recipes-btn {
+  align-self: stretch;
+  width: 100%;
+  padding: var(--space-md) var(--space-xl);
+  font-weight: 700;
+}
+
+/* ==================================================
+   SIDOR: Receptlista (recipes-page)
+================================================== */
+#recipes-page main.container {
+  padding-block: var(--space-xl);
+  gap: var(--space-xl);
+}
+
+.recipe-filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border-radius: 1.125rem;
+  border: 1px solid var(--color-border-weak);
+  box-shadow: var(--shadow-soft);
+}
+
+.filter-heading {
+  margin: 0;
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.filter-buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.filter-button {
+  font-size: var(--fs-xs);
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-text);
+  transition: all var(--transition);
+}
+
+.filter-button.active {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: #fff;
+  box-shadow: var(--shadow-lifted);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .filter-button:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+}
+
+.filter-summary-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  font-weight: 600;
+  padding: var(--space-xs) 0;
+  margin: var(--space-sm) 0;
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+
+.filter-summary-details {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.filter-summary-details span:nth-of-type(2) {
+  color: rgba(
+    111,
+    98,
+    88,
+    0.4
+  ); 
+}
+
+.clear-filters-button {
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--fs-xs);
+  color: var(--color-accent);
+}
+
+.based-on-ingredients {
+  margin: var(--space-lg) 0 0;
+  color: var(--color-text-muted);
+}
+
+.based-on-ingredients span {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.recipes-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+.recipe-article {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  background: linear-gradient(180deg, #ffffff 0%, #fdf6ed 100%);
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.recipe-article:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: var(--shadow-lifted-hover);
+}
+
+.recipe-article:hover .recipe-image {
+  transform: scale(1.03);
+}
+
 #recipes-page .recipe-title {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -642,8 +650,13 @@ textarea:focus {
 }
 
 /* ==================================================
-   10. Receptdetaljer
+   SIDOR: Receptdetaljer (recipe-details-page)
 ================================================== */
+#recipe-details-page main.container {
+  padding-block: var(--space-xl);
+  gap: var(--space-xl);
+}
+
 .recipe-details-widget {
   display: flex;
   flex-direction: column;
@@ -716,7 +729,7 @@ textarea:focus {
 }
 
 /* ==================================================
-   11. Övriga sektioner (about, kontakt, tabell)
+   SIDOR: Om oss (about-page)
 ================================================== */
 .mission-section,
 .values-section,
@@ -752,11 +765,21 @@ textarea:focus {
   margin-top: var(--space-md);
 }
 
+.project-note {
+  text-align: center;
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+/* ==================================================
+   SIDOR: Kontakt (contact-page)
+================================================== */
 .contact-section .card,
 .contact-table-section .card {
   display: flex;
   flex-direction: column;
 }
+
 .contact-table-section .card {
   gap: var(--space-lg);
 }
@@ -809,14 +832,8 @@ textarea:focus {
   white-space: nowrap;
 }
 
-.project-note {
-  text-align: center;
-  font-style: italic;
-  color: var(--color-text-muted);
-}
-
 /* ==================================================
-   12. Footer
+   GLOBALT: Footer
 ================================================== */
 .site-footer {
   background: var(--color-surface);
@@ -849,9 +866,10 @@ textarea:focus {
 }
 
 /* ==================================================
-   13. Media queries
+   MEDIA QUERIES
 ================================================== */
 @media (max-width: 767px) {
+  /* --- Globala anpassningar --- */
   .container {
     padding-inline: clamp(1.25rem, 5vw, 3rem);
   }
@@ -885,7 +903,58 @@ textarea:focus {
     width: 2rem;
   }
 
-  /* Ingredient form layout */
+  /* Navigationslistan fälls ner över hela bredden när JS markerar .is-open */
+  .site-header-nav ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    padding: var(--space-xs) 0;
+    box-shadow: var(--shadow-soft);
+    min-width: 100%;
+    z-index: 20;
+  }
+
+  .site-header-nav.is-ready ul {
+    display: none; /* JS sätter .is-ready när menyn kan döljas utan FOUC */
+  }
+
+  .site-header-nav.is-ready.is-open ul {
+    display: flex;
+  }
+
+  .site-header-nav ul li {
+    width: 100%;
+    border-bottom: 1px solid var(--color-border-weak);
+  }
+
+  .site-header-nav ul li .nav-link {
+    display: block;
+    width: 100%;
+    border-radius: 0;
+    padding: var(--space-sm) var(--space-md);
+    text-align: left;
+    background: none;
+  }
+
+  .site-header-nav ul li .nav-link:hover,
+  .site-header-nav ul li .nav-link.active {
+    background: none;
+    font-weight: 700;
+  }
+
+  .site-header-nav ul li:last-child {
+    border-bottom: none;
+  }
+
+  /* --- Startsida --- */
   .fridge-section .card {
     padding: var(--space-lg);
   }
@@ -919,62 +988,17 @@ textarea:focus {
     font-size: var(--fs-xs);
   }
 
-  /* Stretch the dropdown across the header and tuck it under the divider */
-  .site-header-nav ul {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-top: none;
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
-    padding: var(--space-xs) 0;
-    box-shadow: var(--shadow-soft);
-    min-width: 100%;
-    z-index: 20;
+  /* --- Receptlista --- */
+  .filter-summary-details span:nth-of-type(2) {
+    display: none; /* Döljer skiljetecknet för att spara plats i små vyer */
   }
 
-  /* Hide the menu only after JS marks the nav as ready */
-  .site-header-nav.is-ready ul {
-    display: none;
-  }
-
-  .site-header-nav.is-ready.is-open ul {
-    display: flex;
-  }
-
-  .site-header-nav ul li {
-    width: 100%;
-    border-bottom: 1px solid var(--color-border-weak);
-  }
-
-  .site-header-nav ul li .nav-link {
-    display: block;
-    width: 100%;
-    border-radius: 0;
-    padding: var(--space-sm) var(--space-md);
-    text-align: left;
-    background: none;
-  }
-
-  .site-header-nav ul li .nav-link:hover,
-  .site-header-nav ul li .nav-link.active {
-    background: none;
-    font-weight: 700;
-  }
-
-  .site-header-nav ul li:last-child {
-    border-bottom: none;
-  }
-
+  /* --- Om oss --- */
   .values-grid {
     grid-template-columns: 1fr;
   }
 
+  /* --- Kontakt --- */
   .contact-form .btn {
     align-self: stretch;
     width: 100%;
@@ -1031,9 +1055,6 @@ textarea:focus {
     text-transform: uppercase;
     letter-spacing: 0.06em;
     margin-bottom: var(--space-2xs);
-  }
-  .filter-summary-details span:nth-of-type(2) {
-    display: none;
   }
 }
 
