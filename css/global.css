@@ -617,10 +617,13 @@ textarea:focus {
 }
 
 #recipes-page .recipe-title {
-  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* Number of lines to show */
   overflow: hidden;
-  max-height: calc(1.2em * 2); /* Fallback för två-raders rubrik */
+  text-overflow: ellipsis;
 }
+
 
 #recipes-page .recipe-tags {
   margin-top: var(--space-sm);
