@@ -377,11 +377,24 @@ textarea:focus {
 .recipe-summary {
   font-size: var(--fs-xs);
   line-height: 1.6;
-  display: -webkit-box;
-  -webkit-line-clamp: 3; /* Begränsa sammanfattningar till tre rader */
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
   overflow: hidden;
+  display: block;
+  max-height: calc(1.6em * 3); /* Fallback för miljöer utan line clamp */
+}
+
+@supports (-webkit-line-clamp: 3) {
+  .recipe-summary {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Begränsa sammanfattningar till tre rader */
+    -webkit-box-orient: vertical;
+    max-height: none;
+  }
+
+  #recipe-details-page .recipe-summary {
+    display: block;
+    -webkit-line-clamp: initial;
+    -webkit-box-orient: initial;
+  }
 }
 
 .recipe-tags {
@@ -619,11 +632,18 @@ textarea:focus {
 }
 
 #recipes-page .recipe-title {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
+  display: block;
   overflow: hidden;
+  max-height: calc(1.2em * 2); /* Fallback för två-raders rubrik */
+}
+
+@supports (-webkit-line-clamp: 2) {
+  #recipes-page .recipe-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    max-height: none;
+  }
 }
 
 #recipes-page .recipe-tags {
@@ -690,9 +710,8 @@ textarea:focus {
 
 #recipe-details-page .recipe-summary {
   display: block;
-  -webkit-line-clamp: unset;
-  line-clamp: unset;
-  -webkit-box-orient: unset;
+  max-height: none;
+  overflow: visible;
 }
 
 #recipe-details-page .recipe-stats {
