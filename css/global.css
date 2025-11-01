@@ -1,46 +1,32 @@
-/* ==================================================
-   GLOBALT: Tema & basinställningar
-================================================== */
 :root {
   --font-sans: "Inter", "Open Sans", sans-serif;
-
   --color-bg: #f8f5f0;
   --color-surface: #ffffff;
   --color-surface-soft: #fbf3eb;
   --color-border: #e7e1d8;
   --color-border-weak: rgba(231, 225, 216, 0.6);
   --color-border-strong: #e0d6c9;
-
   --color-text: #2f241d;
   --color-text-muted: #5a4b41;
-
   --color-accent: #982b05;
   --color-accent-weak: rgba(152, 43, 5, 0.06);
   --color-accent-weak2: rgba(152, 43, 5, 0.04);
   --color-accent-dark: #7a1f04;
-
   --shadow-soft: 0 1.5rem 2.25rem rgba(41, 30, 20, 0.12);
   --shadow-lifted: 0 2rem 3rem rgba(152, 43, 5, 0.18);
   --shadow-lifted-hover: 0 2.8rem 3.5rem rgba(152, 43, 5, 0.24);
-
   --radius-md: 0.8rem;
   --radius-lg: 1.2rem;
   --radius-xl: 1.6rem;
-
   --layout-max: 70rem;
   --page-gutter: clamp(1rem, 3vw, 2.5rem);
-
   --transition: 180ms ease;
-
-  /* Fluid typography */
   --fs-xs: clamp(0.85rem, 0.8rem + 0.15vw, 0.9rem);
   --fs-sm: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
   --fs-md: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
   --fs-lg: clamp(1.35rem, 1.2rem + 0.4vw, 1.6rem);
   --fs-xl: clamp(1.9rem, 1.6rem + 0.6vw, 2.3rem);
   --fs-xxl: clamp(2.4rem, 2rem + 0.8vw, 3rem);
-
-  /* Fluid spacing */
   --space-2xs: clamp(0.25rem, 0.2rem + 0.2vw, 0.5rem);
   --space-xs: clamp(0.5rem, 0.4rem + 0.3vw, 0.75rem);
   --space-sm: clamp(0.75rem, 0.6rem + 0.4vw, 1rem);
@@ -49,14 +35,9 @@
   --space-xl: clamp(2rem, 1.6rem + 1.2vw, 3rem);
   --space-2xl: clamp(3rem, 2.4rem + 2vw, 4rem);
 }
-
-/* --------------------------------------------------
-   Grund & typografi
--------------------------------------------------- */
 html {
   font-size: 100%;
 }
-
 body {
   font-family: var(--font-sans);
   font-size: var(--fs-sm);
@@ -68,7 +49,6 @@ body {
   flex-direction: column;
   min-height: 100%;
 }
-
 .skip-link {
   position: absolute;
   top: var(--space-sm);
@@ -83,15 +63,12 @@ body {
   transition: transform var(--transition);
   z-index: 1000;
 }
-
 .skip-link:focus {
   transform: translateY(0);
 }
-
 main {
   flex: 1;
 }
-
 .project-photo img {
   margin-top: var(--space-lg);
   margin-bottom: var(--space-lg);
@@ -100,18 +77,15 @@ main {
   border-style: solid;
   border-color: var(--color-border-strong);
 }
-
 a {
   color: inherit;
   text-decoration: none;
   transition: color var(--transition);
 }
-
 a:hover,
 a:focus {
   color: var(--color-accent);
 }
-
 h1,
 h2,
 h3,
@@ -119,29 +93,23 @@ h4 {
   font-weight: 700;
   line-height: 1.2;
 }
-
 h1 {
   font-size: var(--fs-xxl);
   letter-spacing: -1px;
 }
-
 h2 {
   font-size: var(--fs-xl);
 }
-
 h3 {
   font-size: var(--fs-lg);
 }
-
 h4 {
   font-size: var(--fs-md);
 }
-
 p,
 li {
   color: var(--color-text-muted);
 }
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -153,24 +121,18 @@ li {
   white-space: nowrap;
   border: 0;
 }
-
-/* --------------------------------------------------
-   Layout & gemensamt
--------------------------------------------------- */
 .container {
   width: 90%;
   max-width: var(--layout-max);
   margin: 0 auto;
   padding-inline: var(--page-gutter);
 }
-
 main.container {
   padding-block: var(--space-2xl);
   display: flex;
   flex-direction: column;
   gap: var(--space-2xl);
 }
-
 .back-link {
   display: inline-flex;
   align-items: center;
@@ -179,17 +141,13 @@ main.container {
   color: var(--color-text-muted);
   transition: color var(--transition), transform var(--transition);
 }
-
 .back-link::before {
   content: "←";
 }
-
 .back-link:hover {
   color: var(--color-accent);
   transform: translateX(-0.25rem);
 }
-
-/* --- Header & navigation --- */
 .site-header {
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
@@ -198,7 +156,6 @@ main.container {
   z-index: 10;
   backdrop-filter: blur(6px);
 }
-
 .site-header-container {
   display: flex;
   align-items: center;
@@ -208,21 +165,18 @@ main.container {
   margin: 0 auto;
   padding-inline: var(--page-gutter);
 }
-
 .site-header-logo {
   display: inline-flex;
   align-items: center;
   gap: var(--space-sm);
   font-weight: 700;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: #fff0;
   touch-action: manipulation;
 }
-
 .site-header-logo img {
   width: 2.625rem;
   height: 2.625rem;
 }
-
 .site-header-nav ul {
   display: flex;
   gap: var(--space-lg);
@@ -231,24 +185,19 @@ main.container {
   font-weight: 500;
   color: var(--color-text-muted);
 }
-
 .nav-link {
   padding: var(--space-xs) var(--space-md);
   border-radius: 999px;
   transition: background var(--transition), color var(--transition);
 }
-
 .nav-link:hover,
 .nav-link.active {
   background: var(--color-accent-weak);
   color: var(--color-text);
 }
-
 .nav-toggle {
-  display: none; /* Visas i mobilläge via media query */
+  display: none;
 }
-
-/* --- Sidhuvud / hero --- */
 .page-hero {
   text-align: center;
   display: flex;
@@ -256,16 +205,12 @@ main.container {
   align-items: center;
   gap: var(--space-md);
 }
-
 .page-hero .back-link {
   align-self: flex-start;
 }
-
 .page-hero p {
   max-width: 40rem;
 }
-
-/* --- Kort & ytor --- */
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border-weak);
@@ -273,7 +218,6 @@ main.container {
   box-shadow: var(--shadow-soft);
   padding: var(--space-xl);
 }
-
 .empty-state {
   padding: var(--space-xl);
   border-radius: var(--radius-lg);
@@ -282,59 +226,50 @@ main.container {
   font-weight: 600;
   color: var(--color-text-muted);
 }
-
-/* --- Knappar --- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-xs);
   border-radius: 999px;
-  border: 1px solid transparent;
+  border: 1px solid #fff0;
   font-weight: 600;
   cursor: pointer;
   padding: var(--space-sm) var(--space-lg);
   font-size: var(--fs-sm);
-  background: transparent;
+  background: #fff0;
   transition: background-color var(--transition), border-color var(--transition),
     color var(--transition), box-shadow var(--transition),
     transform var(--transition);
   touch-action: manipulation;
 }
-
 .btn--primary {
   background: var(--color-accent);
   color: #fff;
   box-shadow: var(--shadow-lifted);
 }
-
 .btn--primary:disabled {
-  background: rgba(231, 225, 216, 0.7);
+  background: rgb(231 225 216 / 0.7);
   color: var(--color-text-muted);
   cursor: not-allowed;
   box-shadow: none;
 }
-
 .btn--secondary {
   background: #fff;
   border-color: var(--color-border);
   color: var(--color-text);
 }
-
 .btn--clear {
   color: var(--color-text-muted);
   margin-left: auto;
 }
-
 .btn--clear:hover {
   color: var(--color-accent);
 }
-
 a.btn--primary:link,
 a.btn--primary:visited {
   color: #fff;
 }
-
 @media (hover: hover) and (pointer: fine) {
   .btn--primary:hover {
     background: var(--color-accent-dark);
@@ -342,14 +277,11 @@ a.btn--primary:visited {
     box-shadow: var(--shadow-lifted-hover);
     color: #fff;
   }
-
   .btn--secondary:hover {
     color: var(--color-accent);
     border-color: var(--color-accent);
   }
 }
-
-/* --- Formelement (delas mellan sidor) --- */
 input[type="text"],
 input[type="email"],
 textarea {
@@ -360,19 +292,15 @@ textarea {
   background: #fff;
   transition: border-color var(--transition), box-shadow var(--transition);
 }
-
 input[type="text"]::placeholder {
-  color: rgba(111, 98, 88, 0.6);
+  color: rgb(111 98 88 / 0.6);
 }
-
 input:focus,
 textarea:focus {
   border-color: var(--color-accent);
   outline: none;
-  box-shadow: 0 0 0 0.25rem rgba(152, 43, 5, 0.18);
+  box-shadow: 0 0 0 0.25rem rgb(152 43 5 / 0.18);
 }
-
-/* --- Tillfälliga notiser --- */
 .temp-message {
   position: fixed;
   left: 50%;
@@ -387,15 +315,12 @@ textarea:focus {
   color: var(--color-text);
   z-index: 30;
 }
-
-/* --- Receptkomponenter (grundstil) --- */
 .recipe-image-container {
   position: relative;
   overflow: hidden;
   margin: -2rem -2rem 0;
   background: var(--color-surface-soft);
 }
-
 .recipe-image {
   display: block;
   width: 100%;
@@ -404,39 +329,34 @@ textarea:focus {
   transition: transform var(--transition);
   border-radius: var(--radius-lg);
 }
-
 .recipe-summary {
   font-size: var(--fs-xs);
   line-height: 1.6;
   overflow: hidden;
   display: block;
-  max-height: calc(1.6em * 3); /* Fallback för miljöer utan line clamp */
+  max-height: calc(1.6em * 3);
 }
-
 .recipe-tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
 }
-
 .recipe-tags:empty {
   display: none;
 }
-
 .recipe-tag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: var(--space-2xs) var(--space-sm);
   border-radius: 999px;
-  background: #ffffff;
-  border: 1px solid rgba(152, 43, 5, 0.25);
+  background: #fff;
+  border: 1px solid rgb(152 43 5 / 0.25);
   color: var(--color-accent);
   font-weight: 600;
   font-size: var(--fs-xs);
   letter-spacing: 0.01em;
 }
-
 .recipe-stats {
   display: flex;
   flex-wrap: wrap;
@@ -444,13 +364,11 @@ textarea:focus {
   margin: var(--space-sm) 0 0;
   padding: 0;
 }
-
 .recipe-stat {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
 }
-
 .recipe-stat dd {
   margin: 0;
   display: inline-flex;
@@ -459,41 +377,32 @@ textarea:focus {
   font-weight: 600;
   color: var(--color-text);
 }
-
-/* ==================================================
-   SIDOR: Startsida (home-page)
-================================================== */
 .fridge-section {
   display: flex;
   justify-content: center;
 }
-
 .fridge-section .card {
   width: min(40rem, 100%);
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
 }
-
 .ingredient-form {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
 }
-
 .input-row {
   display: flex;
   flex-wrap: nowrap;
   gap: var(--space-md);
 }
-
 .ingredient-list,
 .ingredient-tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
 }
-
 .ingredient-badge {
   display: inline-flex;
   gap: var(--space-xs);
@@ -505,34 +414,26 @@ textarea:focus {
   font-weight: 600;
   max-height: 2.5rem;
 }
-
 .ingredient-badge button {
   border: none;
-  background: transparent;
+  background: #fff0;
   color: inherit;
   cursor: pointer;
   padding: 0;
 }
-
 .ingredient-empty {
   font-size: var(--fs-xs);
 }
-
 .find-recipes-btn {
   align-self: stretch;
   width: 100%;
   padding: var(--space-md) var(--space-xl);
   font-weight: 700;
 }
-
-/* ==================================================
-   SIDOR: Receptlista (recipes-page)
-================================================== */
 #recipes-page main.container {
   padding-block: var(--space-xl);
   gap: var(--space-xl);
 }
-
 .recipe-filters {
   display: flex;
   flex-direction: column;
@@ -543,20 +444,17 @@ textarea:focus {
   border: 1px solid var(--color-border-weak);
   box-shadow: var(--shadow-soft);
 }
-
 .filter-heading {
   margin: 0;
   font-size: var(--fs-md);
   font-weight: 600;
   color: var(--color-text);
 }
-
 .filter-buttons-container {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
 }
-
 .filter-button {
   font-size: var(--fs-xs);
   padding: var(--space-xs) var(--space-md);
@@ -566,21 +464,18 @@ textarea:focus {
   color: var(--color-text);
   transition: all var(--transition);
 }
-
 .filter-button.active {
   border-color: var(--color-accent);
   background: var(--color-accent);
   color: #fff;
   box-shadow: var(--shadow-lifted);
 }
-
 @media (hover: hover) and (pointer: fine) {
   .filter-button:hover {
     border-color: var(--color-accent);
     color: var(--color-accent);
   }
 }
-
 .filter-summary-container {
   display: flex;
   align-items: center;
@@ -592,14 +487,12 @@ textarea:focus {
   font-size: var(--fs-xs);
   color: var(--color-text-muted);
 }
-
 .filter-summary-details {
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
   gap: var(--space-xs);
 }
-
 .filter-summary-separator {
   display: inline-block;
   width: 0.375rem;
@@ -608,29 +501,24 @@ textarea:focus {
   background: var(--color-border);
   margin-inline: var(--space-2xs);
 }
-
 .clear-filters-button {
   padding: var(--space-xs) var(--space-md);
   font-size: var(--fs-xs);
   color: var(--color-accent);
 }
-
 .based-on-ingredients {
   margin: var(--space-lg) 0 0;
   color: var(--color-text-muted);
 }
-
 .based-on-ingredients span {
   color: var(--color-text);
   font-weight: 600;
 }
-
 .recipes-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-lg);
 }
-
 .recipe-article {
   display: flex;
   flex-direction: column;
@@ -643,77 +531,61 @@ textarea:focus {
   overflow: hidden;
   transition: transform var(--transition), box-shadow var(--transition);
 }
-
 .recipe-article:hover {
   transform: translateY(-0.25rem);
   box-shadow: var(--shadow-lifted-hover);
 }
-
 .recipe-article:hover .recipe-image {
   transform: scale(1.03);
 }
-
 #recipes-page .recipe-title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* Number of lines to show */
+  -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 #recipes-page .recipe-tags {
   margin-top: var(--space-sm);
 }
-
 #recipes-page .recipe-stats {
   margin-top: var(--space-xs);
   color: var(--color-text-muted);
 }
-
 #recipes-page .recipe-stat dd {
   gap: var(--space-2xs);
   font-size: var(--fs-sm);
 }
-
 #recipes-page .recipe-article .btn--primary {
   margin-top: auto;
   align-self: stretch;
   width: 100%;
   padding: var(--space-md) var(--space-lg);
 }
-
-/* ==================================================
-   SIDOR: Receptdetaljer (recipe-details-page)
-================================================== */
 #recipe-details-page main.container {
   padding-block: var(--space-xl);
   gap: var(--space-xl);
   max-width: 60rem;
 }
-
 .recipe-details-widget {
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
 }
-
 #recipe-details-page .recipe {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
 }
-
 #recipe-details-page .recipe-title {
   margin: 0;
 }
-
 #recipe-details-page .recipe-image-container {
   border-radius: var(--radius-lg);
   overflow: hidden;
   margin: 0;
   background: var(--color-surface-soft);
 }
-
 #recipe-details-page .recipe-image {
   display: block;
   width: 100%;
@@ -722,51 +594,39 @@ textarea:focus {
   height: auto;
   object-fit: cover;
 }
-
 #recipe-details-page .recipe-summary {
   display: block;
   max-height: none;
   overflow: visible;
 }
-
 #recipe-details-page .recipe-stats {
   margin-top: var(--space-xs);
 }
-
 #recipe-details-page .recipe-tags {
   gap: var(--space-md);
   margin-top: var(--space-xs);
 }
-
 #recipe-details-page .recipe-tag {
   padding-inline: var(--space-md);
 }
-
 .recipe-cooking {
   display: grid;
   gap: var(--space-lg);
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 }
-
 .recipe-cooking h2 {
   margin-bottom: var(--space-sm);
   font-size: var(--fs-lg);
 }
-
 .recipe-cooking ul,
 .recipe-cooking ol {
   margin: 0;
   padding-left: var(--space-md);
   color: var(--color-text);
 }
-
 .recipe-cooking li + li {
   margin-top: var(--space-sm);
 }
-
-/* ==================================================
-   SIDOR: Om oss (about-page)
-================================================== */
 .mission-section,
 .values-section,
 .how-it-works-section {
@@ -774,83 +634,65 @@ textarea:focus {
   flex-direction: column;
   gap: var(--space-lg);
 }
-
 .mission-section p {
   line-height: 1.75;
 }
-
 .values-section h3 {
   font-size: var(--fs-md);
 }
-
 .values-grid {
   display: grid;
   gap: var(--space-lg);
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
 }
-
 .values-grid .card {
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
 }
-
 .steps-list {
   padding-left: var(--space-lg);
 }
-
 .steps-list li + li {
   margin-top: var(--space-md);
 }
-
 .project-note {
   text-align: center;
   font-style: italic;
   color: var(--color-text-muted);
 }
-
-/* ==================================================
-   SIDOR: Kontakt (contact-page)
-================================================== */
 .contact-section .card,
 .contact-table-section .card {
   display: flex;
   flex-direction: column;
 }
-
 .contact-table-section .card {
   gap: var(--space-lg);
 }
-
 .contact-form {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
 }
-
 .contact-form label {
   font-weight: 600;
   margin-top: var(--space-lg);
 }
-
 .contact-form .btn {
   margin-top: var(--space-xl);
 }
-
 .table-responsive {
   width: 100%;
   overflow-x: auto;
 }
-
 .availability-table {
   width: 100%;
   border-collapse: collapse;
   min-width: 30rem;
   color: var(--color-text);
 }
-
 .availability-table th,
 .availability-table td {
   padding: var(--space-sm) var(--space-md);
@@ -858,23 +700,16 @@ textarea:focus {
   text-align: left;
   font-size: var(--fs-xs);
 }
-
 .availability-table th {
   font-weight: 600;
 }
-
 .availability-table tbody tr:last-of-type th,
 .availability-table tbody tr:last-of-type td {
   border-bottom: none;
 }
-
 .availability-table th[scope="row"] {
   white-space: nowrap;
 }
-
-/* ==================================================
-   GLOBALT: Footer
-================================================== */
 .site-footer {
   background: var(--color-surface);
   border-top: 1px solid var(--color-border);
@@ -882,72 +717,56 @@ textarea:focus {
   color: var(--color-text-muted);
   font-size: var(--fs-xs);
 }
-
 .site-footer .footer-copyright {
   text-align: center;
   margin-bottom: var(--space-md);
 }
-
 .site-footer .footer-attributions {
   text-align: center;
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
 }
-
 .site-footer a {
   color: var(--color-accent);
   text-decoration: none;
   transition: color var(--transition);
 }
-
 .site-footer a:hover {
   color: var(--color-accent-dark);
 }
-
-/* ==================================================
-   MEDIA QUERIES
-================================================== */
 @media (max-width: 767px) {
-  /* --- Globala anpassningar --- */
   .container {
     padding-inline: clamp(1.25rem, 5vw, 3rem);
   }
-
   .site-header-container {
     gap: var(--space-md);
     position: relative;
   }
-
   .site-header-nav {
     margin-left: auto;
     position: static;
     display: flex;
     align-items: center;
   }
-
   .nav-toggle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border: none;
-    background: transparent;
+    background: #fff0;
     padding: var(--space-2xs);
     border-radius: var(--radius-md);
     transition: background var(--transition);
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: #fff0;
     touch-action: manipulation;
   }
-
   .nav-toggle img {
     width: 2rem;
   }
-
-  /* Navigationslistan visas bara när nav får klassen .site-header-nav--open */
   .site-header-nav ul {
     display: none;
   }
-
   .site-header-nav--open ul {
     position: absolute;
     top: 100%;
@@ -964,12 +783,10 @@ textarea:focus {
     min-width: 100%;
     z-index: 20;
   }
-
   .site-header-nav ul li {
     width: 100%;
     border-bottom: 1px solid var(--color-border-weak);
   }
-
   .site-header-nav ul li .nav-link {
     display: block;
     width: 100%;
@@ -978,82 +795,63 @@ textarea:focus {
     text-align: left;
     background: none;
   }
-
   .site-header-nav ul li .nav-link:hover,
   .site-header-nav ul li .nav-link.active {
     background: none;
     font-weight: 700;
   }
-
   .site-header-nav ul li:last-child {
     border-bottom: none;
   }
-
-  /* --- Startsida --- */
   .fridge-section .card {
     padding: var(--space-lg);
   }
-
   #ingredient-input {
     flex: 1 1 auto;
   }
-
   .add-ingredient-btn {
     display: none;
   }
-
   .ingredient-list {
     align-items: center;
     gap: var(--space-xs);
     width: 100%;
   }
-
   .ingredient-tags {
     flex: 1 1 auto;
     justify-content: flex-start;
     gap: var(--space-xs);
   }
-
   .ingredient-list .btn--clear {
     padding: var(--space-2xs) var(--space-xs);
     border-radius: 999px;
-    background: transparent;
+    background: #fff0;
     border: none;
     color: var(--color-text-muted);
     font-size: var(--fs-xs);
   }
-
-  /* --- Receptlista --- */
   .filter-summary-separator {
     display: none;
   }
-
-  /* --- Om oss --- */
   .values-grid {
     grid-template-columns: 1fr;
   }
-
-  /* --- Kontakt --- */
   .contact-form .btn {
     align-self: stretch;
     width: 100%;
     padding: var(--space-md) var(--space-xl);
   }
-
   .availability-table {
     min-width: 0;
   }
-
   .availability-table thead {
     display: none;
   }
-
   .availability-table tbody {
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
   }
-
   .availability-table tbody tr {
     display: flex;
     flex-direction: column;
@@ -1064,24 +862,20 @@ textarea:focus {
     background: var(--color-surface);
     box-shadow: none;
   }
-
   .availability-table th,
   .availability-table td {
     padding: 0;
     border: none;
     text-align: left;
   }
-
   .availability-table th[scope="row"] {
     white-space: normal;
     font-size: var(--fs-md);
   }
-
   .availability-table td {
     font-size: var(--fs-sm);
     color: var(--color-text);
   }
-
   .availability-table td::before {
     content: attr(data-label);
     display: block;
@@ -1092,13 +886,11 @@ textarea:focus {
     margin-bottom: var(--space-2xs);
   }
 }
-
 @media (min-width: 768px) {
   .recipes-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-
 @media (min-width: 1024px) {
   .recipes-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
