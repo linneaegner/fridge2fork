@@ -728,8 +728,9 @@ textarea:focus {
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 }
 
-.recipe-cooking h3 {
+.recipe-cooking h2 {
   margin-bottom: var(--space-sm);
+  font-size: var(--fs-lg);
 }
 
 .recipe-cooking ul,
