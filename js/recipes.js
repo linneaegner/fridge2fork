@@ -52,7 +52,7 @@ function buildWidgetHTML() {
     <div class="filter-summary-container">
       <div class="filter-summary-details">
         <span id="active-filters">No active filters</span>
-        <span>•</span>
+        <span class="filter-summary-separator" aria-hidden="true"></span>
         <span id="matched-recipes">Matched Recipes: 0</span>
       </div>
       <button id="clear-filters" class="btn btn--clear clear-filters-button" type="button">
