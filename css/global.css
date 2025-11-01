@@ -905,8 +905,12 @@ textarea:focus {
     width: 2rem;
   }
 
-  /* Navigationslistan fälls ner över hela bredden när JS markerar .is-open */
+  /* Navigationslistan visas bara när nav får klassen .site-header-nav--open */
   .site-header-nav ul {
+    display: none;
+  }
+
+  .site-header-nav--open ul {
     position: absolute;
     top: 100%;
     left: 0;
@@ -921,14 +925,6 @@ textarea:focus {
     box-shadow: var(--shadow-soft);
     min-width: 100%;
     z-index: 20;
-  }
-
-  .site-header-nav.is-ready ul {
-    display: none; /* JS sätter .is-ready när menyn kan döljas utan FOUC */
-  }
-
-  .site-header-nav.is-ready.is-open ul {
-    display: flex;
   }
 
   .site-header-nav ul li {
