@@ -917,7 +917,6 @@ textarea:focus {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-top: none;
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
     padding: var(--space-xs) 0;
     box-shadow: var(--shadow-soft);
     min-width: 100%;
