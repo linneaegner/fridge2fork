@@ -410,7 +410,8 @@ textarea:focus {
   justify-content: center;
   padding: var(--space-2xs) var(--space-sm);
   border-radius: 999px;
-  background: var(--color-accent-weak);
+  background: #ffffff;
+  border: 1px solid rgba(152, 43, 5, 0.25);
   color: var(--color-accent);
   font-weight: 600;
   font-size: var(--fs-xs);
