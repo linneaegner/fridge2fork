@@ -12,13 +12,10 @@ import {
 
 // === Globala element =====================================
 const widget = document.querySelector("#recipe-details-widget");
-const statusLabel = document.querySelector("#recipe-details-status");
 
 // === Start =================================================
 export async function startRecipeDetailsPage() {
   if (!widget) return;
-
-  setStatus("Loading recipe...");
 
   const recipeId = new URLSearchParams(window.location.search).get("recipeId");
   if (!recipeId) {
@@ -34,7 +31,6 @@ export async function startRecipeDetailsPage() {
     }
 
     renderRecipe(recipe);
-    setStatus(`${recipe.title || "Recipe"} loaded.`);
   } catch {
     showMessage("Could not load recipe details.");
   }
@@ -44,12 +40,8 @@ export async function startRecipeDetailsPage() {
 function showMessage(text) {
   if (!widget) return;
   widget.innerHTML = `<p class="empty-state">${text}</p>`;
-  setStatus(text);
 }
 
-function setStatus(text) {
-  if (statusLabel) statusLabel.textContent = text;
-}
 
 // === Visa receptet ========================================
 function renderRecipe(r) {
@@ -128,6 +120,5 @@ function setupSourceButton(url) {
   } else {
     button.textContent = "Original recipe not available";
     button.disabled = true;
-    setStatus("Original recipe link not available.");
   }
 }
