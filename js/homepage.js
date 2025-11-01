@@ -107,6 +107,8 @@ function showMessage(text) {
   const msg = document.createElement("p");
   msg.textContent = text;
   msg.className = "temp-message";
+  msg.setAttribute("role", "status");
+
   document.body.appendChild(msg);
   setTimeout(() => msg.remove(), 2000);
 }

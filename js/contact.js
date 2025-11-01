@@ -22,6 +22,7 @@ function showMessage(text) {
   const msg = document.createElement("p");
   msg.textContent = text;
   msg.className = "temp-message";
+  msg.setAttribute("role", "status");
 
   const target = document.querySelector("#contact-form");
   target.appendChild(msg);
