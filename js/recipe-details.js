@@ -1,7 +1,3 @@
-// ---------------------------------------------------------
-// recipe-details.js – Show details for a single recipe
-// ---------------------------------------------------------
-
 import { getRecipeDetails } from "./fetchdata.js";
 import {
   cleanText,
@@ -9,50 +5,39 @@ import {
   formatServings,
   formatDietTags,
 } from "./recipe-utils.js";
-
-// === Globala element =====================================
 const widget = document.querySelector("#recipe-details-widget");
-
-// === Start =================================================
 export async function startRecipeDetailsPage() {
   if (!widget) return;
-
   const recipeId = new URLSearchParams(window.location.search).get("recipeId");
   if (!recipeId) {
     showMessage("No recipe selected.");
     return;
   }
-
   try {
     const recipe = await getRecipeDetails(recipeId);
     if (!recipe) {
       showMessage("Could not find recipe.");
       return;
     }
-
     renderRecipe(recipe);
   } catch {
     showMessage("Could not load recipe details.");
   }
 }
-
-// === Visa meddelande ======================================
 function showMessage(text) {
   if (!widget) return;
   widget.innerHTML = `<p class="empty-state">${text}</p>`;
 }
-
-
-// === Visa receptet ========================================
 function renderRecipe(r) {
-
   widget.innerHTML = `
     <section class="recipe">
       <h1 class="recipe-title">${r.title}</h1>
 
       <div class="recipe-image-container">
         <img class="recipe-image"
-          src="${r.image || "https://via.placeholder.com/640x360?text=No+image"}"
+          src="${
+            r.image || "https://via.placeholder.com/640x360?text=No+image"
+          }"
           alt="${r.title || "Recipe image"}"
         />
       </div>
@@ -60,7 +45,9 @@ function renderRecipe(r) {
       <p class="recipe-summary">${cleanText(r.summary)}</p>
 
       <dl class="recipe-stats">
-        <div class="recipe-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
+        <div class="recipe-stat"><dd>⏱️ ${formatTime(
+          r.readyInMinutes
+        )}</dd></div>
         <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
       </dl>
 
@@ -83,42 +70,34 @@ function renderRecipe(r) {
       </div>
     </section>
   `;
-
   renderList(
     "ingredients-list",
-    r.extendedIngredients?.map(i => i.original),
+    r.extendedIngredients?.map((i) => i.original),
     "No ingredients found."
   );
-
   renderList(
     "instructions-list",
-    r.analyzedInstructions?.[0]?.steps?.map(s => s.step),
+    r.analyzedInstructions?.[0]?.steps?.map((s) => s.step),
     "No instructions found."
   );
-
   setupSourceButton(r.sourceUrl);
 }
-
-// === Visa lista eller fallback =============================
 function renderList(id, items = [], emptyMessage) {
   const list = document.querySelector(`#${id}`);
   if (!list) return;
   list.innerHTML = items.length
-    ? items.map(item => `<li>${item}</li>`).join("")
+    ? items.map((item) => `<li>${item}</li>`).join("")
     : `<li>${emptyMessage}</li>`;
 }
-
-// === "View Original Recipe"-knapp =========================
 function setupSourceButton(url) {
   const button = document.querySelector("#view-original-recipe-btn");
   if (!button) return;
-
   if (url) {
     button.textContent = "View Original Recipe";
-    button.disabled = false;
+    button.disabled = !1;
     button.onclick = () => window.open(url, "_blank", "noopener");
   } else {
     button.textContent = "Original recipe not available";
-    button.disabled = true;
+    button.disabled = !0;
   }
 }
