@@ -125,6 +125,7 @@ function renderRecipes(recipes) {
           <img class="recipe-image"
             src="${r.image || "https://via.placeholder.com/640x360"}"
             alt="${r.title}"
+            fetchpriority="high"
           />
         </div>
         

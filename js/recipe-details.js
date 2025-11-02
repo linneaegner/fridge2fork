@@ -39,6 +39,7 @@ function renderRecipe(r) {
             r.image || "https://via.placeholder.com/640x360?text=No+image"
           }"
           alt="${r.title || "Recipe image"}"
+          fetchpriority="high"
         />
       </div>
 
