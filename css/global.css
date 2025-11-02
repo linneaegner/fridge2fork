@@ -470,6 +470,10 @@ textarea:focus {
   color: #fff;
   box-shadow: var(--shadow-lifted);
 }
+.filter-button.active:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
 @media (hover: hover) and (pointer: fine) {
   .filter-button:hover {
     border-color: var(--color-accent);
