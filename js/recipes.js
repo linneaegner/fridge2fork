@@ -1,3 +1,4 @@
+// IMPORTS
 import { getRecipes } from "./fetchdata.js";
 import {
   cleanText,
@@ -6,29 +7,36 @@ import {
   formatDietTags,
 } from "./recipe-utils.js";
 
-const recipesWidget = document.querySelector("#recipes-widget");
-let allRecipes = [];
-let visibleRecipes = [];
-let currentDifficulty = "";
-let recipeGrid;
-let activeFilterText;
-let matchedRecipesText;
-let clearFilterButton;
-let difficultyButtons;
+// STATE (samlar allt relaterat till sidan)
+const state = {
+  allRecipes: [],
+  visibleRecipes: [],
+  currentDifficulty: "",
+  elements: {},
+};
 
+// MAIN ENTRY POINT
 export async function startRecipesPage() {
-  if (!recipesWidget) return;
-  buildRecipesWidgetHTML();
-  findElements();
+  const widget = document.querySelector("#recipes-widget");
+  if (!widget) return;
+
+  renderLayout(widget);
+  cacheElements(widget);
   setupEvents();
-  const ingredients = getSavedIngredients();
-  resetWidget(ingredients);
+
+  const ingredients = loadSavedIngredients();
+  renderSelectedIngredients(ingredients);
+  showMessage("Loading recipes...");
+
   const success = await loadRecipes(ingredients);
-  if (success) filterRecipes();
+  if (success) updateRecipesView();
 }
 
-function buildRecipesWidgetHTML() {
-  recipesWidget.innerHTML = `
+// -------------------------------------------------------------
+// BUILD & CACHE DOM
+// -------------------------------------------------------------
+function renderLayout(container) {
+  container.innerHTML = `
     <form class="recipe-filters">
       <h2 class="filter-heading">Difficulty</h2>
       <div id="filter-difficulty-buttons" class="filter-buttons-container">
@@ -55,31 +63,45 @@ function buildRecipesWidgetHTML() {
   `;
 }
 
-function findElements() {
-  activeFilterText = recipesWidget.querySelector("#active-filters");
-  matchedRecipesText = recipesWidget.querySelector("#matched-recipes");
-  clearFilterButton = recipesWidget.querySelector("#clear-filters");
-  difficultyButtons = recipesWidget.querySelectorAll("[data-difficulty]");
-  recipeGrid = recipesWidget.querySelector("#recipes-grid");
+function cacheElements(container) {
+  state.elements = {
+    activeFilterText: container.querySelector("#active-filters"),
+    matchedRecipesText: container.querySelector("#matched-recipes"),
+    clearFilterButton: container.querySelector("#clear-filters"),
+    difficultyButtons: container.querySelectorAll("[data-difficulty]"),
+    recipeGrid: container.querySelector("#recipes-grid"),
+  };
 }
 
+// -------------------------------------------------------------
+// EVENTS
+// -------------------------------------------------------------
 function setupEvents() {
+  const { difficultyButtons, clearFilterButton } = state.elements;
+
   difficultyButtons.forEach((btn) =>
-    btn.addEventListener("click", () => {
-      currentDifficulty = btn.dataset.difficulty === currentDifficulty ? "" : btn.dataset.difficulty;
-      updateActiveButton();
-      filterRecipes();
-    })
+    btn.addEventListener("click", () => handleDifficultyClick(btn))
   );
 
-  clearFilterButton.addEventListener("click", () => {
-    currentDifficulty = "";
-    updateActiveButton();
-    filterRecipes();
-  });
+  clearFilterButton.addEventListener("click", clearFilters);
 }
 
-function getSavedIngredients() {
+function handleDifficultyClick(button) {
+  const { difficulty } = button.dataset;
+  state.currentDifficulty =
+    state.currentDifficulty === difficulty ? "" : difficulty;
+  updateRecipesView();
+}
+
+function clearFilters() {
+  state.currentDifficulty = "";
+  updateRecipesView();
+}
+
+// -------------------------------------------------------------
+// DATA FETCHING & STORAGE
+// -------------------------------------------------------------
+function loadSavedIngredients() {
   try {
     return JSON.parse(localStorage.getItem("ingredients")) || [];
   } catch {
@@ -89,13 +111,11 @@ function getSavedIngredients() {
 
 async function loadRecipes(ingredients) {
   try {
-    allRecipes = await getRecipes({ ingredients });
-    visibleRecipes = [...allRecipes];
-    if (!allRecipes.length) {
+    state.allRecipes = await getRecipes({ ingredients });
+    if (!state.allRecipes.length) {
       showMessage("No recipes found.");
       return false;
     }
-    updateRecipeCount();
     return true;
   } catch {
     showMessage("Could not load recipes right now.");
@@ -103,39 +123,42 @@ async function loadRecipes(ingredients) {
   }
 }
 
-function resetWidget(ingredients) {
-  currentDifficulty = "";
-  updateActiveButton();
-  showSelectedIngredients(ingredients);
-  updateRecipeCount(0);
-  showMessage("Loading recipes...");
+// -------------------------------------------------------------
+// RENDERING & FILTERING
+// -------------------------------------------------------------
+function updateRecipesView() {
+  const recipes = filterRecipes(state.allRecipes);
+  renderRecipes(recipes);
+  updateRecipeSummary(recipes.length);
 }
 
-function filterRecipes() {
-  visibleRecipes = allRecipes.filter((recipe) =>
-    currentDifficulty === ""
-      ? true
-      : getDifficulty(recipe.readyInMinutes) === currentDifficulty
-  );
-  if (!visibleRecipes.length) {
-    showMessage("No recipes found for this filter.");
-    updateRecipeCount(0);
-    return;
-  }
-  renderRecipes(visibleRecipes);
-  updateRecipeCount(visibleRecipes.length);
+function filterRecipes(recipes) {
+  if (!state.currentDifficulty) return recipes;
+
+  return recipes.filter((recipe) => getDifficulty(recipe) === state.currentDifficulty);
 }
 
-function updateActiveButton() {
-  difficultyButtons.forEach((btn) =>
-    btn.classList.toggle("active", btn.dataset.difficulty === currentDifficulty)
-  );
+function getDifficulty(recipe) {
+  if (recipe.readyInMinutes <= 30) return "Easy";
+  if (recipe.readyInMinutes <= 45) return "Medium";
+  return "Hard";
 }
 
 function renderRecipes(recipes) {
+  const { recipeGrid, difficultyButtons } = state.elements;
+
+  difficultyButtons.forEach((btn) =>
+    btn.classList.toggle("active", btn.dataset.difficulty === state.currentDifficulty)
+  );
+
+  if (!recipes.length) {
+    showMessage("No recipes found for this filter.");
+    return;
+  }
+
   recipeGrid.innerHTML = recipes
-    .map((r) => {
-      return `
+    .map(
+      (r) => `
       <article class="card recipe-article">
         <div class="recipe-image-container">
           <img class="recipe-image"
@@ -144,68 +167,53 @@ function renderRecipes(recipes) {
             fetchpriority="high"
           />
         </div>
-        
         <h3 class="recipe-title">${r.title}</h3>
-
-        <p class="recipe-summary">${cleanText(r.summary, {
-          maxLength: 140,
-        })}</p>
-
+        <p class="recipe-summary">${cleanText(r.summary, { maxLength: 140 })}</p>
         <dl class="recipe-stats">
-          <div class="recipe-stat"><dd>⏱️ ${formatTime(
-            r.readyInMinutes
-          )}</dd></div>
-          <div class="recipe-stat"><dd>👥 ${formatServings(
-            r.servings
-          )}</dd></div>
+          <div class="recipe-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
+          <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
         </dl>
-        
         <div class="recipe-tags">${formatDietTags(r.diets)}</div>
-
-        <button class="btn btn--primary btn--view-recipe-details" type="button" data-recipe-id="${
-          r.id
-        }">
+        <button class="btn btn--primary btn--view-recipe-details" type="button" data-recipe-id="${r.id}">
           View Recipe
         </button>
       </article>
-    `;
-    })
+    `
+    )
     .join("");
-  recipeGrid.querySelectorAll(".btn--view-recipe-details").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const recipeId = btn.dataset.recipeId;
-      if (recipeId)
-        window.location.href = `recipe-details.html?recipeId=${recipeId}`;
-    });
-  });
+
+  recipeGrid
+    .querySelectorAll(".btn--view-recipe-details")
+    .forEach((btn) =>
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.recipeId;
+        if (id) window.location.href = `recipe-details.html?recipeId=${id}`;
+      })
+    );
 }
 
 function showMessage(text) {
-  recipeGrid.innerHTML = `<p class="empty-state">${text}</p>`;
+  state.elements.recipeGrid.innerHTML = `<p class="empty-state">${text}</p>`;
 }
 
-function showSelectedIngredients(ingredients) {
+function renderSelectedIngredients(ingredients) {
   const label = document.querySelector("#selected-ingredients");
   if (label) label.textContent = formatIngredientList(ingredients);
 }
 
-function updateRecipeCount(count = visibleRecipes.length) {
-  activeFilterText.textContent = currentDifficulty
-    ? `Active Filters: ${currentDifficulty}`
-    : "No active filters";
-  matchedRecipesText.textContent = `Matched Recipes: ${count}`;
-}
+function updateRecipeSummary(count) {
+  const { activeFilterText, matchedRecipesText } = state.elements;
 
-function getDifficulty(minutes) {
-  if (minutes <= 30) return "Easy";
-  if (minutes <= 45) return "Medium";
-  return "Hard";
+  activeFilterText.textContent = state.currentDifficulty
+    ? `Active Filters: ${state.currentDifficulty}`
+    : "No active filters";
+
+  matchedRecipesText.textContent = `Matched Recipes: ${count}`;
 }
 
 function formatIngredientList(list) {
   if (list.length === 0) return "no ingredients selected";
   if (list.length === 1) return list[0];
-  const items = [...list];
-  const last = items.pop();
-  return `${items.join(", ")} and ${last}`;
+  const last = list.pop();
+  return `${list.join(", ")} and ${last}`;
 }
