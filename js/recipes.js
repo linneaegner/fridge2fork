@@ -16,15 +16,15 @@ let clearFilterButton;
 let difficultyButtons;
 export async function startRecipesPage() {
   if (!recipesWidget) return;
-  buildWidgetHTML();
-  cacheElements();
+  buildRecipesWidgetHTML();
+  findElements();
   setupEvents();
   const ingredients = getSavedIngredients();
   resetWidget(ingredients);
   const success = await loadRecipes(ingredients);
   if (success) filterRecipes();
 }
-function buildWidgetHTML() {
+function buildRecipesWidgetHTML() {
   recipesWidget.innerHTML = `
     <form class="recipe-filters">
       <h2 class="filter-heading">Difficulty</h2>
@@ -51,7 +51,7 @@ function buildWidgetHTML() {
     </div>
   `;
 }
-function cacheElements() {
+function findElements() {
   activeFilterText = recipesWidget.querySelector("#active-filters");
   matchedRecipesText = recipesWidget.querySelector("#matched-recipes");
   clearFilterButton = recipesWidget.querySelector("#clear-filters");
