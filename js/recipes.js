@@ -65,10 +65,13 @@ function findElements() {
 
 function setupEvents() {
   difficultyButtons.forEach((btn) =>
-    btn.addEventListener("click", () =>
-      toggleDifficulty(btn.dataset.difficulty)
-    )
+    btn.addEventListener("click", () => {
+      currentDifficulty = btn.dataset.difficulty === currentDifficulty ? "" : btn.dataset.difficulty;
+      updateActiveButton();
+      filterRecipes();
+    })
   );
+
   clearFilterButton.addEventListener("click", () => {
     currentDifficulty = "";
     updateActiveButton();
@@ -106,12 +109,6 @@ function resetWidget(ingredients) {
   showSelectedIngredients(ingredients);
   updateRecipeCount(0);
   showMessage("Loading recipes...");
-}
-
-function toggleDifficulty(level) {
-  currentDifficulty = currentDifficulty === level ? "" : level;
-  updateActiveButton();
-  filterRecipes();
 }
 
 function filterRecipes() {
