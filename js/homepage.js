@@ -59,7 +59,7 @@ function renderTags() {
       (name) => `
       <span class="ingredient-badge">
         ${name}
-        <button type="button" data-remove="${name}" aria-label="Ta bort ${name}">
+        <button type="button" data-remove="${name}" aria-label="Remove ${name}">
           <span aria-hidden="true">×</span>
         </button>
       </span>`

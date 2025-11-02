@@ -46,10 +46,14 @@ function renderRecipe(r) {
       <p class="recipe-summary">${cleanText(r.summary)}</p>
 
       <dl class="recipe-stats">
-        <div class="recipe-stat"><dd>⏱️ ${formatTime(
-          r.readyInMinutes
-        )}</dd></div>
-        <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
+        <div class="recipe-stat">
+          <dt class="sr-only">Total time</dt>
+          <dd>⏱️ ${formatTime(r.readyInMinutes)}</dd>
+        </div>
+        <div class="recipe-stat">
+          <dt class="sr-only">Servings</dt>
+          <dd>👥 ${formatServings(r.servings)}</dd>
+        </div>
       </dl>
 
       <div class="recipe-tags">${formatDietTags(r.diets)}</div>

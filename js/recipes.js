@@ -40,9 +40,9 @@ function renderLayout(container) {
     <form class="recipe-filters">
       <h2 class="filter-heading">Difficulty</h2>
       <div id="filter-difficulty-buttons" class="filter-buttons-container">
-        <button class="btn btn--secondary filter-button" type="button" data-difficulty="Easy">Easy</button>
-        <button class="btn btn--secondary filter-button" type="button" data-difficulty="Medium">Medium</button>
-        <button class="btn btn--secondary filter-button" type="button" data-difficulty="Hard">Hard</button>
+        <button class="btn btn--secondary filter-button" type="button" data-difficulty="Easy" aria-pressed="false">Easy</button>
+        <button class="btn btn--secondary filter-button" type="button" data-difficulty="Medium" aria-pressed="false">Medium</button>
+        <button class="btn btn--secondary filter-button" type="button" data-difficulty="Hard" aria-pressed="false">Hard</button>
       </div>
     </form>
 
@@ -147,9 +147,11 @@ function getDifficulty(recipe) {
 function renderRecipes(recipes) {
   const { recipeGrid, difficultyButtons } = state.elements;
 
-  difficultyButtons.forEach((btn) =>
-    btn.classList.toggle("active", btn.dataset.difficulty === state.currentDifficulty)
-  );
+  difficultyButtons.forEach((btn) => {
+    const isActive = btn.dataset.difficulty === state.currentDifficulty;
+    btn.classList.toggle("active", isActive);
+    btn.setAttribute("aria-pressed", String(isActive));
+  });
 
   if (!recipes.length) {
     showMessage("No recipes found for this filter.");
@@ -170,8 +172,14 @@ function renderRecipes(recipes) {
         <h3 class="recipe-title">${r.title}</h3>
         <p class="recipe-summary">${cleanText(r.summary, { maxLength: 140 })}</p>
         <dl class="recipe-stats">
-          <div class="recipe-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
-          <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
+          <div class="recipe-stat">
+            <dt class="sr-only">Total time</dt>
+            <dd>⏱️ ${formatTime(r.readyInMinutes)}</dd>
+          </div>
+          <div class="recipe-stat">
+            <dt class="sr-only">Servings</dt>
+            <dd>👥 ${formatServings(r.servings)}</dd>
+          </div>
         </dl>
         <div class="recipe-tags">${formatDietTags(r.diets)}</div>
         <button class="btn btn--primary btn--view-recipe-details" type="button" data-recipe-id="${r.id}">
