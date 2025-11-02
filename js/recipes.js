@@ -5,6 +5,7 @@ import {
   formatServings,
   formatDietTags,
 } from "./recipe-utils.js";
+
 const recipesWidget = document.querySelector("#recipes-widget");
 let allRecipes = [];
 let visibleRecipes = [];
@@ -14,6 +15,7 @@ let activeFilterText;
 let matchedRecipesText;
 let clearFilterButton;
 let difficultyButtons;
+
 export async function startRecipesPage() {
   if (!recipesWidget) return;
   buildRecipesWidgetHTML();
@@ -24,6 +26,7 @@ export async function startRecipesPage() {
   const success = await loadRecipes(ingredients);
   if (success) filterRecipes();
 }
+
 function buildRecipesWidgetHTML() {
   recipesWidget.innerHTML = `
     <form class="recipe-filters">
@@ -51,6 +54,7 @@ function buildRecipesWidgetHTML() {
     </div>
   `;
 }
+
 function findElements() {
   activeFilterText = recipesWidget.querySelector("#active-filters");
   matchedRecipesText = recipesWidget.querySelector("#matched-recipes");
@@ -58,6 +62,7 @@ function findElements() {
   difficultyButtons = recipesWidget.querySelectorAll("[data-difficulty]");
   recipeGrid = recipesWidget.querySelector("#recipes-grid");
 }
+
 function setupEvents() {
   difficultyButtons.forEach((btn) =>
     btn.addEventListener("click", () =>
@@ -70,21 +75,7 @@ function setupEvents() {
     filterRecipes();
   });
 }
-async function loadRecipes(ingredients) {
-  try {
-    allRecipes = await getRecipes({ ingredients });
-    visibleRecipes = [...allRecipes];
-    if (!allRecipes.length) {
-      showMessage("No recipes found.");
-      return !1;
-    }
-    updateRecipeCount();
-    return !0;
-  } catch {
-    showMessage("Could not load recipes right now.");
-    return !1;
-  }
-}
+
 function getSavedIngredients() {
   try {
     return JSON.parse(localStorage.getItem("ingredients")) || [];
@@ -92,15 +83,41 @@ function getSavedIngredients() {
     return [];
   }
 }
+
+async function loadRecipes(ingredients) {
+  try {
+    allRecipes = await getRecipes({ ingredients });
+    visibleRecipes = [...allRecipes];
+    if (!allRecipes.length) {
+      showMessage("No recipes found.");
+      return false;
+    }
+    updateRecipeCount();
+    return true;
+  } catch {
+    showMessage("Could not load recipes right now.");
+    return false;
+  }
+}
+
+function resetWidget(ingredients) {
+  currentDifficulty = "";
+  updateActiveButton();
+  showSelectedIngredients(ingredients);
+  updateRecipeCount(0);
+  showMessage("Loading recipes...");
+}
+
 function toggleDifficulty(level) {
   currentDifficulty = currentDifficulty === level ? "" : level;
   updateActiveButton();
   filterRecipes();
 }
+
 function filterRecipes() {
   visibleRecipes = allRecipes.filter((recipe) =>
     currentDifficulty === ""
-      ? !0
+      ? true
       : getDifficulty(recipe.readyInMinutes) === currentDifficulty
   );
   if (!visibleRecipes.length) {
@@ -111,11 +128,13 @@ function filterRecipes() {
   renderRecipes(visibleRecipes);
   updateRecipeCount(visibleRecipes.length);
 }
+
 function updateActiveButton() {
   difficultyButtons.forEach((btn) =>
     btn.classList.toggle("active", btn.dataset.difficulty === currentDifficulty)
   );
 }
+
 function renderRecipes(recipes) {
   recipeGrid.innerHTML = recipes
     .map((r) => {
@@ -163,31 +182,29 @@ function renderRecipes(recipes) {
     });
   });
 }
+
 function showMessage(text) {
   recipeGrid.innerHTML = `<p class="empty-state">${text}</p>`;
 }
-function resetWidget(ingredients) {
-  currentDifficulty = "";
-  updateActiveButton();
-  showSelectedIngredients(ingredients);
-  updateRecipeCount(0);
-  showMessage("Loading recipes...");
-}
+
 function showSelectedIngredients(ingredients) {
   const label = document.querySelector("#selected-ingredients");
   if (label) label.textContent = formatIngredientList(ingredients);
 }
+
 function updateRecipeCount(count = visibleRecipes.length) {
   activeFilterText.textContent = currentDifficulty
     ? `Active Filters: ${currentDifficulty}`
     : "No active filters";
   matchedRecipesText.textContent = `Matched Recipes: ${count}`;
 }
+
 function getDifficulty(minutes) {
   if (minutes <= 30) return "Easy";
   if (minutes <= 45) return "Medium";
   return "Hard";
 }
+
 function formatIngredientList(list) {
   if (list.length === 0) return "no ingredients selected";
   if (list.length === 1) return list[0];
