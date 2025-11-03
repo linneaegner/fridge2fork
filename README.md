@@ -1,3 +1,6 @@
 # Fridge2Fork
 
-Ett enkelt webbprojekt där användaren kan hitta recept baserat på ingredienser i kylen. Projektet bygger på HTML, CSS och JavaScript och utvecklas som en del av kursen Dynamiska Webbapplikationer vid Uppsala universitet.
+Fridge2Fork hjälper användaren att minska matsvinnet genom att föreslå recept baserat på ingredienser som redan finns hemma. Projektet är byggt med ren HTML, CSS och JavaScript som del av kursen Dynamiska Webbapplikationer vid Uppsala universitet.
+
+## Driftsatt sajt
+- **Live**: https://fridge2fork-one.vercel.app
