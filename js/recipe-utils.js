@@ -1,14 +1,15 @@
-// Removes all HTML tags (like <p> or <b>) from a string.
-// Also shortens the text if it's too long.
+// -------------------------------------------------------------
+// RECIPE UTILITIES – Text formatting and helper functions
+// -------------------------------------------------------------
+
+// Tar bort alla HTML-taggar från en text, och kortar den vid behov.
 export function cleanText(html = "", options = {}) {
   const maxLength = options.maxLength;
 
-  // Use a built-in browser tool to remove HTML tags
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
   let text = (doc.body.textContent || "").trim();
 
-  // If text is longer than allowed, cut it and add "..."
   if (maxLength && text.length > maxLength) {
     text = text.slice(0, maxLength).trimEnd() + "...";
   }
@@ -16,47 +17,35 @@ export function cleanText(html = "", options = {}) {
   return text;
 }
 
-// Turns a number of minutes into readable text like "30 mins" or "1 min".
+// Gör om minuter till läsbar text, t.ex. "30 mins" eller "1 min".
 export function formatTime(minutes) {
   if (!minutes || isNaN(minutes)) return "N/A";
-
   const label = minutes === 1 ? "min" : "mins";
   return `${minutes} ${label}`;
 }
 
-// Turns a number of servings into readable text like "2 servings".
+// Gör om antal portioner till text, t.ex. "2 servings".
 export function formatServings(servings) {
   if (!servings || isNaN(servings)) return "N/A";
-
-  if (servings === 1) {
-    return "1 serving";
-  } else {
-    return `${servings} servings`;
-  }
+  return servings === 1 ? "1 serving" : `${servings} servings`;
 }
 
-// Makes the first letter of each word uppercase.
+// Gör första bokstaven i varje ord stor.
 export function capitalize(text = "") {
-  const words = text.split(" ").filter(Boolean);
-  const capitalizedWords = words.map(
-    (word) => word[0].toUpperCase() + word.slice(1)
-  );
-  return capitalizedWords.join(" ");
+  return text
+    .split(" ")
+    .filter(Boolean)
+    .map((word) => word[0].toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
-// Creates small tag elements (like badges) for diet types, e.g. "Vegan" or "Gluten Free".
+// Skapar små taggar (badges) för kosttyper, t.ex. "Vegan" eller "Gluten Free".
 export function formatDietTags(diets = [], options = {}) {
   const maxTags = options.maxTags || 4;
+  if (!Array.isArray(diets) || diets.length === 0) return "";
 
-  if (!Array.isArray(diets) || diets.length === 0) {
-    return "";
-  }
-
-  // Take the first few diet names, capitalize them, and wrap them in HTML spans
-  const tags = diets.slice(0, maxTags).map((diet) => {
-    const name = capitalize(diet);
-    return `<span class="recipe-tag">${name}</span>`;
-  });
-
-  return tags.join("");
+  return diets
+    .slice(0, maxTags)
+    .map((diet) => `<span class="recipe-tag">${capitalize(diet)}</span>`)
+    .join("");
 }
