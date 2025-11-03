@@ -1,8 +1,7 @@
 // -------------------------------------------------------------
 // API CONFIGURATION
 // -------------------------------------------------------------
-const API_KEY = "1663bb2ddfbf4b00891cffe70d26f9ed";
-const BASE_URL = "https://api.spoonacular.com";
+import { API_KEY, BASE_URL } from "./config.js";
 
 // -------------------------------------------------------------
 // HELPER FUNCTION
