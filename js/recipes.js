@@ -16,7 +16,6 @@ import {
 // Samlar allt som rör sidan i ett objekt, så att det är lättare att hålla ordning.
 const state = {
   allRecipes: [],
-  visibleRecipes: [],
   currentDifficulty: "",
   elements: {},
 };
