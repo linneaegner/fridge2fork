@@ -139,7 +139,7 @@ function renderRecipes(recipes) {
   });
 
   if (!recipes.length) {
-    showMessage("No recipes found for this filter.");
+    showMessage("No recipes found.");
     return;
   }
 
