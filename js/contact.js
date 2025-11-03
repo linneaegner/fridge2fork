@@ -1,20 +1,41 @@
+// -------------------------------------------------------------
+// CONTACT PAGE – Simple contact form interaction
+// -------------------------------------------------------------
+
+// Körs när kontaktsidan laddas.
+// Hittar formuläret och kopplar händelsen för att hantera inskickning.
 export function startContactPage() {
   const form = document.querySelector("#contact-form");
   if (!form) return;
+
   form.addEventListener("submit", handleSubmit);
 }
-function handleSubmit(e) {
-  e.preventDefault();
-  const form = e.currentTarget;
+
+// -------------------------------------------------------------
+// FORM HANDLING
+// -------------------------------------------------------------
+// Förhindrar att sidan laddas om, visar tackmeddelande och nollställer formuläret.
+function handleSubmit(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+
   showMessage("Thanks! Your message has been sent.");
   form.reset();
 }
+
+// -------------------------------------------------------------
+// HELPERS
+// -------------------------------------------------------------
+// Visar ett tillfälligt meddelande under formuläret.
 function showMessage(text) {
+  const form = document.querySelector("#contact-form");
+  if (!form) return;
+
   const msg = document.createElement("p");
   msg.textContent = text;
   msg.className = "temp-message";
   msg.setAttribute("role", "status");
-  const target = document.querySelector("#contact-form");
-  target.appendChild(msg);
+
+  form.appendChild(msg);
   setTimeout(() => msg.remove(), 2000);
 }
