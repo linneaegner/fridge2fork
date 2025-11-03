@@ -3,8 +3,17 @@
 // -------------------------------------------------------------
 
 import { getRecipes } from "./fetchdata.js";
-import { cleanText, formatTime, formatServings, formatDietTags } from "./recipe-utils.js";
+import {
+  cleanText,
+  formatTime,
+  formatServings,
+  formatDietTags,
+} from "./recipe-utils.js";
 
+// -------------------------------------------------------------
+// STATE
+// -------------------------------------------------------------
+// Samlar allt som rör sidan i ett objekt, så att det är lättare att hålla ordning.
 const state = {
   allRecipes: [],
   visibleRecipes: [],
@@ -15,6 +24,7 @@ const state = {
 // -------------------------------------------------------------
 // INIT
 // -------------------------------------------------------------
+// Körs när sidan laddas. Hämtar ingredienser, recept och bygger upp gränssnittet.
 export async function startRecipesPage() {
   const widget = document.querySelector("#recipes-widget");
   if (!widget) return;
@@ -34,6 +44,7 @@ export async function startRecipesPage() {
 // -------------------------------------------------------------
 // BUILD & CACHE DOM
 // -------------------------------------------------------------
+// Bygger upp sidans HTML och sparar viktiga element för snabb åtkomst.
 function renderLayout(container) {
   container.innerHTML = `
     <form class="recipe-filters">
@@ -75,6 +86,7 @@ function cacheElements(container) {
 // -------------------------------------------------------------
 // EVENTS
 // -------------------------------------------------------------
+// Hanterar klick på svårighetsknapparna och knappen "Clear Filters".
 function setupEvents() {
   const { difficultyButtons, clearFilterButton } = state.elements;
 
@@ -87,7 +99,8 @@ function setupEvents() {
 
 function handleDifficultyClick(button) {
   const { difficulty } = button.dataset;
-  state.currentDifficulty = state.currentDifficulty === difficulty ? "" : difficulty;
+  state.currentDifficulty =
+    state.currentDifficulty === difficulty ? "" : difficulty;
   updateRecipesView();
 }
 
@@ -99,6 +112,7 @@ function clearFilters() {
 // -------------------------------------------------------------
 // DATA FETCHING & STORAGE
 // -------------------------------------------------------------
+// Hämtar ingredienser från localStorage och recept från API:t.
 function loadSavedIngredients() {
   try {
     return JSON.parse(localStorage.getItem("ingredients")) || [];
@@ -124,6 +138,7 @@ async function loadRecipes(ingredients) {
 // -------------------------------------------------------------
 // RENDERING & FILTERING
 // -------------------------------------------------------------
+// Filtrerar, renderar och uppdaterar receptlistan och filtertexten.
 function updateRecipesView() {
   const recipes = filterRecipes(state.allRecipes);
   renderRecipes(recipes);
@@ -132,7 +147,9 @@ function updateRecipesView() {
 
 function filterRecipes(recipes) {
   if (!state.currentDifficulty) return recipes;
-  return recipes.filter((recipe) => getDifficulty(recipe) === state.currentDifficulty);
+  return recipes.filter(
+    (recipe) => getDifficulty(recipe) === state.currentDifficulty
+  );
 }
 
 function getDifficulty(recipe) {
@@ -160,7 +177,8 @@ function renderRecipes(recipes) {
       (r) => `
       <article class="card recipe-article">
         <div class="recipe-image-container">
-          <img class="recipe-image"
+          <img
+            class="recipe-image"
             src="${r.image || "https://via.placeholder.com/640x360"}"
             alt="${r.title}"
             fetchpriority="high"
@@ -169,11 +187,19 @@ function renderRecipes(recipes) {
         <h3 class="recipe-title">${r.title}</h3>
         <p class="recipe-summary">${cleanText(r.summary, { maxLength: 140 })}</p>
         <dl class="recipe-stats">
-          <div class="recipe-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
-          <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
+          <div class="recipe-stat">
+            <dd>⏱️ ${formatTime(r.readyInMinutes)}</dd>
+          </div>
+          <div class="recipe-stat">
+            <dd>👥 ${formatServings(r.servings)}</dd>
+          </div>
         </dl>
         <div class="recipe-tags">${formatDietTags(r.diets)}</div>
-        <button class="btn btn--primary btn--view-recipe-details" type="button" data-recipe-id="${r.id}">
+        <button
+          class="btn btn--primary btn--view-recipe-details"
+          type="button"
+          data-recipe-id="${r.id}"
+        >
           View Recipe
         </button>
       </article>
@@ -181,32 +207,39 @@ function renderRecipes(recipes) {
     )
     .join("");
 
-  recipeGrid.querySelectorAll(".btn--view-recipe-details").forEach((btn) =>
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.recipeId;
-      if (id) window.location.href = `recipe-details.html?recipeId=${id}`;
-    })
-  );
+  recipeGrid
+    .querySelectorAll(".btn--view-recipe-details")
+    .forEach((btn) =>
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.recipeId;
+        if (id) window.location.href = `recipe-details.html?recipeId=${id}`;
+      })
+    );
 }
 
+// Visar ett meddelande i receptgriden (t.ex. "No recipes found").
 function showMessage(text) {
   state.elements.recipeGrid.innerHTML = `<p class="empty-state">${text}</p>`;
 }
 
+// Visar de valda ingredienserna ovanför recepten.
 function renderSelectedIngredients(ingredients) {
   const label = document.querySelector("#selected-ingredients");
   if (label) label.textContent = formatIngredientList(ingredients);
 }
 
+// Uppdaterar antalet matchade recept och aktiva filter.
 function updateRecipeSummary(count) {
   const { activeFilterText, matchedRecipesText } = state.elements;
 
   activeFilterText.textContent = state.currentDifficulty
     ? `Active Filters: ${state.currentDifficulty}`
     : "No active filters";
+
   matchedRecipesText.textContent = `Matched Recipes: ${count}`;
 }
 
+// Formaterar ingredienslistan till en läsbar mening.
 function formatIngredientList(list) {
   if (list.length === 0) return "no ingredients selected";
   if (list.length === 1) return list[0];
