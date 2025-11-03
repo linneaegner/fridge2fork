@@ -13,7 +13,7 @@ import {
 // -------------------------------------------------------------
 // INIT
 // -------------------------------------------------------------
-// Körs när sidan laddas. Hämtar recept-ID från URL:en och visar receptdetaljer.
+// Körs när sidan laddas. Hämtar recept-ID från URL:en och visar detaljerna.
 export async function startRecipeDetailsPage() {
   const widget = document.querySelector("#recipe-details-widget");
   if (!widget) return;
@@ -30,7 +30,6 @@ export async function startRecipeDetailsPage() {
       showMessage(widget, "Could not find recipe.");
       return;
     }
-
     renderRecipe(widget, recipe);
   } catch (error) {
     console.error("Error loading recipe details:", error);
@@ -41,7 +40,7 @@ export async function startRecipeDetailsPage() {
 // -------------------------------------------------------------
 // RENDERING
 // -------------------------------------------------------------
-// Skapar och visar allt innehåll för receptet: titel, bild, tid, ingredienser m.m.
+// Bygger upp receptets innehåll – titel, bild, info, ingredienser och instruktioner.
 function renderRecipe(widget, recipe) {
   widget.innerHTML = `
     <section class="recipe">
@@ -50,9 +49,7 @@ function renderRecipe(widget, recipe) {
       <div class="recipe-image-container">
         <img
           class="recipe-image"
-          src="${
-            recipe.image || "https://via.placeholder.com/640x360?text=No+image"
-          }"
+          src="${recipe.image || "https://via.placeholder.com/640x360?text=No+image"}"
           alt="${recipe.title || "Recipe image"}"
           fetchpriority="high"
         />
@@ -61,21 +58,13 @@ function renderRecipe(widget, recipe) {
       <p class="recipe-summary">${cleanText(recipe.summary)}</p>
 
       <dl class="recipe-stats">
-        <div class="recipe-stat">
-          <dd>⏱️ ${formatTime(recipe.readyInMinutes)}</dd>
-        </div>
-        <div class="recipe-stat">
-          <dd>👥 ${formatServings(recipe.servings)}</dd>
-        </div>
+        <div class="recipe-stat"><dd>⏱️ ${formatTime(recipe.readyInMinutes)}</dd></div>
+        <div class="recipe-stat"><dd>👥 ${formatServings(recipe.servings)}</dd></div>
       </dl>
 
       <div class="recipe-tags">${formatDietTags(recipe.diets)}</div>
 
-      <button
-        id="view-original-recipe-btn"
-        class="btn btn--primary"
-        type="button"
-      >
+      <button id="view-original-recipe-btn" class="btn btn--primary" type="button">
         View Original Recipe
       </button>
     </section>
