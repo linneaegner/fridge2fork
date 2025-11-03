@@ -24,6 +24,7 @@ export async function getRecipes({ ingredients = [] } = {}) {
 
   if (ingredients.length) {
     query.set("includeIngredients", ingredients.join(","));
+    console.log("Fetching recipes with ingredients:", ingredients);
   }
 
   const url = `${BASE_URL}/recipes/complexSearch?${query}`;

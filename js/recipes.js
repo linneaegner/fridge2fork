@@ -103,8 +103,11 @@ function clearFilters() {
 // -------------------------------------------------------------
 function loadSavedIngredients() {
   try {
-    return JSON.parse(localStorage.getItem("ingredients")) || [];
-  } catch {
+    const ingredients = JSON.parse(localStorage.getItem("ingredients")) || [];
+    console.log("Loaded ingredients from localStorage:", ingredients);
+    return ingredients;
+  } catch (error) {
+    console.error("Error loading saved ingredients:", error);
     return [];
   }
 }
@@ -112,13 +115,16 @@ function loadSavedIngredients() {
 async function loadRecipes(ingredients) {
   try {
     state.allRecipes = await getRecipes({ ingredients });
+    console.log("Fetched recipes:", state.allRecipes);
     if (!state.allRecipes.length) {
       showMessage("No recipes found.");
+      console.log("No recipes found for the given ingredients.");
       return false;
     }
     return true;
-  } catch {
+  } catch (error) {
     showMessage("Could not load recipes right now.");
+    console.error("Error fetching recipes:", error);
     return false;
   }
 }
@@ -222,6 +228,7 @@ function updateRecipeSummary(count) {
 function formatIngredientList(list) {
   if (list.length === 0) return "no ingredients selected";
   if (list.length === 1) return list[0];
-  const last = list.pop();
-  return `${list.join(", ")} and ${last}`;
+  const last = list[list.length - 1];
+  const rest = list.slice(0, -1);
+  return `${rest.join(", ")} and ${last}`;
 }
