@@ -115,10 +115,9 @@ function loadSavedIngredients() {
 async function loadRecipes(ingredients) {
   try {
     state.allRecipes = await getRecipes({ ingredients });
-    console.log("Fetched recipes:", state.allRecipes);
+    console.log("Loaded recipes:", state.allRecipes);
     if (!state.allRecipes.length) {
       showMessage("No recipes found.");
-      console.log("No recipes found for the given ingredients.");
       return false;
     }
     return true;

@@ -6,9 +6,15 @@ const BASE_URL = "https://api.spoonacular.com";
  */
 async function fetchJson(url) {
   const res = await fetch(url);
+  console.log("Fetched response from API:", res);
+
   if (!res.ok) throw new Error(`API error: ${res.status}`);
-  return res.json();
+
+  const jsonData = await res.json();
+  console.log("Fetched jsonData from API:", jsonData);
+  return jsonData;
 }
+
 
 /**
  * Fetches a list of recipes based on selected ingredients.
@@ -31,6 +37,7 @@ export async function getRecipes({ ingredients = [] } = {}) {
 
   try {
     const data = await fetchJson(url);
+    console.log("Fetched recipes:", data.results || []);
     return data.results || [];
   } catch (error) {
     console.error("Error fetching recipes:", error);
@@ -46,7 +53,8 @@ export async function getRecipeDetails(id) {
   const url = `${BASE_URL}/recipes/${id}/information?apiKey=${API_KEY}`;
 
   try {
-    return await fetchJson(url);
+    const data = await fetchJson(url);
+    return data;
   } catch (error) {
     console.error("Error fetching recipe details:", error);
     return null;
