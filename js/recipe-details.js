@@ -1,3 +1,7 @@
+// -------------------------------------------------------------
+// RECIPE DETAILS PAGE – Displays full recipe information
+// -------------------------------------------------------------
+
 import { getRecipeDetails } from "./fetchdata.js";
 import {
   cleanText,
@@ -6,7 +10,10 @@ import {
   formatDietTags,
 } from "./recipe-utils.js";
 
-// Huvudfunktionen – körs när sidan laddas.
+// -------------------------------------------------------------
+// INIT
+// -------------------------------------------------------------
+// Körs när sidan laddas. Hämtar recept-ID från URL:en och visar receptdetaljer.
 export async function startRecipeDetailsPage() {
   const widget = document.querySelector("#recipe-details-widget");
   if (!widget) return;
@@ -34,6 +41,7 @@ export async function startRecipeDetailsPage() {
 // -------------------------------------------------------------
 // RENDERING
 // -------------------------------------------------------------
+// Skapar och visar allt innehåll för receptet: titel, bild, tid, ingredienser m.m.
 function renderRecipe(widget, recipe) {
   widget.innerHTML = `
     <section class="recipe">
@@ -42,7 +50,9 @@ function renderRecipe(widget, recipe) {
       <div class="recipe-image-container">
         <img
           class="recipe-image"
-          src="${recipe.image || "https://via.placeholder.com/640x360?text=No+image"}"
+          src="${
+            recipe.image || "https://via.placeholder.com/640x360?text=No+image"
+          }"
           alt="${recipe.title || "Recipe image"}"
           fetchpriority="high"
         />
@@ -98,6 +108,10 @@ function renderRecipe(widget, recipe) {
   setupSourceButton(recipe.sourceUrl);
 }
 
+// -------------------------------------------------------------
+// HELPERS
+// -------------------------------------------------------------
+// Skriver ut en lista med <li>-element. Om listan är tom visas ett meddelande.
 function renderList(selector, items = [], emptyMessage) {
   const list = document.querySelector(selector);
   if (!list) return;
@@ -107,10 +121,12 @@ function renderList(selector, items = [], emptyMessage) {
     : `<li>${emptyMessage}</li>`;
 }
 
+// Visar ett kort meddelande i widgeten (t.ex. vid fel eller tomt resultat).
 function showMessage(widget, text) {
   widget.innerHTML = `<p class="empty-state">${text}</p>`;
 }
 
+// Aktiverar eller inaktiverar "View Original Recipe"-knappen beroende på om länk finns.
 function setupSourceButton(url) {
   const button = document.querySelector("#view-original-recipe-btn");
   if (!button) return;
