@@ -1,1 +1,3 @@
-This is a simple web app built with HTML, CSS, and JavaScript. It will be deployed to Vercel as part of a school project in the course "Dynamiska Webbapplikationer" at Uppsala University
+# Fridge2Fork
+
+Ett enkelt webbprojekt där användaren kan hitta recept baserat på ingredienser i kylen. Projektet bygger på HTML, CSS och JavaScript och utvecklas som en del av kursen Dynamiska Webbapplikationer vid Uppsala universitet.
