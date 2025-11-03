@@ -1,13 +1,10 @@
-// IMPORTS
-import { getRecipes } from "./fetchdata.js";
-import {
-  cleanText,
-  formatTime,
-  formatServings,
-  formatDietTags,
-} from "./recipe-utils.js";
+// -------------------------------------------------------------
+// RECIPES PAGE – Fetches and displays recipes with filters
+// -------------------------------------------------------------
 
-// STATE (samlar allt relaterat till sidan)
+import { getRecipes } from "./fetchdata.js";
+import { cleanText, formatTime, formatServings, formatDietTags } from "./recipe-utils.js";
+
 const state = {
   allRecipes: [],
   visibleRecipes: [],
@@ -15,7 +12,9 @@ const state = {
   elements: {},
 };
 
-// MAIN ENTRY POINT
+// -------------------------------------------------------------
+// INIT
+// -------------------------------------------------------------
 export async function startRecipesPage() {
   const widget = document.querySelector("#recipes-widget");
   if (!widget) return;
@@ -88,8 +87,7 @@ function setupEvents() {
 
 function handleDifficultyClick(button) {
   const { difficulty } = button.dataset;
-  state.currentDifficulty =
-    state.currentDifficulty === difficulty ? "" : difficulty;
+  state.currentDifficulty = state.currentDifficulty === difficulty ? "" : difficulty;
   updateRecipesView();
 }
 
@@ -103,11 +101,8 @@ function clearFilters() {
 // -------------------------------------------------------------
 function loadSavedIngredients() {
   try {
-    const ingredients = JSON.parse(localStorage.getItem("ingredients")) || [];
-    console.log("Loaded ingredients from localStorage:", ingredients);
-    return ingredients;
-  } catch (error) {
-    console.error("Error loading saved ingredients:", error);
+    return JSON.parse(localStorage.getItem("ingredients")) || [];
+  } catch {
     return [];
   }
 }
@@ -115,15 +110,13 @@ function loadSavedIngredients() {
 async function loadRecipes(ingredients) {
   try {
     state.allRecipes = await getRecipes({ ingredients });
-    console.log("Loaded recipes:", state.allRecipes);
     if (!state.allRecipes.length) {
       showMessage("No recipes found.");
       return false;
     }
     return true;
-  } catch (error) {
+  } catch {
     showMessage("Could not load recipes right now.");
-    console.error("Error fetching recipes:", error);
     return false;
   }
 }
@@ -139,7 +132,6 @@ function updateRecipesView() {
 
 function filterRecipes(recipes) {
   if (!state.currentDifficulty) return recipes;
-
   return recipes.filter((recipe) => getDifficulty(recipe) === state.currentDifficulty);
 }
 
@@ -177,14 +169,8 @@ function renderRecipes(recipes) {
         <h3 class="recipe-title">${r.title}</h3>
         <p class="recipe-summary">${cleanText(r.summary, { maxLength: 140 })}</p>
         <dl class="recipe-stats">
-          <div class="recipe-stat">
-            <dt class="sr-only">Total time</dt>
-            <dd>⏱️ ${formatTime(r.readyInMinutes)}</dd>
-          </div>
-          <div class="recipe-stat">
-            <dt class="sr-only">Servings</dt>
-            <dd>👥 ${formatServings(r.servings)}</dd>
-          </div>
+          <div class="recipe-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
+          <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
         </dl>
         <div class="recipe-tags">${formatDietTags(r.diets)}</div>
         <button class="btn btn--primary btn--view-recipe-details" type="button" data-recipe-id="${r.id}">
@@ -195,14 +181,12 @@ function renderRecipes(recipes) {
     )
     .join("");
 
-  recipeGrid
-    .querySelectorAll(".btn--view-recipe-details")
-    .forEach((btn) =>
-      btn.addEventListener("click", () => {
-        const id = btn.dataset.recipeId;
-        if (id) window.location.href = `recipe-details.html?recipeId=${id}`;
-      })
-    );
+  recipeGrid.querySelectorAll(".btn--view-recipe-details").forEach((btn) =>
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.recipeId;
+      if (id) window.location.href = `recipe-details.html?recipeId=${id}`;
+    })
+  );
 }
 
 function showMessage(text) {
@@ -220,7 +204,6 @@ function updateRecipeSummary(count) {
   activeFilterText.textContent = state.currentDifficulty
     ? `Active Filters: ${state.currentDifficulty}`
     : "No active filters";
-
   matchedRecipesText.textContent = `Matched Recipes: ${count}`;
 }
 
@@ -228,6 +211,5 @@ function formatIngredientList(list) {
   if (list.length === 0) return "no ingredients selected";
   if (list.length === 1) return list[0];
   const last = list[list.length - 1];
-  const rest = list.slice(0, -1);
-  return `${rest.join(", ")} and ${last}`;
+  return `${list.slice(0, -1).join(", ")} and ${last}`;
 }
