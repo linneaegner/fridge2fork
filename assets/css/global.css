@@ -315,6 +315,24 @@ textarea:focus {
   color: var(--color-text);
   z-index: 30;
 }
+.fade-in-out {
+  opacity: 0;
+  animation: fadeInOut 2s ease-in-out forwards;
+}
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 .recipe-image-container {
   position: relative;
   overflow: hidden;

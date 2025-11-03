@@ -105,6 +105,7 @@ function showMessage(text) {
   const msg = document.createElement("p");
   msg.textContent = text;
   msg.className = "temp-message";
+  msg.classList.add("fade-in-out");
   msg.setAttribute("role", "status");
 
   document.body.appendChild(msg);
