@@ -185,17 +185,28 @@ function renderRecipes(recipes) {
 // -------------------------------------------------------------
 // HELPERS
 // -------------------------------------------------------------
+function getDifficulty(recipe) {
+  if (recipe.readyInMinutes <= 30) return "Easy";
+  if (recipe.readyInMinutes <= 45) return "Medium";
+  return "Hard";
+}
+
+function formatIngredientList(list) {
+  if (list.length === 0) return "no ingredients selected";
+  if (list.length === 1) return list[0];
+  const last = list[list.length - 1];
+  return `${list.slice(0, -1).join(", ")} and ${last}`;
+}
+
+function showMessage(text) {
+  state.elements.recipeGrid.innerHTML = `<p class="empty-state">${text}</p>`;
+}
+
 function filterRecipes(recipes) {
   if (!state.currentDifficulty) return recipes;
   return recipes.filter(
     (recipe) => getDifficulty(recipe) === state.currentDifficulty
   );
-}
-
-function getDifficulty(recipe) {
-  if (recipe.readyInMinutes <= 30) return "Easy";
-  if (recipe.readyInMinutes <= 45) return "Medium";
-  return "Hard";
 }
 
 function handleDifficultyClick(button) {
@@ -208,10 +219,6 @@ function handleDifficultyClick(button) {
 function clearFilters() {
   state.currentDifficulty = "";
   renderFilteredRecipes();
-}
-
-function showMessage(text) {
-  state.elements.recipeGrid.innerHTML = `<p class="empty-state">${text}</p>`;
 }
 
 function renderSelectedIngredients(ingredients) {
@@ -227,11 +234,4 @@ function updateRecipeSummary(count) {
     : "No active filters";
 
   matchedRecipesText.textContent = `Matched Recipes: ${count}`;
-}
-
-function formatIngredientList(list) {
-  if (list.length === 0) return "no ingredients selected";
-  if (list.length === 1) return list[0];
-  const last = list[list.length - 1];
-  return `${list.slice(0, -1).join(", ")} and ${last}`;
 }

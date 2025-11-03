@@ -24,6 +24,8 @@ export async function startRecipeDetailsPage() {
     return;
   }
 
+  showMessage(widget, "Loading recipe...");
+
   try {
     const recipe = await getRecipeDetails(recipeId);
     if (!recipe) {

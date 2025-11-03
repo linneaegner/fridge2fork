@@ -3,18 +3,11 @@
 // -------------------------------------------------------------
 
 // Tar bort alla HTML-taggar från en text, och kortar den vid behov.
-export function cleanText(html = "", options = {}) {
-  const maxLength = options.maxLength;
-
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  let text = (doc.body.textContent || "").trim();
-
-  if (maxLength && text.length > maxLength) {
-    text = text.slice(0, maxLength).trimEnd() + "...";
-  }
-
-  return text;
+export function cleanText(html = "", { maxLength } = {}) {
+  const text = html.replace(/<[^>]*>/g, "").trim();
+  return maxLength && text.length > maxLength
+    ? text.slice(0, maxLength).trimEnd() + "..."
+    : text;
 }
 
 // Gör om minuter till läsbar text, t.ex. "30 mins" eller "1 min".

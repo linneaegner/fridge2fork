@@ -47,6 +47,7 @@ function addIngredient() {
   saveIngredients();
   renderTags();
   input.value = "";
+  input.focus();
 }
 
 function removeIngredient(e) {

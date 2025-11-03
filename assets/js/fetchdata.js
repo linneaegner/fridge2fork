@@ -3,6 +3,8 @@
 // -------------------------------------------------------------
 import { API_KEY, BASE_URL } from "./config.js";
 
+const RESULTS_LIMIT = 6;
+
 // -------------------------------------------------------------
 // HELPER FUNCTION
 // -------------------------------------------------------------
@@ -25,7 +27,7 @@ async function fetchJson(url) {
 export async function getRecipes({ ingredients = [] } = {}) {
   const params = new URLSearchParams({
     apiKey: API_KEY,
-    number: "6", // hur många recept som ska hämtas
+    number: String(RESULTS_LIMIT), // hur många recept som ska hämtas
     addRecipeInformation: "true",
     instructionsRequired: "true",
     offset: "0",
