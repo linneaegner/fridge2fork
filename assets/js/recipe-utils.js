@@ -2,13 +2,16 @@
 // RECIPE UTILITIES – Text formatting and helper functions
 // -------------------------------------------------------------
 
-// Tar bort alla HTML-taggar från en text, och kortar den vid behov.
-export function cleanText(html = "", { maxLength } = {}) {
+// Tar bort alla HTML-taggar från en text och returnerar ren text.
+export function cleanText(html = "") {
+  if (typeof html !== "string") return "";
+
+  // Tar bort alla HTML-taggar (som <p>, <b>, <a>, etc.)
   const text = html.replace(/<[^>]*>/g, "").trim();
-  return maxLength && text.length > maxLength
-    ? text.slice(0, maxLength).trimEnd() + "..."
-    : text;
+
+  return text;
 }
+
 
 // Gör om minuter till läsbar text, t.ex. "30 mins" eller "1 min".
 export function formatTime(minutes) {

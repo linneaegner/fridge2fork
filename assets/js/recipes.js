@@ -156,7 +156,7 @@ function renderRecipes(recipes) {
           />
         </div>
         <h3 class="recipe-title">${r.title}</h3>
-        <p class="recipe-summary">${cleanText(r.summary, { maxLength: 140 })}</p>
+        <p class="recipe-summary">${cleanText(r.summary)}</p>
         <dl class="recipe-stats">
           <div class="recipe-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
           <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
