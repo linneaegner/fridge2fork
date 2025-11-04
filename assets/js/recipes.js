@@ -9,6 +9,7 @@ import {
   formatServings,
   formatDietTags,
 } from "./recipe-utils.js";
+import { loadStoredIngredients } from "./homepage.js";
 
 // -------------------------------------------------------------
 // STATE
@@ -32,7 +33,7 @@ export async function startRecipesPage() {
   cacheElements(widget);
   setupEvents();
 
-  const ingredients = loadSavedIngredients();
+  const ingredients = loadStoredIngredients();
   renderSelectedIngredients(ingredients);
   showMessage("Loading recipes...");
 
@@ -79,6 +80,7 @@ function cacheElements(container) {
     clearFilterButton: container.querySelector("#clear-filters"),
     difficultyButtons: container.querySelectorAll("[data-difficulty]"),
     recipeGrid: container.querySelector("#recipes-grid"),
+    selectedIngredientsLabel: document.querySelector("#selected-ingredients"),
   };
 }
 
@@ -89,21 +91,13 @@ function setupEvents() {
     btn.addEventListener("click", () => handleDifficultyClick(btn))
   );
 
-  clearFilterButton.addEventListener("click", clearFilters);
+  clearFilterButton?.addEventListener("click", clearFilters);
 }
 
 // -------------------------------------------------------------
 // DATA HANDLING
 // -------------------------------------------------------------
 // Hämtar ingredienser från localStorage och recept från API:t.
-function loadSavedIngredients() {
-  try {
-    return JSON.parse(localStorage.getItem("ingredients")) || [];
-  } catch {
-    return [];
-  }
-}
-
 async function loadRecipes(ingredients) {
   try {
     state.allRecipes = await getRecipes({ ingredients });
@@ -222,8 +216,10 @@ function clearFilters() {
 }
 
 function renderSelectedIngredients(ingredients) {
-  const label = document.querySelector("#selected-ingredients");
-  if (label) label.textContent = formatIngredientList(ingredients);
+  const { selectedIngredientsLabel } = state.elements;
+  if (selectedIngredientsLabel) {
+    selectedIngredientsLabel.textContent = formatIngredientList(ingredients);
+  }
 }
 
 function updateRecipeSummary(count) {

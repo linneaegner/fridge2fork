@@ -30,8 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
     case "contact-page":
       startContactPage();
       break;
-    default:
-      console.warn(`Unknown page id: ${pageId}`);
   }
 });
 
@@ -41,16 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
 // Hanterar öppning/stängning av mobilmenyn.
 function setupMobileNavigation() {
   const nav = document.querySelector("#site-header-nav");
-  if (!nav) return console.warn("Navigation element not found.");
+  if (!nav) return;
 
   const toggleButton = nav.querySelector("#nav-toggle");
   const menuList = nav.querySelector("ul");
   const toggleImage = toggleButton?.querySelector("img");
 
-  if (!toggleButton || !menuList || !toggleImage) {
-    console.warn("Navigation elements missing.");
-    return;
-  }
+  if (!toggleButton || !menuList || !toggleImage) return;
 
   const openIcon = toggleImage.getAttribute("src");
   const closeIcon = openIcon?.replace(/[^/]+$/, "close.png") || "";

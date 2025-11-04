@@ -19,7 +19,7 @@ function handleSubmit(event) {
   event.preventDefault();
   const form = event.currentTarget;
 
-  showMessage("Thanks! Your message has been sent.");
+  showMessage(form, "Thanks! Your message has been sent.");
   form.reset();
 }
 
@@ -27,8 +27,7 @@ function handleSubmit(event) {
 // HELPERS
 // -------------------------------------------------------------
 // Visar ett tillfälligt meddelande under formuläret.
-function showMessage(text) {
-  const form = document.querySelector("#contact-form");
+function showMessage(form, text) {
   if (!form) return;
 
   const msg = document.createElement("p");

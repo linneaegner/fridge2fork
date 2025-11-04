@@ -43,8 +43,7 @@ export async function getRecipes({ ingredients = [] } = {}) {
   try {
     const data = await fetchJson(url);
     return data.results || [];
-  } catch (error) {
-    console.error("Error fetching recipes:", error);
+  } catch {
     return [];
   }
 }
@@ -57,8 +56,7 @@ export async function getRecipeDetails(id) {
 
   try {
     return await fetchJson(url);
-  } catch (error) {
-    console.error("Error fetching recipe details:", error);
+  } catch {
     return null;
   }
 }

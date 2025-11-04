@@ -33,8 +33,7 @@ export async function startRecipeDetailsPage() {
       return;
     }
     renderRecipe(widget, recipe);
-  } catch (error) {
-    console.error("Error loading recipe details:", error);
+  } catch {
     showMessage(widget, "Could not load recipe details.");
   }
 }
@@ -85,26 +84,28 @@ function renderRecipe(widget, recipe) {
   `;
 
   renderList(
-    "#ingredients-list",
+    widget.querySelector("#ingredients-list"),
     recipe.extendedIngredients?.map((i) => i.original),
     "No ingredients found."
   );
 
   renderList(
-    "#instructions-list",
+    widget.querySelector("#instructions-list"),
     recipe.analyzedInstructions?.[0]?.steps?.map((s) => s.step),
     "No instructions found."
   );
 
-  setupSourceButton(recipe.sourceUrl);
+  setupSourceButton(
+    widget.querySelector("#view-original-recipe-btn"),
+    recipe.sourceUrl
+  );
 }
 
 // -------------------------------------------------------------
 // HELPERS
 // -------------------------------------------------------------
 // Skriver ut en lista med <li>-element. Om listan är tom visas ett meddelande.
-function renderList(selector, items = [], emptyMessage) {
-  const list = document.querySelector(selector);
+function renderList(list, items = [], emptyMessage) {
   if (!list) return;
 
   list.innerHTML = items.length
@@ -118,8 +119,7 @@ function showMessage(widget, text) {
 }
 
 // Aktiverar eller inaktiverar "View Original Recipe"-knappen beroende på om länk finns.
-function setupSourceButton(url) {
-  const button = document.querySelector("#view-original-recipe-btn");
+function setupSourceButton(button, url) {
   if (!button) return;
 
   if (url) {

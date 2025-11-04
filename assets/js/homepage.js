@@ -2,6 +2,8 @@
 // HOMEPAGE – Ingredient selection and navigation
 // -------------------------------------------------------------
 
+const INGREDIENTS_KEY = "ingredients";
+
 let ingredients = [];
 
 const form = document.querySelector("#ingredient-form");
@@ -17,7 +19,7 @@ const tagContainer = document.querySelector("#ingredient-tags");
 export function startHomepage() {
   if (!form || !input || !addBtn || !tagContainer) return;
 
-  ingredients = loadIngredients();
+  ingredients = loadStoredIngredients();
   renderTags();
 
   addBtn.addEventListener("click", addIngredient);
@@ -44,7 +46,7 @@ function addIngredient() {
     return showMessage("That ingredient is already added.");
 
   ingredients.push(name);
-  saveIngredients();
+  saveStoredIngredients(ingredients);
   renderTags();
   input.value = "";
   input.focus();
@@ -55,13 +57,13 @@ function removeIngredient(e) {
   if (!btn) return;
 
   ingredients = ingredients.filter((i) => i !== btn.dataset.remove);
-  saveIngredients();
+  saveStoredIngredients(ingredients);
   renderTags();
 }
 
 function clearIngredients() {
   ingredients = [];
-  saveIngredients();
+  saveStoredIngredients(ingredients);
   renderTags();
 }
 
@@ -75,7 +77,7 @@ function goToRecipes(e) {
   if (!ingredients.length)
     return showMessage("Add at least one ingredient before searching!");
 
-  saveIngredients();
+  saveStoredIngredients(ingredients);
   window.location.href = "pages/recipes.html";
 }
 
@@ -113,16 +115,18 @@ function showMessage(text) {
   setTimeout(() => msg.remove(), 2000);
 }
 
-// -------------------------------------------------------------
-// LOCAL STORAGE
-// -------------------------------------------------------------
-function saveIngredients() {
-  localStorage.setItem("ingredients", JSON.stringify(ingredients));
+export function saveStoredIngredients(list) {
+  try {
+    localStorage.setItem(INGREDIENTS_KEY, JSON.stringify(list));
+  } catch {
+    // Ignore storage errors (e.g., private browsing)
+  }
 }
 
-function loadIngredients() {
+export function loadStoredIngredients() {
   try {
-    return JSON.parse(localStorage.getItem("ingredients")) || [];
+    const stored = localStorage.getItem(INGREDIENTS_KEY);
+    return stored ? JSON.parse(stored) : [];
   } catch {
     return [];
   }
