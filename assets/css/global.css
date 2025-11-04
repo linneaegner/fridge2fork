@@ -1,8 +1,7 @@
 :root {
   --font-sans: "Inter", "Open Sans", sans-serif;
-  --color-bg: #f8f5f0;
-  --color-surface: #ffffff;
-  --color-surface-soft: #fbf3eb;
+  --color-soft-yellow: #f8f5f0;
+  --color-white: #ffffff;
   --color-border: #e7e1d8;
   --color-border-weak: rgba(231, 225, 216, 0.6);
   --color-border-strong: #e0d6c9;
@@ -41,7 +40,7 @@ html {
 body {
   font-family: var(--font-sans);
   font-size: var(--fs-sm);
-  background-color: var(--color-bg);
+  background-color: var(--color-soft-yellow);
   color: var(--color-text);
   overflow-x: hidden;
   line-height: 1.5;
@@ -54,7 +53,7 @@ body {
   top: var(--space-sm);
   left: var(--space-sm);
   padding: var(--space-xs) var(--space-sm);
-  background: var(--color-surface);
+  background: var(--color-white);
   color: var(--color-text);
   border: 2px solid var(--color-accent);
   border-radius: var(--radius-md);
@@ -149,7 +148,7 @@ main.container {
   transform: translateX(-0.25rem);
 }
 .site-header {
-  background: var(--color-surface);
+  background: var(--color-white);
   border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
@@ -212,7 +211,7 @@ main.container {
   max-width: 40rem;
 }
 .card {
-  background: var(--color-surface);
+  background: var(--color-white);
   border: 1px solid var(--color-border-weak);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
@@ -306,7 +305,7 @@ textarea:focus {
   left: 50%;
   top: var(--space-md);
   transform: translateX(-50%);
-  background: var(--color-surface);
+  background: var(--color-white);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-sm) var(--space-md);
@@ -337,7 +336,6 @@ textarea:focus {
   position: relative;
   overflow: hidden;
   margin: -2rem -2rem 0;
-  background: var(--color-surface-soft);
 }
 .recipe-image {
   display: block;
@@ -457,7 +455,7 @@ textarea:focus {
   flex-direction: column;
   gap: var(--space-md);
   padding: var(--space-lg);
-  background: var(--color-surface);
+  background: var(--color-white);
   border-radius: 1.125rem;
   border: 1px solid var(--color-border-weak);
   box-shadow: var(--shadow-soft);
@@ -606,7 +604,6 @@ textarea:focus {
   border-radius: var(--radius-lg);
   overflow: hidden;
   margin: 0;
-  background: var(--color-surface-soft);
 }
 #recipe-details-page .recipe-image {
   display: block;
@@ -733,7 +730,7 @@ textarea:focus {
   white-space: nowrap;
 }
 .site-footer {
-  background: var(--color-surface);
+  background: var(--color-white);
   border-top: 1px solid var(--color-border);
   padding: var(--space-xl) 0;
   color: var(--color-text-muted);
@@ -797,7 +794,7 @@ textarea:focus {
     display: flex;
     flex-direction: column;
     gap: 0;
-    background: var(--color-surface);
+    background: var(--color-white);
     border: 1px solid var(--color-border);
     border-top: none;
     padding: var(--space-xs) 0;
@@ -881,7 +878,7 @@ textarea:focus {
     padding: var(--space-md);
     border: 1px solid var(--color-border-weak);
     border-radius: var(--radius-lg);
-    background: var(--color-surface);
+    background: var(--color-white);
     box-shadow: none;
   }
   .availability-table th,
