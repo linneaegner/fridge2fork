@@ -538,9 +538,11 @@ textarea:focus {
   color: #fff;
   box-shadow: var(--shadow-lifted);
 }
-.filter-button:not(.active):hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+@media (hover: hover) and (pointer: fine) {
+  .filter-button:not(.active):hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
 }
 .filter-summary-container {
   display: flex;
