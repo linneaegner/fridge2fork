@@ -1,7 +1,3 @@
-// -------------------------------------------------------------
-// RECIPES PAGE – Fetches and displays recipes with filters
-// -------------------------------------------------------------
-
 import { getRecipes } from "./fetchdata.js";
 import {
   cleanText,
@@ -11,20 +7,12 @@ import {
 } from "./recipe-utils.js";
 import { loadStoredIngredients } from "./homepage.js";
 
-// -------------------------------------------------------------
-// STATE
-// -------------------------------------------------------------
-// Håller koll på alla recept, nuvarande filter och viktiga DOM-element.
 const state = {
   allRecipes: [],
   currentDifficulty: "",
   elements: {},
 };
 
-// -------------------------------------------------------------
-// INIT
-// -------------------------------------------------------------
-// Körs när sidan laddas. Hämtar ingredienser, bygger gränssnittet och laddar recept.
 export async function startRecipesPage() {
   const widget = document.querySelector("#recipes-widget");
   if (!widget) return;
@@ -41,10 +29,6 @@ export async function startRecipesPage() {
   if (success) renderFilteredRecipes();
 }
 
-// -------------------------------------------------------------
-// BUILD & SETUP
-// -------------------------------------------------------------
-// Skapar sidans grundstruktur och kopplar händelser.
 function buildLayout(container) {
   container.innerHTML = `
     <form class="recipe-filters">
@@ -94,10 +78,6 @@ function setupEvents() {
   clearFilterButton?.addEventListener("click", clearFilters);
 }
 
-// -------------------------------------------------------------
-// DATA HANDLING
-// -------------------------------------------------------------
-// Hämtar ingredienser från localStorage och recept från API:t.
 async function loadRecipes(ingredients) {
   try {
     state.allRecipes = await getRecipes({ ingredients });
@@ -112,17 +92,12 @@ async function loadRecipes(ingredients) {
   }
 }
 
-// -------------------------------------------------------------
-// RENDERING
-// -------------------------------------------------------------
-// Filtrerar och visar recept baserat på valt filter.
 function renderFilteredRecipes() {
   const recipes = filterRecipes(state.allRecipes);
   renderRecipes(recipes);
   updateRecipeSummary(recipes.length);
 }
 
-// Skapar HTML för varje receptkort.
 function renderRecipes(recipes) {
   const { recipeGrid, difficultyButtons } = state.elements;
 
@@ -152,8 +127,8 @@ function renderRecipes(recipes) {
         <h3 class="recipe-title">${r.title}</h3>
         <p class="recipe-summary">${cleanText(r.summary)}</p>
         <dl class="recipe-stats">
-          <div class="recipe-stat"><dd>⏱️ ${formatTime(r.readyInMinutes)}</dd></div>
-          <div class="recipe-stat"><dd>👥 ${formatServings(r.servings)}</dd></div>
+          <div class="recipe-stat"><dd>&#x23F1; ${formatTime(r.readyInMinutes)}</dd></div>
+          <div class="recipe-stat"><dd>&#x1F465; ${formatServings(r.servings)}</dd></div>
         </dl>
         <div class="recipe-tags">${formatDietTags(r.diets)}</div>
         <button
@@ -176,9 +151,6 @@ function renderRecipes(recipes) {
   );
 }
 
-// -------------------------------------------------------------
-// HELPERS
-// -------------------------------------------------------------
 function getDifficulty(recipe) {
   if (recipe.readyInMinutes <= 30) return "Easy";
   if (recipe.readyInMinutes <= 45) return "Medium";

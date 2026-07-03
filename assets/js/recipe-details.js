@@ -1,7 +1,3 @@
-// -------------------------------------------------------------
-// RECIPE DETAILS PAGE – Displays full recipe information
-// -------------------------------------------------------------
-
 import { getRecipeDetails } from "./fetchdata.js";
 import {
   cleanText,
@@ -10,10 +6,6 @@ import {
   formatDietTags,
 } from "./recipe-utils.js";
 
-// -------------------------------------------------------------
-// INIT
-// -------------------------------------------------------------
-// Körs när sidan laddas. Hämtar recept-ID från URL:en och visar detaljerna.
 export async function startRecipeDetailsPage() {
   const widget = document.querySelector("#recipe-details-widget");
   if (!widget) return;
@@ -38,10 +30,6 @@ export async function startRecipeDetailsPage() {
   }
 }
 
-// -------------------------------------------------------------
-// RENDERING
-// -------------------------------------------------------------
-// Bygger upp receptets innehåll – titel, bild, info, ingredienser och instruktioner.
 function renderRecipe(widget, recipe) {
   widget.innerHTML = `
     <section class="recipe">
@@ -59,8 +47,8 @@ function renderRecipe(widget, recipe) {
       <p class="recipe-summary">${cleanText(recipe.summary)}</p>
 
       <dl class="recipe-stats">
-        <div class="recipe-stat"><dd>⏱️ ${formatTime(recipe.readyInMinutes)}</dd></div>
-        <div class="recipe-stat"><dd>👥 ${formatServings(recipe.servings)}</dd></div>
+        <div class="recipe-stat"><dd>&#x23F1; ${formatTime(recipe.readyInMinutes)}</dd></div>
+        <div class="recipe-stat"><dd>&#x1F465; ${formatServings(recipe.servings)}</dd></div>
       </dl>
 
       <div class="recipe-tags">${formatDietTags(recipe.diets)}</div>
@@ -101,10 +89,6 @@ function renderRecipe(widget, recipe) {
   );
 }
 
-// -------------------------------------------------------------
-// HELPERS
-// -------------------------------------------------------------
-// Skriver ut en lista med <li>-element. Om listan är tom visas ett meddelande.
 function renderList(list, items = [], emptyMessage) {
   if (!list) return;
 
@@ -113,12 +97,10 @@ function renderList(list, items = [], emptyMessage) {
     : `<li>${emptyMessage}</li>`;
 }
 
-// Visar ett kort meddelande i widgeten (t.ex. vid fel eller tomt resultat).
 function showMessage(widget, text) {
   widget.innerHTML = `<p class="empty-state">${text}</p>`;
 }
 
-// Aktiverar eller inaktiverar "View Original Recipe"-knappen beroende på om länk finns.
 function setupSourceButton(button, url) {
   if (!button) return;
 
