@@ -878,7 +878,7 @@ button {
     box-shadow: none;
     padding: 0;
   }
-  .site-header-nav li {
+  .site-header-nav li:not(:last-child) {
     border-bottom: none;
   }
   .site-header-nav .nav-link {
